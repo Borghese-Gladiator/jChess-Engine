@@ -8,39 +8,43 @@ public class Chess {
 		//Initialize pieces on board
 	}
 	
-	public ArrayList<Piece> moves(int x, int y){
+	public ArrayList<Move> moves(int x, int y){
 		switch(board[x][y].getType()){
-		case 'k':
-			return movesK(x, y);
-		case 'q':
-			return movesQ(x, y);
-		case 'b':
-			return movesB(x, y);
-		case 'n':
-			return movesN(x, y);
-		case 'r':
-			return movesR(x, y);
+		case KING:
+			return getMovesK(x, y);
+		case QUEEN:
+			return getMovesQ(x, y);
+		case BISHOP:
+			return getMovesB(x, y);
+		case KNIGHT:
+			return getMovesN(x, y);
+		case ROOK:
+			return getMovesR(x, y);
 		default://case 'p':
-			return movesP(x, y);
+			return getMovesP(x, y);
 		}
 	}
 	
-	public ArrayList<Piece> movesK(int x, int y){
-		return null;
+	public ArrayList<Move> getMovesK(int x, int y){
+		return null;//Do code
 	}
-	public ArrayList<Piece> movesQ(int x, int y){
-		return null;
+	public ArrayList<Move> getMovesQ(int x, int y){
+		return null;//Do code
 	}
-	public ArrayList<Piece> movesB(int x, int y){
-		return null;
+	public ArrayList<Move> getMovesB(int x, int y){
+		return null;//Do code
 	}
-	public ArrayList<Piece> movesN(int x, int y){
-		return null;
+	public ArrayList<Move> getMovesN(int x, int y){
+		return null;//Do code
 	}
-	public ArrayList<Piece> movesR(int x, int y){
-		return null;
+	public ArrayList<Move> getMovesR(int x, int y){
+		return null;//Do code
 	}
-	public ArrayList<Piece> movesP(int x, int y){
-		return null;
+	public ArrayList<Move> getMovesP(int x, int y){
+		return null;//Do code
+	}
+	
+	public void doMove(int x, int y, int xto, int yto){
+		
 	}
 }
