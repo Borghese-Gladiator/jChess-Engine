@@ -1,4 +1,5 @@
 
-public class Piece {
-
+public abstract class Piece {
+	char type;
+	boolean isWhite;
 }
