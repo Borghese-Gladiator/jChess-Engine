@@ -1,3 +1,3 @@
 # jChess-Engine
 Collaboration between Timothy Shee, Sho Ikeda, and Kai-jia Yue
-Read this
+This is a chess game written with java.
