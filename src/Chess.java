@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Chess {
 	private Piece[][] board;
