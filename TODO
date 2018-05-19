@@ -4,3 +4,35 @@ Pieces
 Movement
 Special Moves
 Capturing
+AI
+  Make a move (random)
+  Assign point values, pick move with most value
+  Search 2 moves ahead w/ tree implementation
+  Stop search with moves of same value**
+Board
+  Pieces［］［］
+  Initialize all pieces w a position
+Pieces
+  Initialize w position 
+Movement
+   Position
+Special Moves extends Movement 
+   Promotion 
+  Castling En Passant 
+Capturing
+  Pawn - diagonal
+  Rook, bishop, queen
+  Knight not stopped.
+Menu
+  Main menu
+  Instructions/rules 
+  Settings (change colors, )
+  Board panel 
+  Promotion menu
+
+Quesrions
+ Where to put moves?
+How to save search time?
+Adding color etc. Pick a theme, import styles 
+
+2 computers playing each other 
