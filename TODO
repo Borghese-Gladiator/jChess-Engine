@@ -16,6 +16,7 @@ Pieces
   Initialize w position 
 Movement
    Position
+   legal/illegal
 Special Moves extends Movement 
    Promotion 
   Castling En Passant 
@@ -26,8 +27,8 @@ Capturing
 Menu
   Main menu
   Instructions/rules 
-  Settings (change colors, )
-  Board panel 
+  Settings (change colors, pieces images, start as black )
+  Board panel --> start as white unless changed 
   Promotion menu
 
 Quesrions
@@ -35,4 +36,4 @@ Quesrions
 How to save search time?
 Adding color etc. Pick a theme, import styles 
 
-2 computers playing each other 
+GOAL 2 computers playing each other 
