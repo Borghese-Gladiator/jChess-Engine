@@ -51,4 +51,8 @@ public class Chess {
 	public void doMove(int x, int y, int xto, int yto){
 		
 	}
+	
+	public boolean isBeingAttacked(boolean byWhite, int x, int y){
+		
+	}
 }
