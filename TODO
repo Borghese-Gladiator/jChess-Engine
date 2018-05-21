@@ -19,7 +19,8 @@ Movement
    legal/illegal
 Special Moves extends Movement 
    Promotion 
-  Castling En Passant 
+  Castling 
+  En Passant 
 Capturing
   Pawn - diagonal
   Rook, bishop, queen
