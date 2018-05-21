@@ -8,17 +8,21 @@ public class Chess {
 		//Initialize pieces on board
 	}
 	
+	public boolean move(int x, int y, int xTo, int yTo){
+		
+	}
+	
 	public ArrayList<Move> moves(int x, int y){
 		switch(board[x][y].getType()){
-		case KING:
+		case 'k':
 			return getMovesK(x, y);
-		case QUEEN:
+		case 'q':
 			return getMovesQ(x, y);
-		case BISHOP:
+		case 'b':
 			return getMovesB(x, y);
-		case KNIGHT:
+		case 'n':
 			return getMovesN(x, y);
-		case ROOK:
+		case 'r':
 			return getMovesR(x, y);
 		default://case 'p':
 			return getMovesP(x, y);
