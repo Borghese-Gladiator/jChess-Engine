@@ -5,6 +5,7 @@ public abstract class Piece {
 	
 	public Piece(boolean isWhite, char type){
 		this.isWhite = isWhite;
+		this.type = type;
 	}
 	
 	public abstract char getType();
