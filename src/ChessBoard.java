@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
-public class Chess {
+public class ChessBoard {
 	private Piece[][] board;
 	
-	public Chess(){
+	public ChessBoard(){
 		board = new Piece[8][8];
 		//Initialize pieces on board
 	}
