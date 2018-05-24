@@ -20,13 +20,13 @@ public class ChessBoard {
 	}
 	
 	private boolean isValidMove(Position posFrom, Position posTo){
-		for(Move move: moves(posFrom))
+		for(Position move: moves(posFrom))
 			if(move.getX()==posTo.getX()&&move.getY()==posTo.getY())
 				return true;
 		return false;
 	}
 	
-	public ArrayList<Move> moves(Position pos){
+	public ArrayList<Position> moves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at that Location");
 		switch(board[pos.getX()][pos.getY()].getType()){
@@ -44,23 +44,23 @@ public class ChessBoard {
 			return getMovesP(pos);
 		}
 	}
-	
-	public ArrayList<Move> getMovesK(Position pos){
+
+	public ArrayList<Position> getMovesK(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesQ(Position pos){
+	public ArrayList<Position> getMovesQ(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesB(Position pos){
+	public ArrayList<Position> getMovesB(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesN(Position pos){
+	public ArrayList<Position> getMovesN(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesR(Position pos){
+	public ArrayList<Position> getMovesR(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesP(Position pos){
+	public ArrayList<Position> getMovesP(Position pos){
 		return null;//Do code
 	}
 	
