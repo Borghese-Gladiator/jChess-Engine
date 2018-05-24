@@ -9,6 +9,10 @@ public class ChessBoard {
 		//Initialize pieces on board
 	}
 	
+	public Piece getPiece(int x, int y){
+		return board[x][y];
+	}
+	
 	public boolean move(int x, int y, int xTo, int yTo){
 		
 	}
