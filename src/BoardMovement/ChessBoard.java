@@ -9,66 +9,66 @@ public class ChessBoard {
 		//Initialize pieces on board
 	}
 	
-	public Piece getPiece(int x, int y){
+	public Piece getPiece(Position pos){
 		return board[x][y];
 	}
 	
-	public boolean move(int x, int y, int xTo, int yTo){
-		if(!isValidMove(x,y,xTo,yTo))
+	public boolean move(Position posFrom, Position posTo){
+		if(!isValidMove(posFrom, posTo))
 			throw new IllegalArgumentException("Invalid move");
 		//Move piece
 	}
 	
-	private boolean isValidMove(int x, int y, int xTo, int yTo){
-		for(Move move: moves(x,y))
-			if(move.getX()==xTo&&move.getY()==yTo)
+	private boolean isValidMove(Position posFrom, Position posTo){
+		for(Move move: moves(posFrom))
+			if(move.getX()==posTo.getX()&&move.getY()==posTo.getY())
 				return true;
 		return false;
 	}
 	
-	public ArrayList<Move> moves(int x, int y){
-		if(board[x][y]==null)
+	public ArrayList<Move> moves(Position pos){
+		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at that Location");
-		switch(board[x][y].getType()){
+		switch(board[pos.getX()][pos.getY()].getType()){
 		case 'k':
-			return getMovesK(x, y);
+			return getMovesK(pos);
 		case 'q':
-			return getMovesQ(x, y);
+			return getMovesQ(pos);
 		case 'b':
-			return getMovesB(x, y);
+			return getMovesB(pos);
 		case 'n':
-			return getMovesN(x, y);
+			return getMovesN(pos);
 		case 'r':
-			return getMovesR(x, y);
+			return getMovesR(pos);
 		default://case 'p':
-			return getMovesP(x, y);
+			return getMovesP(pos);
 		}
 	}
 	
-	public ArrayList<Move> getMovesK(int x, int y){
+	public ArrayList<Move> getMovesK(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesQ(int x, int y){
+	public ArrayList<Move> getMovesQ(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesB(int x, int y){
+	public ArrayList<Move> getMovesB(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesN(int x, int y){
+	public ArrayList<Move> getMovesN(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesR(int x, int y){
+	public ArrayList<Move> getMovesR(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Move> getMovesP(int x, int y){
+	public ArrayList<Move> getMovesP(Position pos){
 		return null;//Do code
 	}
 	
-	public void doMove(int x, int y, int xto, int yto){
+	public void doMove(Position pos, Position posTo){
 		
 	}
 	
-	public boolean isBeingAttacked(boolean byWhite, int x, int y){
+	public boolean isBeingAttacked(boolean byWhite, Position pos){
 		
 	}
 }
