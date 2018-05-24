@@ -40,10 +40,10 @@ public class ChessFrame extends GBFrame
 	public ChessFrame()
 	{
 		super();
-        setResizable(true);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Play Chess");
-		setSize(400, 400);
+		setSize(500, 500);
 		setVisible(true);
 	}
 }
