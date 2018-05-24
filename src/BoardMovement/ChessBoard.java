@@ -27,6 +27,8 @@ public class ChessBoard {
 	}
 	
 	public ArrayList<Move> moves(int x, int y){
+		if(board[x][y]==null)
+			throw new IllegalArgumentException("No Piece at that Location");
 		switch(board[x][y].getType()){
 		case 'k':
 			return getMovesK(x, y);
