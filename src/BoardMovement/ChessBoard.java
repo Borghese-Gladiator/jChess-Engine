@@ -14,7 +14,9 @@ public class ChessBoard {
 	}
 	
 	public boolean move(int x, int y, int xTo, int yTo){
-		
+		if(!isValidMove(x,y,xTo,yTo))
+			throw new IllegalArgumentException("Invalid move");
+		//Move piece
 	}
 	
 	private boolean isValidMove(int x, int y, int xTo, int yTo){
