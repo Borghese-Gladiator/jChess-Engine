@@ -1,3 +1,4 @@
+package BoardMovement;
 
 public class Rook extends Piece {
 	final static char type = 'r';

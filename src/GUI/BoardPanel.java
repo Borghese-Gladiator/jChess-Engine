@@ -1,5 +1,5 @@
 package GUI;
-import ChessBoard;
+import BoardMovement.ChessBoard;
 public class BoardPanel 
 {
 	private ChessBoard board;

@@ -1,3 +1,4 @@
+package BoardMovement;
 
 public abstract class Piece {
 	boolean isWhite;
