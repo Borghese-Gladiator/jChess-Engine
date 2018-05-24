@@ -1,10 +1,10 @@
 package BoardMovement;
 
-public class Pawn extends Piece{
-	final static char type = 'p';
+public class Knight extends Piece{
+	final static char type = 'n';
 	boolean hasMoved;
 	
-	public Pawn(boolean isWhite, char type){
+	public Knight(boolean isWhite, char type){
 		super(isWhite);
 		hasMoved = false;
 	}
