@@ -17,6 +17,13 @@ public class ChessBoard {
 		
 	}
 	
+	private boolean isValidMove(int x, int y, int xTo, int yTo){
+		for(Move move: moves(x,y))
+			if(move.getX()==xTo&&move.getY()==yTo)
+				return true;
+		return false;
+	}
+	
 	public ArrayList<Move> moves(int x, int y){
 		switch(board[x][y].getType()){
 		case 'k':
