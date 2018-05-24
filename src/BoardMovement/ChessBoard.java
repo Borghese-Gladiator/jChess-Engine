@@ -46,6 +46,9 @@ public class ChessBoard {
 	}
 	
 	public ArrayList<Move> getMovesK(int x, int y){
+		if(board[x][y].isWhite==true){
+			
+		}
 		return null;//Do code
 	}
 	public ArrayList<Move> getMovesQ(int x, int y){
