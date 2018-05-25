@@ -15,7 +15,7 @@ public class ChessBoard {
 	 * @return The piece at that position
 	 */
 	public Piece getPiece(Position pos){
-		return board[x][y];
+		return board[pos.getX()][pos.getY()];
 	}
 	
 	/**
@@ -66,22 +66,22 @@ public class ChessBoard {
 		}
 	}
 
-	public ArrayList<Position> getMovesK(Position pos){
+	private ArrayList<Position> getMovesK(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Position> getMovesQ(Position pos){
+	private ArrayList<Position> getMovesQ(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Position> getMovesB(Position pos){
+	private ArrayList<Position> getMovesB(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Position> getMovesN(Position pos){
+	private ArrayList<Position> getMovesN(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Position> getMovesR(Position pos){
+	private ArrayList<Position> getMovesR(Position pos){
 		return null;//Do code
 	}
-	public ArrayList<Position> getMovesP(Position pos){
+	private ArrayList<Position> getMovesP(Position pos){
 		return null;//Do code
 	}
 	
