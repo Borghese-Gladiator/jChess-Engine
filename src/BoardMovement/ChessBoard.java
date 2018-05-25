@@ -9,16 +9,32 @@ public class ChessBoard {
 		//Initialize pieces on board
 	}
 	
+	/**
+	 * Returns the Piece at the specified position
+	 * @param pos The position of the piece to return
+	 * @return The piece at that position
+	 */
 	public Piece getPiece(Position pos){
 		return board[x][y];
 	}
 	
-	public boolean move(Position posFrom, Position posTo){
+	/**
+	 * Moves a piece
+	 * @param posFrom The initial position of the piece
+	 * @param posTo The position of the piece after the move
+	 */
+	public void move(Position posFrom, Position posTo){
 		if(!isValidMove(posFrom, posTo))
 			throw new IllegalArgumentException("Invalid move");
 		//Move piece
 	}
 	
+	/**
+	 * Determines if a move is valid
+	 * @param posFrom the position from which the piece will move
+	 * @param posTo the position to which the piece will move
+	 * @return Returns true if that is a valid move for that piece. False if invalid.
+	 */
 	private boolean isValidMove(Position posFrom, Position posTo){
 		for(Position move: moves(posFrom))
 			if(move.getX()==posTo.getX()&&move.getY()==posTo.getY())
@@ -26,6 +42,11 @@ public class ChessBoard {
 		return false;
 	}
 	
+	/**
+	 * Returns an ArrayList of all the valid positions the specified piece can move to
+	 * @param pos The position of the piece
+	 * @return an ArrayList with all valid positions the piece can move to
+	 */
 	public ArrayList<Position> moves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at that Location");
@@ -62,10 +83,6 @@ public class ChessBoard {
 	}
 	public ArrayList<Position> getMovesP(Position pos){
 		return null;//Do code
-	}
-	
-	public void doMove(Position pos, Position posTo){
-		
 	}
 	
 	public boolean isBeingAttacked(boolean byWhite, Position pos){
