@@ -8,7 +8,7 @@ import BreezySwing.GBFrame;
 
 public class ChessFrame extends GBFrame
 {
-	private Color boardColor;
+	
 	JMenuItem newGame = addMenuItem("Chess", "New Game");
 	JMenuItem settings = addMenuItem("Chess", "Settings");
 	JMenuItem intro = addMenuItem("Chess", "How to Play");
@@ -22,10 +22,7 @@ public class ChessFrame extends GBFrame
 		else if (item == settings)
 		{
 			Settings sett = new Settings(this);
-			if (sett.getDlgCloseIndicator().equals("Apply"))
-			{
-				
-			}
+			sett.setVisible(true);
 		}
 		else if (item == intro)
 		{
@@ -46,4 +43,5 @@ public class ChessFrame extends GBFrame
 		setSize(500, 500);
 		setVisible(true);
 	}
+	
 }
