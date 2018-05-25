@@ -4,7 +4,7 @@ public class Rook extends Piece {
 	final static char type = 'r';
 	boolean hasMoved;
 	
-	public Rook(boolean isWhite, char type){
+	public Rook(boolean isWhite){
 		super(isWhite);
 		hasMoved = false;
 	}

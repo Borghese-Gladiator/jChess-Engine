@@ -5,7 +5,7 @@ public class King extends Piece{
 	final static char type = 'k';
 	boolean hasMoved;
 	
-	public King(boolean isWhite, char type){
+	public King(boolean isWhite){
 		super(isWhite);
 		hasMoved = false;
 	}

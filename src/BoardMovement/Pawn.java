@@ -4,7 +4,7 @@ public class Pawn extends Piece{
 	final static char type = 'p';
 	boolean hasMoved;
 	
-	public Pawn(boolean isWhite, char type){
+	public Pawn(boolean isWhite){
 		super(isWhite);
 		hasMoved = false;
 	}

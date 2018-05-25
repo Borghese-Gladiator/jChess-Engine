@@ -4,7 +4,7 @@ public class Knight extends Piece{
 	final static char type = 'n';
 	boolean hasMoved;
 	
-	public Knight(boolean isWhite, char type){
+	public Knight(boolean isWhite){
 		super(isWhite);
 		hasMoved = false;
 	}
