@@ -3,8 +3,9 @@ import java.util.ArrayList;
 
 public class ChessBoard {
 	private Piece[][] board;
+	private boolean isWhiteTurn;
 	
-	public ChessBoard(){
+	public ChessBoard(boolean whiteStart){
 		board = new Piece[8][8];
 		board[0][0] = new Rook(false);
 		board[1][0] = new Knight(false);
@@ -26,6 +27,7 @@ public class ChessBoard {
 		board[5][7] = new Bishop(true);
 		board[6][7] = new Knight(true);
 		board[7][7] = new Rook(true);
+		isWhiteTurn = whiteStart;
 	}
 	
 	/**
