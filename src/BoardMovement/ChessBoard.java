@@ -66,7 +66,7 @@ public class ChessBoard {
 	 * @return Returns true if that is a valid move for that piece. False if invalid.
 	 */
 	private boolean isValidMove(Position posFrom, Position posTo){
-		for(Position move: moves(posFrom))
+		for(Position move: getMoves(posFrom))
 			if(move.getX()==posTo.getX()&&move.getY()==posTo.getY())
 				return true;
 		return false;
@@ -173,20 +173,5 @@ public class ChessBoard {
 	
 	public boolean isBeingAttacked(boolean byWhite, Position pos){
 		
-	}
-	public boolean Checkcastle(Position from, Position tto){
-		Piece hold = getPiece(from);
-		if(!(hold instanceof King))
-			return false;
-		if(from.getX() + 2== tto.getX() && from.getY() == tto.getY())
-			return true;
-		if(from.getX() -2 == tto.getX() && from.getY() == tto.getY())
-			return true;
-		if(((King)hold).getHasMoved() == true)
-			return false;
-		else return false;
-	}
-	public void Castle(Position from, Position to){
-		if()
 	}
 }
