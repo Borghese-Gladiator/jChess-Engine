@@ -106,6 +106,8 @@ public class ChessBoard {
 			list.add(new Position(pos.getX(), pos.getY() +1));
 		if(board[pos.getX()][pos.getY()-1]== null)
 			list.add(new Position(pos.getX(),pos.getX()-1));
+		if(Checkcastleright(pos) == true)
+			list.add(new Position(pos.getX()+2,pos.getY()));
 		return list;
 	}
 
@@ -172,19 +174,21 @@ public class ChessBoard {
 	public boolean isBeingAttacked(boolean byWhite, Position pos){
 		
 	}
-	public boolean Checkcastle(Position from, Position tto){
+	public boolean Checkcastleright(Position from){
 		Piece hold = getPiece(from);
-		if(!(hold instanceof King))
-			return false;
-		if(from.getX() + 2== tto.getX() && from.getY() == tto.getY())
+		if(board[from.getX()+2][from.getY()]==null)
 			return true;
-		if(from.getX() -2 == tto.getX() && from.getY() == tto.getY())
-			return true;
-		if(((King)hold).getHasMoved() == true)
+		if(((King)hold).getHasMoved()== true)
 			return false;
-		else return false;
+		if(getPiece(new Position(7,from.getY())));
+	}
+	public boolean Checkcastleleft(Position from){
+		if(board[from.getX()+2][from.getY()]==null)
+			return true;
+		if(((King)hold).getHasMoved()== true)
+			return false;
 	}
 	public void Castle(Position from, Position to){
-		if()
+		i
 	}
 }
