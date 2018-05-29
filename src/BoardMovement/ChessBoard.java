@@ -174,4 +174,19 @@ public class ChessBoard {
 	public boolean isBeingAttacked(boolean byWhite, Position pos){
 		
 	}
+	public boolean Checkcastle(Position from, Position tto){
+		Piece hold = getPiece(from);
+		if(!(hold instanceof King))
+			return false;
+		if(from.getX() + 2== tto.getX() && from.getY() == tto.getY())
+			return true;
+		if(from.getX() -2 == tto.getX() && from.getY() == tto.getY())
+			return true;
+		if(((King)hold).getHasMoved() == true)
+			return false;
+		else return false;
+	}
+	public void Castle(Position from, Position to){
+		if()
+	}
 }

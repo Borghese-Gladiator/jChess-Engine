@@ -11,7 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import BoardMovement.ChessBoard;
-public class BoardPanel 
+import BreezySwing.GBPanel;
+public class BoardPanel extends GBPanel
 {
 	private static boolean whiteStart = true;
 	private static boolean onePlayer = true;
@@ -52,5 +53,9 @@ public class BoardPanel
 	}
 	public static void setOnePlayer(boolean onePlayer) {
 		BoardPanel.onePlayer = onePlayer;
+	}
+	public void setBoard(ChessBoard aBoard)
+	{
+		board = aBoard;
 	}
 }
