@@ -77,7 +77,7 @@ public class ChessBoard {
 	 * @param pos The position of the piece
 	 * @return an ArrayList with all valid positions the piece can move to
 	 */
-	public ArrayList<Position> moves(Position pos){
+	public ArrayList<Position> getMoves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at that Location");
 		switch(board[pos.getX()][pos.getY()].getType()){
@@ -110,7 +110,9 @@ public class ChessBoard {
 	}
 
 	private ArrayList<Position> getMovesQ(Position pos){
-		return null;//Do code
+		ArrayList<Position> moves = getMovesR(pos);
+		moves.addAll(getMovesB(pos));
+		return moves;
 	}
 	private ArrayList<Position> getMovesB(Position pos){
 		ArrayList<Position> moves = new ArrayList<Position>();
