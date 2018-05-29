@@ -87,9 +87,19 @@ public class ChessBoard {
 		}
 	}
 
-	private ArrayList<Position> getMovesK(Position pos){
-		return null;//Do code
+	public ArrayList<Position> getMovesK(Position pos){
+		ArrayList<Position> list = new ArrayList <Position>();
+		if(board[pos.getX() +1][pos.getY()] == null)
+			list.add(new Position(pos.getX() +1, pos.getY()));
+		if(board[pos.getX() -1][pos.getY()]== null)
+			list.add(new Position(pos.getX() -1,pos.getY()));
+		if(board[pos.getX()][pos.getY() +1] == null)
+			list.add(new Position(pos.getX(), pos.getY() +1));
+		if(board[pos.getX()][pos.getY()-1]== null){
+			list.add(new Position(pos.getX(),pos.getX()-1));
+		return list;
 	}
+
 	private ArrayList<Position> getMovesQ(Position pos){
 		return null;//Do code
 	}
