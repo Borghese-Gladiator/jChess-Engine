@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class ChessBoard {
 	private Piece[][] board;
 	private boolean isWhiteTurn;
+	private ArrayList<Position> lastUpdate;
 	
 	public ChessBoard(boolean whiteStart){
 		board = new Piece[8][8];
@@ -108,7 +109,29 @@ public class ChessBoard {
 		return null;//Do code
 	}
 	private ArrayList<Position> getMovesR(Position pos){
-		return null;//Do code
+		ArrayList<Position> moves = new ArrayList<Position>();
+		boolean thisIsWhite = board[pos.getX()][pos.getY()].isWhite();
+		for(int x = pos.getX()+1, y = pos.getY();(x<8) &&(board[x][y]==null||board[x][y].isWhite()!=thisIsWhite); x++){
+			moves.add(new Position(x,pos.getY()));
+			if((board[x][y] instanceof Piece)&&(board[x][y].isWhite()!=thisIsWhite))
+				break;
+		}
+		for(int x = pos.getX()-1, y = pos.getY();(x>=0)&&(board[x][y]==null||board[x][y].isWhite()!=thisIsWhite); x--){
+			moves.add(new Position(x,pos.getY()));
+			if((board[x][y] instanceof Piece)&&(board[x][y].isWhite()!=thisIsWhite))
+				break;
+		}
+		for(int x = pos.getX(), y = pos.getY()+1;(y<8) &&(board[x][y]==null||board[x][y].isWhite()!=thisIsWhite); y++){
+			moves.add(new Position(x,pos.getY()));
+			if((board[x][y] instanceof Piece)&&(board[x][y].isWhite()!=thisIsWhite))
+				break;
+		}
+		for(int x = pos.getX(), y = pos.getY()-1;(y>=0)&&(board[x][y]==null||board[x][y].isWhite()!=thisIsWhite); y--){
+			moves.add(new Position(x,pos.getY()));
+			if((board[x][y] instanceof Piece)&&(board[x][y].isWhite()!=thisIsWhite))
+				break;
+		}
+		return moves;
 	}
 	private ArrayList<Position> getMovesP(Position pos){
 		return null;//Do code
