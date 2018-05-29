@@ -103,7 +103,7 @@ public class ChessBoard {
 			list.add(new Position(pos.getX() -1,pos.getY()));
 		if(board[pos.getX()][pos.getY() +1] == null)
 			list.add(new Position(pos.getX(), pos.getY() +1));
-		if(board[pos.getX()][pos.getY()-1]== null){
+		if(board[pos.getX()][pos.getY()-1]== null)
 			list.add(new Position(pos.getX(),pos.getX()-1));
 		return list;
 	}
