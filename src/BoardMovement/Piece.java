@@ -1,10 +1,14 @@
 package BoardMovement;
 
 public abstract class Piece {
-	boolean isWhite;
+	private boolean isWhite;
 	
 	public Piece(boolean isWhite){
 		this.isWhite = isWhite;
+	}
+	
+	public boolean isWhite(){
+		return isWhite;
 	}
 	
 	public abstract char getType();

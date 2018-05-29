@@ -31,6 +31,14 @@ public class ChessBoard {
 	}
 	
 	/**
+	 * Returns the board
+	 * @return the 2D array with the pieces. null where there isn't a piece.
+	 */
+	public Piece[][] getBoard(){
+		return board;
+	}
+	
+	/**
 	 * Returns the Piece at the specified position
 	 * @param pos The position of the piece to return
 	 * @return The piece at that position
