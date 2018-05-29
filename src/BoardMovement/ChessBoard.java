@@ -66,7 +66,7 @@ public class ChessBoard {
 	 * @return Returns true if that is a valid move for that piece. False if invalid.
 	 */
 	private boolean isValidMove(Position posFrom, Position posTo){
-		for(Position move: moves(posFrom))
+		for(Position move: getMoves(posFrom))
 			if(move.getX()==posTo.getX()&&move.getY()==posTo.getY())
 				return true;
 		return false;
@@ -77,7 +77,7 @@ public class ChessBoard {
 	 * @param pos The position of the piece
 	 * @return an ArrayList with all valid positions the piece can move to
 	 */
-	public ArrayList<Position> moves(Position pos){
+	public ArrayList<Position> getMoves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at that Location");
 		switch(board[pos.getX()][pos.getY()].getType()){
@@ -112,7 +112,9 @@ public class ChessBoard {
 	}
 
 	private ArrayList<Position> getMovesQ(Position pos){
-		return null;//Do code
+		ArrayList<Position> moves = getMovesR(pos);
+		moves.addAll(getMovesB(pos));
+		return moves;
 	}
 	private ArrayList<Position> getMovesB(Position pos){
 		ArrayList<Position> moves = new ArrayList<Position>();
@@ -174,6 +176,7 @@ public class ChessBoard {
 	public boolean isBeingAttacked(boolean byWhite, Position pos){
 		
 	}
+<<<<<<< HEAD
 	public boolean Checkcastleright(Position from){
 		Piece hold = getPiece(from);
 		if(board[from.getX()+2][from.getY()]==null)
@@ -191,4 +194,6 @@ public class ChessBoard {
 	public void Castle(Position from, Position to){
 		i
 	}
+=======
+>>>>>>> 7645e2890c3e7ef299354497fa06ceb1c47766e7
 }
