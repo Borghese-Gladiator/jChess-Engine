@@ -6,8 +6,12 @@ public class ChessBoard {
 	private boolean isWhiteTurn;
 	private ArrayList<Position> lastUpdate;
 	
-	public ChessBoard(boolean whiteStart){
+	public ChessBoard(){
 		board = new Piece[8][8];
+	}
+	
+	public ChessBoard(boolean whiteStart){
+		this();
 		board[0][0] = new Rook(false);
 		board[1][0] = new Knight(false);
 		board[2][0] = new Bishop(false);
@@ -37,6 +41,10 @@ public class ChessBoard {
 	 */
 	public Piece[][] getBoard(){
 		return board;
+	}
+	
+	public void addPiece(Position pos, Piece piece){
+		board[pos.getX()][pos.getY()] = piece;
 	}
 	
 	/**
@@ -108,6 +116,8 @@ public class ChessBoard {
 			list.add(new Position(pos.getX(),pos.getX()-1));
 		if(Checkcastleright(pos) == true)
 			list.add(new Position(pos.getX()+2,pos.getY()));
+		if(Checkcastleleft(pos) ==true)
+			list.add(new Position(pos.getX()-2,pos.getY()));
 		return list;
 	}
 
@@ -175,5 +185,44 @@ public class ChessBoard {
 	
 	public boolean isBeingAttacked(boolean byWhite, Position pos){
 		
+	}
+	private boolean Checkcastleright(Position from){
+		Piece hold = getPiece(from);
+		if(((King)hold).getHasMoved()== true)
+			return false;
+		if(!(getPiece(new Position(7,from.getY()))instanceof Rook))
+			return false;
+		if(((Rook) (getPiece(new Position(7,from.getY())))).getHasMoved() == true)
+				return false;
+		if(board[from.getX()+1][from.getY()]!=null)
+			return false;
+		if(board[from.getX()+2][from.getY()]==null)
+			return true;
+		return false;
+		
+	}
+	private boolean Checkcastleleft(Position from){
+		Piece hold = getPiece(from);
+		if(((King)hold).getHasMoved()== true)
+			return false;
+		if(!(getPiece(new Position(0,from.getY()))instanceof Rook))
+			return false;
+		if(((Rook) (getPiece(new Position(0,from.getY())))).getHasMoved() == true)
+				return false;
+		if(board[from.getX()-1][from.getY()]!=null)
+			return false;
+		if(board[from.getX()-2][from.getY()]==null)
+			return true;
+		return false;
+	}
+	public void Castle(Position from, Position to){
+		if(to.getX() == 6){
+			move(from, to);
+			move(new Position(7, from.getY()), new Position(5,from.getY()));
+		}
+		else if(to.getX() == 2){
+			move(from, to);
+			move(new Position(0, from.getY()), new Position(3,from.getY()));
+		}
 	}
 }

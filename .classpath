@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/19tshee/Downloads/BreezySwing/BreezySwing/BreezySwing.jar"/>
+	<classpathentry kind="lib" path="H:\Java Libraries.BreezySwing.jar"/>
 	<classpathentry kind="output" path="src"/>
 </classpath>
