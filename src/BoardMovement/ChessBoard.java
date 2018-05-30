@@ -6,8 +6,12 @@ public class ChessBoard {
 	private boolean isWhiteTurn;
 	private ArrayList<Position> lastUpdate;
 	
-	public ChessBoard(boolean whiteStart){
+	public ChessBoard(){
 		board = new Piece[8][8];
+	}
+	
+	public ChessBoard(boolean whiteStart){
+		this();
 		board[0][0] = new Rook(false);
 		board[1][0] = new Knight(false);
 		board[2][0] = new Bishop(false);
@@ -37,6 +41,10 @@ public class ChessBoard {
 	 */
 	public Piece[][] getBoard(){
 		return board;
+	}
+	
+	public void addPiece(Position pos, Piece piece){
+		board[pos.getX()][pos.getY()] = piece;
 	}
 	
 	/**
