@@ -151,7 +151,24 @@ public class ChessBoard {
 		}
 		return moves;
 	}
-	private ArrayList<Position> getMovesN(Position pos){
+	private ArrayList<Position> getMovesN(Position pos){ // capturing and check to see if the piece is and opposite color
+		ArrayList<Position> list = new ArrayList <Position>();
+		try{
+			if(board[pos.getX()+2][pos.getY()+2] == null)
+				list.add(new Position(pos.getX()+2,pos.getY()+2));
+		}catch(ArrayIndexOutOfBoundsException e){}
+		try{
+			if(board[pos.getX()+2][pos.getY()-2] == null)
+				list.add(new Position(pos.getX()+2,pos.getY()-2));
+		}catch(ArrayIndexOutOfBoundsException e){}
+		try{
+			if(board[pos.getX()-2][pos.getY()+2] == null)
+				list.add(new Position(pos.getX()-2,pos.getY()+2));
+		}catch(ArrayIndexOutOfBoundsException e){}
+		try{
+			if(board[pos.getX()-2][pos.getY()-2] == null)
+				list.add(new Position(pos.getX()-2,pos.getY()-2));
+		}catch(ArrayIndexOutOfBoundsException e){}
 		return null;//Do code
 	}
 	private ArrayList<Position> getMovesR(Position pos){
@@ -180,6 +197,7 @@ public class ChessBoard {
 		return moves;
 	}
 	private ArrayList<Position> getMovesP(Position pos){
+		
 		return null;//Do code
 	}
 	
