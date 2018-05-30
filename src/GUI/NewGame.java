@@ -41,22 +41,9 @@ public class NewGame extends GBDialog
 		singlePlayer.setSelected(true);
         
         parent = owner;
-        setLayout(new BorderLayout());
-        setLocationRelativeTo(owner);
+        setSize(300, 300);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         getRootPane().setDefaultButton(ok);
-        JPanel buttonRow = new JPanel();
-        buttonRow.setLayout(new BoxLayout(buttonRow, BoxLayout.X_AXIS));
-        buttonRow.setBorder(BorderFactory.createEmptyBorder(H_PADDING,
-                            V_PADDING,
-                            H_PADDING,
-                            V_PADDING));
-        buttonRow.add(Box.createHorizontalGlue());
-        buttonRow.add(ok);
-        buttonRow.add(cancel);
-        add(buttonRow, BorderLayout.PAGE_END);
-
-        pack();
     }
 	public void buttonClicked(JButton button)
 	{

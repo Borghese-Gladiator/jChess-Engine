@@ -176,24 +176,4 @@ public class ChessBoard {
 	public boolean isBeingAttacked(boolean byWhite, Position pos){
 		
 	}
-<<<<<<< HEAD
-	public boolean Checkcastleright(Position from){
-		Piece hold = getPiece(from);
-		if(board[from.getX()+2][from.getY()]==null)
-			return true;
-		if(((King)hold).getHasMoved()== true)
-			return false;
-		if(getPiece(new Position(7,from.getY())));
-	}
-	public boolean Checkcastleleft(Position from){
-		if(board[from.getX()+2][from.getY()]==null)
-			return true;
-		if(((King)hold).getHasMoved()== true)
-			return false;
-	}
-	public void Castle(Position from, Position to){
-		i
-	}
-=======
->>>>>>> 7645e2890c3e7ef299354497fa06ceb1c47766e7
 }
