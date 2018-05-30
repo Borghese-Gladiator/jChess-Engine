@@ -151,7 +151,7 @@ public class ChessBoard {
 		}
 		return moves;
 	}
-	private ArrayList<Position> getMovesN(Position pos){
+	private ArrayList<Position> getMovesN(Position pos){ // capturing and check to see if the piece is and opposite color
 		ArrayList<Position> list = new ArrayList <Position>();
 		try{
 			if(board[pos.getX()+2][pos.getY()+2] == null)
