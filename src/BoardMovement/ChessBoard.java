@@ -126,6 +126,7 @@ public class ChessBoard {
 		moves.addAll(getMovesB(pos));
 		return moves;
 	}
+	
 	private ArrayList<Position> getMovesB(Position pos){
 		ArrayList<Position> moves = new ArrayList<Position>();
 		boolean thisIsWhite = board[pos.getX()][pos.getY()].isWhite();
