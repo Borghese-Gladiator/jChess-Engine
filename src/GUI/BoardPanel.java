@@ -16,18 +16,17 @@ public class BoardPanel extends GBPanel
 {
 	private static boolean whiteStart = true;
 	private static boolean onePlayer = true;
-	private final JPanel gui = new JPanel(new BorderLayout(3, 3));
-    private JButton[][] chessBoardSquares = new JButton[8][8];
-    private JPanel chessBoard;
+	
+    private JButton[][] chessBoardSquares;
+    private GBPanel chessBoard = addPanel(1, 1, 1, 1);
 	private ChessBoard board;
 	public BoardPanel() {
         board = new ChessBoard(whiteStart);
-        chessBoard = new JPanel(new GridLayout(0, 9));
-        chessBoard.setBorder(new LineBorder(Color.BLACK));
-        gui.add(chessBoard);
+      //  chessBoard = new JPanel(new GridLayout(0, 9));
+      //  chessBoard.setBorder(new LineBorder(Color.BLACK));
         Insets buttonMargin = new Insets(0,0,0,0);
-        for (int i = 0; i < chessBoardSquares.length; i++) {
-            for (int j = 0; j < chessBoardSquares[i].length; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 JButton b = new JButton();
                 b.setMargin(buttonMargin);
                 // our chess pieces are 64x64 px in size, so we'll
@@ -41,9 +40,10 @@ public class BoardPanel extends GBPanel
                 } else {
                     b.setBackground(Color.BLACK);
                 }
-                chessBoardSquares[j][i] = b;
+                chessBoardSquares[j][i] = chessBoard.addButton("", 1, 1, 1, 1);
             }
         }
+            	
     }
 	private void updateSize() 
 	{
