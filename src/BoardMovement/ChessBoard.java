@@ -64,12 +64,13 @@ public class ChessBoard {
 	public void move(Position posFrom, Position posTo){
 		if(!isValidMove(posFrom, posTo))
 			throw new IllegalArgumentException("Invalid move");
-		if(/*condition for castling*/)
+		if(/*condition for castling*/true)
 			castle(posFrom, posTo);
-		else if(/*condition for en passant*/)
+		else if(/*condition for en passant*/true)
 			enPassant(posFrom posTo);
 		else{
-			
+			board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
+			board[posFrom.getX()][posFrom.getY()] = null;
 		}
 	}
 	
@@ -210,9 +211,10 @@ public class ChessBoard {
 		return null;//Do code
 	}
 	
-	public boolean isBeingAttacked(boolean byWhite, Position pos){
+	private boolean isBeingAttacked(boolean byWhite, Position pos){
 		
 	}
+	
 	private boolean checkCastleRight(Position from){
 		Piece hold = getPiece(from);
 		if(((King)hold).getHasMoved()== true)
@@ -228,6 +230,7 @@ public class ChessBoard {
 		return false;
 		
 	}
+	
 	private boolean checkCastleLeft(Position from){
 		Piece hold = getPiece(from);
 		if(((King)hold).getHasMoved()== true)
@@ -242,7 +245,8 @@ public class ChessBoard {
 			return true;
 		return false;
 	}
-	public void castle(Position from, Position to){
+	
+	private void castle(Position from, Position to){
 		if(to.getX() == 6){
 			move(from, to);
 			move(new Position(7, from.getY()), new Position(5,from.getY()));
