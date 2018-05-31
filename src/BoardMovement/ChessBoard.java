@@ -64,7 +64,13 @@ public class ChessBoard {
 	public void move(Position posFrom, Position posTo){
 		if(!isValidMove(posFrom, posTo))
 			throw new IllegalArgumentException("Invalid move");
-		//Move piece
+		if(/*condition for castling*/)
+			castle(posFrom, posTo);
+		else if(/*condition for en passant*/)
+			enPassant(posFrom posTo);
+		else{
+			
+		}
 	}
 	
 	/**
@@ -87,7 +93,7 @@ public class ChessBoard {
 	 */
 	public ArrayList<Position> getMoves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
-			throw new IllegalArgumentException("No Piece at that Location");
+			throw new IllegalArgumentException("No Piece at Position " + pos);
 		switch(board[pos.getX()][pos.getY()].getType()){
 		case 'k':
 			return getMovesK(pos);
@@ -236,7 +242,7 @@ public class ChessBoard {
 			return true;
 		return false;
 	}
-	public void Castle(Position from, Position to){
+	public void castle(Position from, Position to){
 		if(to.getX() == 6){
 			move(from, to);
 			move(new Position(7, from.getY()), new Position(5,from.getY()));
