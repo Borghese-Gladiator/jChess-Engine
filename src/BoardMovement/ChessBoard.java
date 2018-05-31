@@ -282,7 +282,12 @@ public class ChessBoard {
 			move(new Position(0, from.getY()), new Position(3,from.getY()));
 		}
 	}
-	private boolean checkenpassant(Position f){
-		
+	private boolean checkenpassantw(Position pos){
+		boolean iswhite = getPiece(pos).isWhite();
+		if(board[pos.getX()+1][pos.getY()].isWhite()!= iswhite && board[pos.getX()+1][pos.getY()]!= null ){
+			if(((Pawn)board[pos.getX()+1][pos.getY()]).gettwomove()== true && lastUpdate.get(1).equals(new Position(pos.getX()+1,pos.getY())))
+				
+		}
+			
 	}
 }
