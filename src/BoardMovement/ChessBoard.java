@@ -64,7 +64,13 @@ public class ChessBoard {
 	public void move(Position posFrom, Position posTo){
 		if(!isValidMove(posFrom, posTo))
 			throw new IllegalArgumentException("Invalid move");
-		//Move piece
+		if(/*condition for castling*/)
+			castle(posFrom, posTo);
+		else if(/*condition for en passant*/)
+			enPassant(posFrom posTo);
+		else{
+			
+		}
 	}
 	
 	/**
@@ -87,7 +93,7 @@ public class ChessBoard {
 	 */
 	public ArrayList<Position> getMoves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
-			throw new IllegalArgumentException("No Piece at that Location");
+			throw new IllegalArgumentException("No Piece at Position " + pos);
 		switch(board[pos.getX()][pos.getY()].getType()){
 		case 'k':
 			return getMovesK(pos);
@@ -107,6 +113,7 @@ public class ChessBoard {
 	public ArrayList<Position> getMovesK(Position pos){// capturing and check to see if the piece is and opposite color
 		ArrayList<Position> list = new ArrayList <Position>();
 		boolean iswhite = getPiece(pos).isWhite();
+<<<<<<< HEAD
 		try{
 			if(board[pos.getX() +1][pos.getY()] == null || getPiece(new Position(pos.getX() +1,pos.getY())).isWhite() != iswhite)
 				list.add(new Position(pos.getX() +1, pos.getY()));
@@ -124,8 +131,19 @@ public class ChessBoard {
 				list.add(new Position(pos.getX(),pos.getX()-1));
 		}catch(ArrayIndexOutOfBoundsException e){}
 		if(Checkcastleright(pos) == true)
+=======
+		if(board[pos.getX() +1][pos.getY()] == null || getPiece(new Position(pos.getX() +1,pos.getY())).isWhite() != iswhite)
+			list.add(new Position(pos.getX() +1, pos.getY()));
+		if(board[pos.getX() -1][pos.getY()]== null)
+			list.add(new Position(pos.getX() -1,pos.getY()));
+		if(board[pos.getX()][pos.getY() +1] == null)
+			list.add(new Position(pos.getX(), pos.getY() +1));
+		if(board[pos.getX()][pos.getY()-1]== null)
+			list.add(new Position(pos.getX(),pos.getX()-1));
+		if(checkCastleRight(pos) == true)
+>>>>>>> 198fc417ca14a4925920bcd7504125b5e37a80bf
 			list.add(new Position(pos.getX()+2,pos.getY()));
-		if(Checkcastleleft(pos) ==true)
+		if(checkCastleLeft(pos) ==true)
 			list.add(new Position(pos.getX()-2,pos.getY()));
 		return list;
 	}
@@ -135,6 +153,7 @@ public class ChessBoard {
 		moves.addAll(getMovesB(pos));
 		return moves;
 	}
+	
 	private ArrayList<Position> getMovesB(Position pos){
 		ArrayList<Position> moves = new ArrayList<Position>();
 		boolean thisIsWhite = board[pos.getX()][pos.getY()].isWhite();
@@ -215,7 +234,7 @@ public class ChessBoard {
 	public boolean isBeingAttacked(boolean byWhite, Position pos){
 		
 	}
-	private boolean Checkcastleright(Position from){
+	private boolean checkCastleRight(Position from){
 		Piece hold = getPiece(from);
 		if(((King)hold).getHasMoved()== true)
 			return false;
@@ -230,7 +249,7 @@ public class ChessBoard {
 		return false;
 		
 	}
-	private boolean Checkcastleleft(Position from){
+	private boolean checkCastleLeft(Position from){
 		Piece hold = getPiece(from);
 		if(((King)hold).getHasMoved()== true)
 			return false;
@@ -244,7 +263,7 @@ public class ChessBoard {
 			return true;
 		return false;
 	}
-	public void Castle(Position from, Position to){
+	public void castle(Position from, Position to){
 		if(to.getX() == 6){
 			move(from, to);
 			move(new Position(7, from.getY()), new Position(5,from.getY()));
