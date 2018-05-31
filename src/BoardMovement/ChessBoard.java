@@ -218,14 +218,23 @@ public class ChessBoard {
 	private ArrayList<Position> getMovesP(Position pos){// capturing and check to see if the piece is and opposite color
 		ArrayList<Position> list = new ArrayList <Position>();
 		boolean iswhite = getPiece(pos).isWhite();
-		if(isWhite)
+		if(isWhiteTurn != true){
 			if(board[pos.getX()][pos.getY()+1] == null )
 				list.add(new Position(pos.getX(),pos.getY()+1));
 			if(board[pos.getX()+1][pos.getY()+1].isWhite()!= iswhite)
 				list.add(new Position(pos.getX()+1,pos.getY()+1));
-			if(board[pos.getX()-1][pos.getY()-1].isWhite()!=iswhite)
+			if(board[pos.getX()-1][pos.getY()+1].isWhite()!=iswhite)
 				list.add(new Position(pos.getX()-1,pos.getY()-1));
-			return null;//Do code
+		}
+		else if(isWhiteTurn == true){
+			if(board[pos.getX()][pos.getY()-1] == null )
+				list.add(new Position(pos.getX(),pos.getY()+1));
+			if(board[pos.getX()-1][pos.getY()-1].isWhite()!= iswhite)
+				list.add(new Position(pos.getX()+1,pos.getY()+1));
+			if(board[pos.getX()+1][pos.getY()-1].isWhite()!=iswhite)
+				list.add(new Position(pos.getX()-1,pos.getY()-1));
+		}
+			return list;//Do code
 	}
 	
 	private boolean isBeingAttacked(boolean byWhite, Position pos){
