@@ -104,9 +104,10 @@ public class ChessBoard {
 		}
 	}
 
-	public ArrayList<Position> getMovesK(Position pos){
+	public ArrayList<Position> getMovesK(Position pos){// capturing and check to see if the piece is and opposite color
 		ArrayList<Position> list = new ArrayList <Position>();
-		if(board[pos.getX() +1][pos.getY()] == null)
+		boolean iswhite = getPiece(pos).isWhite();
+		if(board[pos.getX() +1][pos.getY()] == null || getPiece(new Position(pos.getX() +1,pos.getY())).isWhite() != iswhite)
 			list.add(new Position(pos.getX() +1, pos.getY()));
 		if(board[pos.getX() -1][pos.getY()]== null)
 			list.add(new Position(pos.getX() -1,pos.getY()));
@@ -154,6 +155,8 @@ public class ChessBoard {
 	}
 	private ArrayList<Position> getMovesN(Position pos){ // capturing and check to see if the piece is and opposite color
 		ArrayList<Position> list = new ArrayList <Position>();
+		boolean iswhite = getPiece(pos).isWhite();
+
 		try{
 			if(board[pos.getX()+2][pos.getY()+2] == null)
 				list.add(new Position(pos.getX()+2,pos.getY()+2));
@@ -197,8 +200,7 @@ public class ChessBoard {
 		}
 		return moves;
 	}
-	private ArrayList<Position> getMovesP(Position pos){
-		
+	private ArrayList<Position> getMovesP(Position pos){// capturing and check to see if the piece is and opposite color
 		return null;//Do code
 	}
 	
