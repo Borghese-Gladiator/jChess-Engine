@@ -107,14 +107,22 @@ public class ChessBoard {
 	public ArrayList<Position> getMovesK(Position pos){// capturing and check to see if the piece is and opposite color
 		ArrayList<Position> list = new ArrayList <Position>();
 		boolean iswhite = getPiece(pos).isWhite();
-		if(board[pos.getX() +1][pos.getY()] == null || getPiece(new Position(pos.getX() +1,pos.getY())).isWhite() != iswhite)
-			list.add(new Position(pos.getX() +1, pos.getY()));
-		if(board[pos.getX() -1][pos.getY()]== null)
-			list.add(new Position(pos.getX() -1,pos.getY()));
-		if(board[pos.getX()][pos.getY() +1] == null)
-			list.add(new Position(pos.getX(), pos.getY() +1));
-		if(board[pos.getX()][pos.getY()-1]== null)
-			list.add(new Position(pos.getX(),pos.getX()-1));
+		try{
+			if(board[pos.getX() +1][pos.getY()] == null || getPiece(new Position(pos.getX() +1,pos.getY())).isWhite() != iswhite)
+				list.add(new Position(pos.getX() +1, pos.getY()));
+		}catch(ArrayIndexOutOfBoundsException e){}
+		try{
+			if(board[pos.getX() -1][pos.getY()]== null|| getPiece(new Position(pos.getX() -1,pos.getY())).isWhite() != iswhite)
+				list.add(new Position(pos.getX() -1,pos.getY()));
+		}catch(ArrayIndexOutOfBoundsException e){}
+		try{
+			if(board[pos.getX()][pos.getY() +1] == null|| getPiece(new Position(pos.getX() ,pos.getY()+1)).isWhite() != iswhite)
+				list.add(new Position(pos.getX(), pos.getY() +1));
+		}catch(ArrayIndexOutOfBoundsException e){}
+		try{
+			if(board[pos.getX()][pos.getY()-1]== null|| getPiece(new Position(pos.getX(),pos.getY()-1)).isWhite() != iswhite)
+				list.add(new Position(pos.getX(),pos.getX()-1));
+		}catch(ArrayIndexOutOfBoundsException e){}
 		if(Checkcastleright(pos) == true)
 			list.add(new Position(pos.getX()+2,pos.getY()));
 		if(Checkcastleleft(pos) ==true)
@@ -155,21 +163,20 @@ public class ChessBoard {
 	private ArrayList<Position> getMovesN(Position pos){ // capturing and check to see if the piece is and opposite color
 		ArrayList<Position> list = new ArrayList <Position>();
 		boolean iswhite = getPiece(pos).isWhite();
-
 		try{
-			if(board[pos.getX()+2][pos.getY()+2] == null)
+			if(board[pos.getX()+2][pos.getY()+2] == null || board[pos.getX()+2][pos.getY()+2].isWhite()!=iswhite)
 				list.add(new Position(pos.getX()+2,pos.getY()+2));
 		}catch(ArrayIndexOutOfBoundsException e){}
 		try{
-			if(board[pos.getX()+2][pos.getY()-2] == null)
+			if(board[pos.getX()+2][pos.getY()-2] == null||board[pos.getX()+2][pos.getY()-2].isWhite()!=iswhite)
 				list.add(new Position(pos.getX()+2,pos.getY()-2));
 		}catch(ArrayIndexOutOfBoundsException e){}
 		try{
-			if(board[pos.getX()-2][pos.getY()+2] == null)
+			if(board[pos.getX()-2][pos.getY()+2] == null||board[pos.getX()-2][pos.getY()+2].isWhite()!=iswhite)
 				list.add(new Position(pos.getX()-2,pos.getY()+2));
 		}catch(ArrayIndexOutOfBoundsException e){}
 		try{
-			if(board[pos.getX()-2][pos.getY()-2] == null)
+			if(board[pos.getX()-2][pos.getY()-2] == null||board[pos.getX()-2][pos.getY()-2].isWhite()!=iswhite)
 				list.add(new Position(pos.getX()-2,pos.getY()-2));
 		}catch(ArrayIndexOutOfBoundsException e){}
 		return null;//Do code
@@ -200,6 +207,8 @@ public class ChessBoard {
 		return moves;
 	}
 	private ArrayList<Position> getMovesP(Position pos){// capturing and check to see if the piece is and opposite color
+		ArrayList<Position> list = new ArrayList <Position>();
+		if
 		return null;//Do code
 	}
 	
