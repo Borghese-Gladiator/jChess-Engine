@@ -12,6 +12,6 @@ public abstract class Piece {
 	
 	public abstract char getType();
 	public abstract boolean getHasMoved();
-	public abstract void setHasMoved();
+	public abstract void setHasMoved(boolean move);
 
 }

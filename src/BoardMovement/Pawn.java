@@ -22,6 +22,12 @@ public class Pawn extends Piece{
 	public void setHasMoved(boolean hasMoved){
 		this.twomove = hasMoved;
 	}
+	public boolean gettwomove(){
+		return twomove;
+	}
+	public void settwomove(boolean move){
+		twomove = move;
+	}
 	
 
 }

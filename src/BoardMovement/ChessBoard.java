@@ -225,6 +225,10 @@ public class ChessBoard {
 				list.add(new Position(pos.getX()+1,pos.getY()+1));
 			if(board[pos.getX()-1][pos.getY()+1].isWhite()!=iswhite)
 				list.add(new Position(pos.getX()-1,pos.getY()-1));
+			if(checkenpassantr(pos) == true)
+				list.add(new Position(pos.getX()+1,pos.getY()+1));
+			if(checkenpassantl(pos) == true)
+				list.add(new Position(pos.getX()-1,pos.getY()+1));
 		}
 		else if(isWhiteTurn == true){
 			if(board[pos.getX()][pos.getY()-1] == null )
@@ -233,7 +237,12 @@ public class ChessBoard {
 				list.add(new Position(pos.getX()+1,pos.getY()+1));
 			if(board[pos.getX()+1][pos.getY()-1].isWhite()!=iswhite)
 				list.add(new Position(pos.getX()-1,pos.getY()-1));
+			if(checkenpassantr(pos) == true)
+				list.add(new Position(pos.getX()+1,pos.getY()-1));
+			if(checkenpassantl(pos) == true)
+				list.add(new Position(pos.getX()-1,pos.getY()-1));
 		}
+		
 			return list;//Do code
 	}
 	
@@ -282,12 +291,25 @@ public class ChessBoard {
 			move(new Position(0, from.getY()), new Position(3,from.getY()));
 		}
 	}
-	private boolean checkenpassantw(Position pos){
+	private boolean checkenpassantr(Position pos){
 		boolean iswhite = getPiece(pos).isWhite();
-		if(board[pos.getX()+1][pos.getY()].isWhite()!= iswhite && board[pos.getX()+1][pos.getY()]!= null ){
+		if(board[pos.getX()+1][pos.getY()].isWhite()!= iswhite && board[pos.getX()+1][pos.getY()]!= null && getPiece(pos) instanceof Pawn){
 			if(((Pawn)board[pos.getX()+1][pos.getY()]).gettwomove()== true && lastUpdate.get(1).equals(new Position(pos.getX()+1,pos.getY())))
-				
+				return true;	
 		}
-			
+		return false;		
 	}
+	private boolean checkenpassantl(Position pos){
+		boolean iswhite = getPiece(pos).isWhite();
+		if(board[pos.getX()-1][pos.getY()].isWhite()!= iswhite && board[pos.getX()-1][pos.getY()]!= null && getPiece(pos) instanceof Pawn){
+			if(((Pawn)board[pos.getX()-1][pos.getY()]).gettwomove()== true && lastUpdate.get(1).equals(new Position(pos.getX()-1,pos.getY())))
+				return true;	
+		}
+		return false;		
+	}
+	public void enpassant(Position from, Position to){
+		move(from,to);
+		// remove the pawn;
+	}
+	
 }
