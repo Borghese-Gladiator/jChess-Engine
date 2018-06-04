@@ -10,7 +10,7 @@ import BreezySwing.GBPanel;
 
 public class ChessFrame extends GBFrame
 {
-	private final BoardPanel display;
+	private GBPanel display;
 	JMenuItem newGame = addMenuItem("Chess", "New Game");
 	JMenuItem intro = addMenuItem("Chess", "How to Play");
 	JMenuItem exit = addMenuItem("Chess", "Exit");
@@ -20,6 +20,8 @@ public class ChessFrame extends GBFrame
 		{
 			NewGame ngFrame = new NewGame(this);
 			ngFrame.setVisible(true);
+			
+			
 		}
 		else if (item == intro)
 		{
@@ -38,7 +40,7 @@ public class ChessFrame extends GBFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Play Chess");
 		setSize(500, 500);
-		display = new BoardPanel();
+		display = addPanel(new BoardPanel(), 1, 1, 1, 1);
 		add(display);
 		setVisible(true);
 	}

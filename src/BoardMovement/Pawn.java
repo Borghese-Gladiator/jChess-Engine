@@ -27,6 +27,12 @@ public class Pawn extends Piece{
 	public boolean gettwomove(){
 		return twomove;
 	}
+	public boolean gettwomove(){
+		return twomove;
+	}
+	public void settwomove(boolean move){
+		twomove = move;
+	}
 	
 
 }
