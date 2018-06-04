@@ -229,6 +229,9 @@ public class ChessBoard {
 				list.add(new Position(pos.getX()+1,pos.getY()+1));
 			if(checkenpassantl(pos) == true)
 				list.add(new Position(pos.getX()-1,pos.getY()+1));
+			if(board[pos.getX()][pos.getY()].getHasMoved()==false)
+				if(board[pos.getX()][pos.getY()+1] == null && board[pos.getX()][pos.getY()+2]==null)
+					list.add(new Position(pos.getX(),pos.getY()+2));
 		}
 		else if(isWhiteTurn == true){
 			if(board[pos.getX()][pos.getY()-1] == null )
@@ -241,6 +244,9 @@ public class ChessBoard {
 				list.add(new Position(pos.getX()+1,pos.getY()-1));
 			if(checkenpassantl(pos) == true)
 				list.add(new Position(pos.getX()-1,pos.getY()-1));
+			if(board[pos.getX()][pos.getY()].getHasMoved()==false)
+				if(board[pos.getX()][pos.getY()-1] == null && board[pos.getX()][pos.getY()-2]==null)
+					list.add(new Position(pos.getX(),pos.getY()-2));
 		}
 		
 			return list;//Do code
@@ -296,7 +302,8 @@ public class ChessBoard {
 		if(board[pos.getX()+1][pos.getY()].isWhite()!= iswhite && board[pos.getX()+1][pos.getY()]!= null && getPiece(pos) instanceof Pawn){
 			if(((Pawn)board[pos.getX()+1][pos.getY()]).gettwomove()== true && lastUpdate.get(1).equals(new Position(pos.getX()+1,pos.getY())))
 				return true;	
-		}
+			}
+		
 		return false;		
 	}
 	private boolean checkenpassantl(Position pos){
