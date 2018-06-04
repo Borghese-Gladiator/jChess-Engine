@@ -170,25 +170,19 @@ public class ChessBoard {
 		return moves;
 	}
 	private ArrayList<Position> getMovesN(Position pos){ // capturing and check to see if the piece is and opposite color
-		ArrayList<Position> list = new ArrayList <Position>();
-		boolean iswhite = getPiece(pos).isWhite();
-		try{
-			if(board[pos.getX()+2][pos.getY()+2] == null || board[pos.getX()+2][pos.getY()+2].isWhite()!=iswhite)
-				list.add(new Position(pos.getX()+2,pos.getY()+2));
-		}catch(ArrayIndexOutOfBoundsException e){}
-		try{
-			if(board[pos.getX()+2][pos.getY()-2] == null||board[pos.getX()+2][pos.getY()-2].isWhite()!=iswhite)
-				list.add(new Position(pos.getX()+2,pos.getY()-2));
-		}catch(ArrayIndexOutOfBoundsException e){}
-		try{
-			if(board[pos.getX()-2][pos.getY()+2] == null||board[pos.getX()-2][pos.getY()+2].isWhite()!=iswhite)
-				list.add(new Position(pos.getX()-2,pos.getY()+2));
-		}catch(ArrayIndexOutOfBoundsException e){}
-		try{
-			if(board[pos.getX()-2][pos.getY()-2] == null||board[pos.getX()-2][pos.getY()-2].isWhite()!=iswhite)
-				list.add(new Position(pos.getX()-2,pos.getY()-2));
-		}catch(ArrayIndexOutOfBoundsException e){}
-		return null;//Do code
+		ArrayList<Position> moves = new ArrayList <Position>();
+		boolean thisIsWhite = getPiece(pos).isWhite();
+		int x = pos.getX();
+		int y = pos.getY();
+		int[] Xs = {1,2,2,1,-1,-2,-2,-1};
+		int[] Ys = {2,1,-1,-2,-2,-1,1,2};
+		for(int i = 0; i<8; i++){
+			int newx = x+Xs[i];
+			int newy = y+Ys[i];
+			if(newx>=0&&newx<8&&newy>=0&&newy<8&&(board[newx][newy]==null||board[newx][newy].isWhite()!=thisIsWhite))
+				moves.add(new Position(newx,newy));
+		}
+		return moves;
 	}
 	private ArrayList<Position> getMovesR(Position pos){
 		ArrayList<Position> moves = new ArrayList<Position>();
@@ -229,6 +223,9 @@ public class ChessBoard {
 				list.add(new Position(pos.getX()+1,pos.getY()+1));
 			if(checkenpassantl(pos) == true)
 				list.add(new Position(pos.getX()-1,pos.getY()+1));
+			if(board[pos.getX()][pos.getY()].getHasMoved()==false)
+				if(board[pos.getX()][pos.getY()+1] == null && board[pos.getX()][pos.getY()+2]==null)
+					list.add(new Position(pos.getX(),pos.getY()+2));
 		}
 		else if(isWhiteTurn == true){
 			if(board[pos.getX()][pos.getY()-1] == null )
@@ -241,6 +238,9 @@ public class ChessBoard {
 				list.add(new Position(pos.getX()+1,pos.getY()-1));
 			if(checkenpassantl(pos) == true)
 				list.add(new Position(pos.getX()-1,pos.getY()-1));
+			if(board[pos.getX()][pos.getY()].getHasMoved()==false)
+				if(board[pos.getX()][pos.getY()-1] == null && board[pos.getX()][pos.getY()-2]==null)
+					list.add(new Position(pos.getX(),pos.getY()-2));
 		}
 		
 			return list;//Do code
@@ -296,7 +296,8 @@ public class ChessBoard {
 		if(board[pos.getX()+1][pos.getY()].isWhite()!= iswhite && board[pos.getX()+1][pos.getY()]!= null && getPiece(pos) instanceof Pawn){
 			if(((Pawn)board[pos.getX()+1][pos.getY()]).gettwomove()== true && lastUpdate.get(1).equals(new Position(pos.getX()+1,pos.getY())))
 				return true;	
-		}
+			}
+		
 		return false;		
 	}
 	private boolean checkenpassantl(Position pos){
