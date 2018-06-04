@@ -24,7 +24,7 @@ public class ChessFrame extends GBFrame
 			
 		}
 		else if (item == intro)
-		{
+		{ 
 			Intro howToPlay = new Intro(this);
 			howToPlay.setVisible(true);
 		}

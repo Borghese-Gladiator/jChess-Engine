@@ -18,7 +18,7 @@ public class BoardPanel extends GBPanel
 	private static boolean onePlayer = true;
 	
     private JButton[][] chessBoardSquares;
-    private GBPanel chessBoard = addPanel(1, 1, 1, 1);
+    private JPanel chessBoard = new JPanel();
 	private ChessBoard board;
 	public BoardPanel() {
         board = new ChessBoard(whiteStart);
@@ -40,10 +40,10 @@ public class BoardPanel extends GBPanel
                 } else {
                     b.setBackground(Color.BLACK);
                 }
-                chessBoardSquares[j][i] = chessBoard.addButton("", 1, 1, 1, 1);
+                chessBoardSquares[j][i] = b;
+                chessBoard.add(chessBoardSquares[j][i]);
             }
         }
-            	
     }
 	private void updateSize() 
 	{

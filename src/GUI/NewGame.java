@@ -1,20 +1,14 @@
 package GUI;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 
 import BreezySwing.GBDialog;
 public class NewGame extends GBDialog
 {
-	private final ChessFrame parent;
 	
 	JRadioButton whiteStart = addRadioButton("White", 1, 1, 1, 1); 
 	JRadioButton blackStart = addRadioButton("Black", 2, 1, 1, 1);
@@ -28,8 +22,11 @@ public class NewGame extends GBDialog
     JButton ok = addButton("OK", 3, 1, 1, 1);
     JButton cancel = addButton("Cancel", 3, 2, 1, 1);
 	private boolean cancelled = true;
-	public NewGame(final ChessFrame owner) {
-        super(owner);
+	public NewGame(JFrame parent) {
+        super(parent);
+		setTitle("New Game");
+        setSize(300, 300);
+        setDlgCloseIndicator("Cancel");
         
         ButtonGroup start = new ButtonGroup();
 		start.add(blackStart);
@@ -40,9 +37,6 @@ public class NewGame extends GBDialog
 		whiteStart.setSelected(true);
 		singlePlayer.setSelected(true);
         
-        parent = owner;
-        setSize(300, 300);
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         getRootPane().setDefaultButton(ok);
     }
 	public void buttonClicked(JButton button)
@@ -51,6 +45,7 @@ public class NewGame extends GBDialog
 		{
 			BoardPanel.setOnePlayer(singlePlayer.isSelected());
 			BoardPanel.setWhiteStart(whiteStart.isSelected());
+			setDlgCloseIndicator("Ok");
 		}
 		dispose();
 	}
