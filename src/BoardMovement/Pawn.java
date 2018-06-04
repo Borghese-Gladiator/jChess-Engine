@@ -2,13 +2,12 @@ package BoardMovement;
 
 public class Pawn extends Piece{
 	final static char type = 'p';
+	boolean hasmoved;
 	boolean twomove;
-	int move;
-	
 	public Pawn(boolean isWhite){
 		super(isWhite);
+		hasmoved = false;
 		twomove = false;
-		move =0;
 	}
 	
 	public char getType(){
@@ -16,11 +15,17 @@ public class Pawn extends Piece{
 	}
 	
 	public boolean getHasMoved(){
-		return twomove;
+		return hasmoved;
 	}
 	
-	public void setHasMoved(boolean hasMoved){
-		this.twomove = hasMoved;
+	public void setHasMoved(){
+		hasmoved = true;
+	}
+	public void settwomove(){
+		twomove = true;
+	}
+	public boolean gettwomove(){
+		return twomove;
 	}
 	
 
