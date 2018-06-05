@@ -10,8 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import com.nullprogram.chess.Board;
-
 import BoardMovement.ChessBoard;
 import BoardMovement.Position;
 public class BoardPanel extends JPanel
@@ -70,7 +68,6 @@ public class BoardPanel extends JPanel
     }
 	public final void setBoard(final Board b) {
         board = b;
-        updateSize();
         repaint();
     }
 	public static void setWhiteStart(boolean whiteStart) {
@@ -82,5 +79,11 @@ public class BoardPanel extends JPanel
 	public void setBoard(ChessBoard aBoard)
 	{
 		board = aBoard;
+	}
+	public static boolean isWhiteStart() {
+		return whiteStart;
+	}
+	public static boolean isOnePlayer() {
+		return onePlayer;
 	}
 }

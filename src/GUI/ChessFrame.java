@@ -1,5 +1,4 @@
 package GUI; 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +7,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+
+import BoardMovement.ChessBoard;
 
 public class ChessFrame extends JFrame
 {
@@ -36,18 +37,13 @@ public class ChessFrame extends JFrame
 	public final void newGame() {
         NewGame ngFrame = new NewGame(this);
         ngFrame.setVisible(true);
-        Game newGame = ngFrame.getGame();
+        ChessBoard newGame = ngFrame.getGame();
         if (newGame == null) {
             return;
         }
         if (game != null) {
             game.end();
         }
-        game = newGame;
-        Board board = game.getBoard();
-        display.setBoard(board);
-        display.invalidate();
-        setSize(getPreferredSize());
 
         progress.setGame(game);
         game.addGameListener(this);

@@ -1,26 +1,29 @@
 package GUI;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-import BreezySwing.GBDialog;
-
-public class Intro extends GBDialog
+public class Intro extends JDialog implements ActionListener
 {
-	JTextArea instruct = addTextArea("", 1, 1, 2, 5);;
-	JButton exit = addButton("Exit", 3, 1, 1, 1);
+	private JTextArea instruct;
+	private JButton exit;
 	public Intro(JFrame parent)
 	{
 		super(parent);
 		setTitle("How to Play");
-		setDlgCloseIndicator("Cancel");
 		setSize(300, 300);
+		instruct = new JTextArea();
 		String instructText = "How to Play, blah blah blah";
 		instruct.setText(instructText);
 		instruct.setEditable(false);
 	}
-	public void buttonClicked(JButton button)
-	{
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
 		dispose();
+		
 	}
 }
