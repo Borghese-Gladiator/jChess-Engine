@@ -1,7 +1,9 @@
 package BoardMovement;
 import java.util.ArrayList;
 
-public class ChessBoard {
+import GUI.Board;
+
+public class ChessBoard extends Board{
 	private Piece[][] board;
 	private boolean isWhiteTurn;
 	private ArrayList<Position> lastUpdate;
