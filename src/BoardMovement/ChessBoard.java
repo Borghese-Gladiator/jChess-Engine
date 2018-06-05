@@ -69,7 +69,7 @@ public class ChessBoard extends Board{
 		if(/*condition for castling*/true)
 			castle(posFrom, posTo);
 		else if(/*condition for en passant*/true)
-			enPassant(posFrom posTo);
+			enPassant(posFrom, posTo);
 		else{
 			board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
 			board[posFrom.getX()][posFrom.getY()] = null;
@@ -114,30 +114,23 @@ public class ChessBoard extends Board{
 	}
 
 	public ArrayList<Position> getMovesK(Position pos){// capturing and check to see if the piece is and opposite color
-		ArrayList<Position> list = new ArrayList <Position>();
-		boolean iswhite = getPiece(pos).isWhite();
-		try{
-			if(board[pos.getX() +1][pos.getY()] == null || getPiece(new Position(pos.getX() +1,pos.getY())).isWhite() != iswhite)
-				list.add(new Position(pos.getX() +1, pos.getY()));
-		}catch(ArrayIndexOutOfBoundsException e){}
-		try{
-			if(board[pos.getX() -1][pos.getY()]== null|| getPiece(new Position(pos.getX() -1,pos.getY())).isWhite() != iswhite)
-				list.add(new Position(pos.getX() -1,pos.getY()));
-		}catch(ArrayIndexOutOfBoundsException e){}
-		try{
-			if(board[pos.getX()][pos.getY() +1] == null|| getPiece(new Position(pos.getX() ,pos.getY()+1)).isWhite() != iswhite)
-				list.add(new Position(pos.getX(), pos.getY() +1));
-		}catch(ArrayIndexOutOfBoundsException e){}
-		try{
-			if(board[pos.getX()][pos.getY()-1]== null|| getPiece(new Position(pos.getX(),pos.getY()-1)).isWhite() != iswhite)
-				list.add(new Position(pos.getX(),pos.getX()-1));
-		}catch(ArrayIndexOutOfBoundsException e){}
-
+		ArrayList<Position> moves = new ArrayList <Position>();
+		boolean thisIsWhite = getPiece(pos).isWhite();
+		int x = pos.getX();
+		int y = pos.getY();
+		int[] Xs = { 1, 1, 1, 0,-1,-1,-1, 0};
+		int[] Ys = {-1, 0, 1, 1, 1, 0,-1,-1};
+		for(int i = 0; i<8; i++){
+			int newx = x+Xs[i];
+			int newy = y+Ys[i];
+			if(newx>=0&&newx<8&&newy>=0&&newy<8&&(board[newx][newy]==null||board[newx][newy].isWhite()!=thisIsWhite))
+				moves.add(new Position(newx,newy));
+		}
 		if(checkCastleRight(pos) == true)
-			list.add(new Position(pos.getX()+2,pos.getY()));
+			moves.add(new Position(x+2,y));
 		if(checkCastleLeft(pos) ==true)
-			list.add(new Position(pos.getX()-2,pos.getY()));
-		return list;
+			moves.add(new Position(x-2,y));
+		return moves;
 	}
 
 	private ArrayList<Position> getMovesQ(Position pos){
