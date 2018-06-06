@@ -31,6 +31,18 @@ public class Move {
 		return origPos;
 	}
 	
+	public Position changedPos(int index){
+		return origPos.get(index);
+	}
+	
+	public Piece changedPiece(int index){
+		return origPiece.get(index);
+	}
+	
+	public int size(){
+		return origPos.size();
+	}
+	
 	public boolean isPawnDoubleForward(){
 		if(origPos.size()!=2)
 			return false;
