@@ -251,13 +251,15 @@ public class ChessBoard extends Board{
 			return false;
 		if(!(getPiece(new Position(7,from.getY()))instanceof Rook))
 			return false;
+		if(((Rook) (getPiece(new Position(7,from.getY())))).isWhite() != hold.isWhite())
+			return false;
 		if(((Rook) (getPiece(new Position(7,from.getY())))).getHasMoved() == true)
 				return false;
 		if(board[from.getX()+1][from.getY()]!=null)
 			return false;
-		if(board[from.getX()+2][from.getY()]==null)
-			return true;
-		return false;
+		if(board[from.getX()+2][from.getY()]!=null)
+			return false;
+		return true;
 		
 	}
 	
@@ -267,13 +269,17 @@ public class ChessBoard extends Board{
 			return false;
 		if(!(getPiece(new Position(0,from.getY()))instanceof Rook))
 			return false;
+		if(((Rook) (getPiece(new Position(0,from.getY())))).isWhite() != hold.isWhite())
+				return false;
 		if(((Rook) (getPiece(new Position(0,from.getY())))).getHasMoved() == true)
 				return false;
 		if(board[from.getX()-1][from.getY()]!=null)
 			return false;
-		if(board[from.getX()-2][from.getY()]==null)
-			return true;
-		return false;
+		if(board[from.getX()-2][from.getY()]!=null)
+			return false;
+		if(board[from.getX()-3][from.getY()]!=null)
+			return false;
+		return true;
 	}
 	
 	private void castle(Position from, Position to){
@@ -286,6 +292,7 @@ public class ChessBoard extends Board{
 			move(new Position(0, from.getY()), new Position(3,from.getY()));
 		}
 	}
+	
 	private boolean checkenpassantr(Position pos){
 		boolean iswhite = getPiece(pos).isWhite();
 		if(board[pos.getX()+1][pos.getY()].isWhite()!= iswhite && board[pos.getX()+1][pos.getY()]!= null && getPiece(pos) instanceof Pawn){
@@ -308,4 +315,27 @@ public class ChessBoard extends Board{
 		// remove the pawn;
 	}
 	
+	/**
+	 * Returns if the current moving side is in check
+	 * @return true if in check, false otherwise
+	 */
+	public boolean isChecked(){
+		return isChecked(isWhiteTurn);
+	}
+	
+	/**
+	 * Returns if the specified side is in check
+	 * @return true if in check, false otherwise
+	 */
+	public boolean isChecked(boolean isWhite){
+		
+	}
+	
+	private Position getKingPosition(boolean whiteSide){
+		for(int x = 0; x < 7; x++)
+			for(int y = 0; y < 7; y++)
+				if(board[x][y]!=null&&(board[x][y] instanceof King)&&board[x][y].isWhite()==whiteSide)
+					return new Position(x,y);
+		throw new IllegalArgumentException("No King of that color");
+	}
 }
