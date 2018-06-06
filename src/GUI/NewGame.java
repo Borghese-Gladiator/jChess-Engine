@@ -24,10 +24,10 @@ public class NewGame extends JDialog implements ActionListener
 	private final ChessFrame parent;
 
     /** White player selector. */
-    private final PlayerSelector whitePanel;
+    private final PlayerChooser whitePanel;
 
     /** Black player selector. */
-    private final PlayerSelector blackPanel;
+    private final PlayerChooser blackPanel;
 
     /** Vertical padding around this panel. */
     static final int V_PADDING = 15;
@@ -45,8 +45,8 @@ public class NewGame extends JDialog implements ActionListener
         setLocationRelativeTo(owner);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        whitePanel = new PlayerSelector("White:", true);
-        blackPanel = new PlayerSelector("Black:", false);
+        whitePanel = new PlayerChooser("White:", true);
+        blackPanel = new PlayerChooser("Black:", false);
         add(whitePanel, BorderLayout.LINE_START);
         add(blackPanel, BorderLayout.CENTER);
 
@@ -55,16 +55,16 @@ public class NewGame extends JDialog implements ActionListener
         ok.addActionListener(this);
         cancel.addActionListener(this);
         getRootPane().setDefaultButton(ok);
-        JPanel buttonRow = new JPanel();
-        buttonRow.setLayout(new BoxLayout(buttonRow, BoxLayout.X_AXIS));
-        buttonRow.setBorder(BorderFactory.createEmptyBorder(H_PADDING,
+        JPanel row = new JPanel();
+        row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+        row.setBorder(BorderFactory.createEmptyBorder(H_PADDING,
                             V_PADDING,
                             H_PADDING,
                             V_PADDING));
-        buttonRow.add(Box.createHorizontalGlue());
-        buttonRow.add(ok);
-        buttonRow.add(cancel);
-        add(buttonRow, BorderLayout.PAGE_END);
+        row.add(Box.createHorizontalGlue());
+        row.add(ok);
+        row.add(cancel);
+        add(row, BorderLayout.PAGE_END);
 
         pack();
     }
@@ -88,7 +88,7 @@ public class NewGame extends JDialog implements ActionListener
         if (cancelled) {
             return null;
         }
-        ChessBoard game = new ChessBoard(BoardPanel.isWhiteStart());
+        ChessBoard game = new ChessBoard();
         return game;
     }
 }

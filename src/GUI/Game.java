@@ -21,7 +21,7 @@ public class Game implements Runnable {
     private static final double MSEC_TO_SEC = 1000.0;
 
     /** Whose turn it is right now. */
-    private Piece.Side turn;
+    private 
     
     /** The board being used for this game. */
     private Board board;
@@ -42,50 +42,5 @@ public class Game implements Runnable {
     }
     @Override
     public final void run() {
-        while (!done) {
-            /* Determine who's turn it is. */
-            Player player;
-            if (turn == Piece.Side.WHITE) {
-                turn = Piece.Side.BLACK;
-                setStatus("Black's turn.");
-                player = black;
-            } else {
-                turn = Piece.Side.WHITE;
-                setStatus("White's turn.");
-                player = white;
-            }
-
-            /* Fetch the move from the player. */
-            Position move = player.takeTurn(getBoard(), turn);
-            board.move(move);
-            setProgress(0);
-            if (done) {
-                /* Game may have ended abruptly during the player's
-                 * potentially lengthy turn. */
-                return;
-            }
-
-            /* Check for the end of the game. */
-            Piece.Side opp = Piece.opposite(turn);
-            if (board.checkmate(opp)) {
-                done = true;
-                if (opp == Piece.Side.BLACK) {
-                    setStatus("White wins!");
-                    winner = Piece.Side.WHITE;
-                } else {
-                    setStatus("Black wins!");
-                    winner = Piece.Side.BLACK;
-                }
-                callGameListeners(GameEvent.GAME_END);
-                return;
-            } else if (board.stalemate(opp)) {
-                done = true;
-                setStatus("Stalemate!");
-                winner = null;
-                callGameListeners(GameEvent.GAME_END);
-                return;
-            }
-            callGameListeners(GameEvent.TURN);
-        }
     }
 }
