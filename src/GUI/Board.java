@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-import com.nullprogram.chess.pieces.ImageServer;
 
 import BoardMovement.*;
 public class Board 
@@ -65,11 +64,13 @@ public class Board
         private static Map<String, Image> cache =
             new HashMap<String, Image>();
     public final void clear() {
-    	board = new Piece[boardWidth][boardHeight];
+    	 board = new Piece[boardWidth][boardHeight];
     	 setWidth(WIDTH);
          setHeight(HEIGHT);
          clear();
          for (int x = 0; x < WIDTH; x++) {
+        	 getTile("Pawn");
+        	 getTile("Pawn");
              setPiece(x, WHITE_PAWN_ROW, new Pawn(Piece.Side.WHITE));
              setPiece(x, BLACK_PAWN_ROW, new Pawn(Piece.Side.BLACK));
          }
@@ -98,7 +99,7 @@ public class Board
 
         String file = name + ".png";
         try {
-            Image i = ImageIO.read(ImageServer.class.getResource(file));
+            Image i = ImageIO.read(Board.class.getResource(file));
             cache.put(name, i);
             return i;
         } catch (java.io.IOException e) {
