@@ -305,7 +305,18 @@ public class ChessBoard extends Board{
 	}
 	public void enpassant(Position from, Position to){
 		move(from,to);
-		// remove the pawn;
+		board[to.getX()][to.getY()-1] = null;
+	}
+	public ArrayList<Position> getallmoves(){
+		ArrayList<Position> list = new ArrayList <Position>();
+		for(int i = 0; i < board.length; i++){
+			for(int x = 0; x < board[i].length; x++){
+				if(board[i][x].isWhite()==false){
+					list = getMoves(new Position(i,x));
+				}
+			}
+		}
+		return list;
 	}
 	
 }
