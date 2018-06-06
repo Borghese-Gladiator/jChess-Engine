@@ -1,7 +1,13 @@
 package GUI; 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -12,20 +18,48 @@ import BoardMovement.ChessBoard;
 
 public class ChessFrame extends JFrame
 {
-	BoardPanel display = new BoardPanel();
-	private Game game;
-	
+	private static boolean whiteStart = true;
+	private static boolean onePlayer = true;
+	private final BoardPanel display;
+    private JButton[][] chessBoardSquares = new JButton[8][8];
+	private ChessBoard game;
 	public ChessFrame()
 	{
 		super();
 		
 		MenuHandler handler = new MenuHandler(this);
         handler.setUpMenu();
+        game = new ChessBoard(whiteStart);
+        setLayout(new BorderLayout());
+        display = new BoardPanel();
+        add(display, BorderLayout.CENTER);
+        pack();
+        
+        for (int i = 0; i < chessBoardSquares.length; i++) {
+            for (int j = 0; j < chessBoardSquares[i].length; j++) {
+                JButton b = new JButton();
+                // our chess pieces are 64x64 px in size, so we'll
+                // 'fill this in' using a transparent icon..
+                ImageIcon icon = new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
+                b.setIcon(icon);
+                if ((j % 2 == 1 && i % 2 == 1)
+                        //) {
+                        || (j % 2 == 0 && i % 2 == 0)) {
+                    b.setBackground(Color.WHITE);
+                    b.setForeground(Color.WHITE);
+                } else {
+                    b.setBackground(Color.BLACK);
+                    b.setForeground(Color.BLACK);
+                }
+                chessBoardSquares[i][j] = b;
+                display.add(chessBoardSquares[i][j]);
+            }
+        }
         
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Play Chess");
-		setSize(500, 500);
+		setSize(900, 900);
 		setVisible(true);
 	}
 	public final void intro()
@@ -37,18 +71,9 @@ public class ChessFrame extends JFrame
 	public final void newGame() {
         NewGame ngFrame = new NewGame(this);
         ngFrame.setVisible(true);
-        ChessBoard newGame = ngFrame.getGame();
-        if (newGame == null) {
+        if (ngFrame == null) {
             return;
         }
-        if (game != null) {
-            game.end();
-        }
-
-        progress.setGame(game);
-        game.addGameListener(this);
-        game.addGameListener(display);
-        game.begin();
     }
 	private class MenuHandler implements ActionListener {
 
@@ -104,7 +129,6 @@ public class ChessFrame extends JFrame
             exitGame.setMnemonic('x');
             game.add(exitGame);
             menuBar.add(game);
-
             setJMenuBar(menuBar);
         }
     }
