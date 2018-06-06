@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-public class PlayerSelector extends JPanel
+public class PlayerChooser extends JPanel
 {
 	/** Selection for a human player. */
     private final JRadioButton human = new JRadioButton("Human");;
@@ -24,7 +24,7 @@ public class PlayerSelector extends JPanel
     /** Horizontal padding around this panel. */
     static final int H_PADDING = 10;
     
-    public PlayerSelector(final String title, final boolean humanSet) {
+    public PlayerChooser(final String title, final boolean humanSet) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel label = new JLabel(title);
         add(label);
