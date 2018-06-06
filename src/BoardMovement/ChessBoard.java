@@ -316,7 +316,7 @@ public class ChessBoard extends Board{
 	}
 	
 	public ArrayList<Position> getAllMoves(){
-		return getallmoves(isWhiteTurn);
+		return getAllMoves(isWhiteTurn);
 	}
 	public ArrayList<Position> getAllMoves(boolean whiteSide){
 		ArrayList<Position> list = new ArrayList <Position>();
