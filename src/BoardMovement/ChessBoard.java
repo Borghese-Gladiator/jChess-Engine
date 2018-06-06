@@ -314,11 +314,15 @@ public class ChessBoard extends Board{
 		move(from,to);
 		board[to.getX()][to.getY()-1] = null;
 	}
-	public ArrayList<Position> getallmoves(){
+	
+	public ArrayList<Position> getAllMoves(){
+		return getallmoves(isWhiteTurn);
+	}
+	public ArrayList<Position> getAllMoves(boolean whiteSide){
 		ArrayList<Position> list = new ArrayList <Position>();
 		for(int i = 0; i < board.length; i++){
 			for(int x = 0; x < board[i].length; x++){
-				if(board[i][x].isWhite()==false){
+				if(board[i][x].isWhite()==whiteSide){
 					list = getMoves(new Position(i,x));
 				}
 			}
