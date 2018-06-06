@@ -6,10 +6,11 @@ import GUI.Board;
 public class ChessBoard extends Board{
 	private Piece[][] board;
 	private boolean isWhiteTurn;
-	private ArrayList<Position> lastUpdate;
+	private ArrayList<Move> allMoves;
 	
 	public ChessBoard(){
 		board = new Piece[8][8];
+		allMoves = new ArrayList<Move>();
 	}
 	
 	public ChessBoard(boolean whiteStart){
@@ -59,6 +60,14 @@ public class ChessBoard extends Board{
 	}
 	
 	/**
+	 * Returns the positions modified by the last move
+	 * @return an ArrayList of the positions
+	 */
+	public ArrayList<Position> updatedPosition(){
+		return allMoves.get(allMoves.size()-1).getPositions();
+	}
+	
+	/**
 	 * Moves a piece
 	 * @param posFrom The initial position of the piece
 	 * @param posTo The position of the piece after the move
@@ -71,9 +80,11 @@ public class ChessBoard extends Board{
 		else if(/*condition for en passant*/true)
 			enPassant(posFrom, posTo);
 		else{
+			allMoves.add(new Move(posFrom,posTo,getPiece(posFrom)));
 			board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
 			board[posFrom.getX()][posFrom.getY()] = null;
 		}
+		isWhiteTurn = !isWhiteTurn;
 	}
 	
 	/**
