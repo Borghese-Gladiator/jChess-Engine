@@ -79,6 +79,10 @@ public class ChessBoard extends Board{
 	public void move(Position posFrom, Position posTo){
 		if(!isValidMove(posFrom, posTo))
 			throw new IllegalArgumentException("Invalid move");
+		moveWithoutCheck(posFrom, posTo);
+	}
+	
+	private void moveWithoutCheck(Position posFrom, Position posTo){
 		if(/*condition for castling*/false)
 			castle(posFrom, posTo);
 		else if(/*condition for en passant*/false)
@@ -124,20 +128,26 @@ public class ChessBoard extends Board{
 	public ArrayList<Position> getMoves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at Position " + pos);
+		
+		ArrayList<Position> moves = new ArrayList<Position>();
 		switch(board[pos.getX()][pos.getY()].getType()){
-		case 'k':
-			return getMovesK(pos);
-		case 'q':
-			return getMovesQ(pos);
-		case 'b':
-			return getMovesB(pos);
-		case 'n':
-			return getMovesN(pos);
-		case 'r':
-			return getMovesR(pos);
-		default://case 'p':
-			return getMovesP(pos);
+			case 'k':moves = getMovesK(pos);
+			case 'q':moves = getMovesQ(pos);
+			case 'b':moves = getMovesB(pos);
+			case 'n':moves = getMovesN(pos);
+			case 'r':moves = getMovesR(pos);
+			default :moves = getMovesP(pos);
 		}
+		
+		for(int i = 0; i < moves.size(); i++){
+			moveWithoutCheck(pos,moves.get(i));
+			if(isChecked(!isWhiteTurn)){
+				moves.remove(i);
+				i--;
+			}
+			undoMove();
+		}
+		return moves;
 	}
 
 	public ArrayList<Position> getMovesK(Position pos){// capturing and check to see if the piece is and opposite color
@@ -246,15 +256,11 @@ public class ChessBoard extends Board{
 			if(!getPiece(pos).getHasMoved()&&board[x][y+forward+forward]==null)
 				moves.add(new Position(x,y+forward+forward));
 		}
-		if(checkEnPassantR(pos)||(board[x+1][y+forward]!=null&&board[x+1][y+forward].isWhite()!=thisIsWhite))
+		if(checkEnPassantR(pos)||(x!=7&&(board[x+1][y+forward]!=null&&board[x+1][y+forward].isWhite()!=thisIsWhite)))
 			moves.add(new Position(x+1,y+forward));
-		if(checkEnPassantL(pos)||(board[x-1][y+forward]!=null&&board[x-1][y+forward].isWhite()!=thisIsWhite))
+		if(checkEnPassantL(pos)||(x!=0&&(board[x-1][y+forward]!=null&&board[x-1][y+forward].isWhite()!=thisIsWhite)))
 			moves.add(new Position(x-1,y+forward));
 		return moves;
-	}
-	
-	private boolean isBeingAttacked(boolean byWhite, Position pos){
-		
 	}
 	
 	private boolean checkCastleRight(Position from){
@@ -358,13 +364,38 @@ public class ChessBoard extends Board{
 	 * Returns if the specified side is in check
 	 * @return true if in check, false otherwise
 	 */
-	public boolean isChecked(boolean isWhite){
-		
+	public boolean isChecked(boolean whiteSide){
+		return isUnderAttack(getKingPosition(whiteSide));
+	}
+	
+	public boolean isUnderAttack(Position pos){
+		if(getPiece(pos)==null)
+				throw new IllegalArgumentException("No Piece there");
+		boolean thisIsWhite = getPiece(pos).isWhite();
+		ArrayList<Position> enemyMoves = getAllMoves(!thisIsWhite);
+		for(Position move: enemyMoves)
+			if(move.equals(pos))
+				return true;
+		return false;
+	}
+	
+	/**
+	 * Returns a list of the positions of the pieces of one side
+	 * @param whiteSide which side's pieces to get
+	 * @return an ArrayList of the positions of the pieces
+	 */
+	public ArrayList<Position> piecePositions(boolean whiteSide){
+		ArrayList<Position> piecePos = new ArrayList<Position>();
+		for(int x = 0; x < 8; x++)
+			for(int y = 0; y < 8; y++)
+				if(board[x][y]!=null&&board[x][y].isWhite()==whiteSide)
+					piecePos.add(new Position(x,y));
+		return piecePos;
 	}
 	
 	private Position getKingPosition(boolean whiteSide){
-		for(int x = 0; x < 7; x++)
-			for(int y = 0; y < 7; y++)
+		for(int x = 0; x < 8; x++)
+			for(int y = 0; y < 8; y++)
 				if(board[x][y]!=null&&(board[x][y] instanceof King)&&board[x][y].isWhite()==whiteSide)
 					return new Position(x,y);
 		throw new IllegalArgumentException("No King of that color");
