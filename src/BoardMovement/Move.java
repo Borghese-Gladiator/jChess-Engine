@@ -16,6 +16,7 @@ public class Move {
 	}
 	
 	public Move(Position from, Position to, Piece piece){
+		this();
 		origPos.add(from);
 		origPos.add(to);
 		origPiece.add(piece);

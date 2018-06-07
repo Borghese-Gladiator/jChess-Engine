@@ -38,6 +38,10 @@ public class ChessBoard extends Board{
 		isWhiteTurn = whiteStart;
 	}
 	
+	public boolean getMovingSide(){
+		return isWhiteTurn;
+	}
+	
 	/**
 	 * Returns the board
 	 * @return the 2D array with the pieces. null where there isn't a piece.
@@ -75,14 +79,26 @@ public class ChessBoard extends Board{
 	public void move(Position posFrom, Position posTo){
 		if(!isValidMove(posFrom, posTo))
 			throw new IllegalArgumentException("Invalid move");
-		if(/*condition for castling*/true)
+		if(/*condition for castling*/false)
 			castle(posFrom, posTo);
-		else if(/*condition for en passant*/true)
+		else if(/*condition for en passant*/false)
 			enPassant(posFrom, posTo);
 		else{
 			allMoves.add(new Move(posFrom,posTo,getPiece(posFrom)));
 			board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
+			board[posTo.getX()][posTo.getY()].setHasMoved(true);
 			board[posFrom.getX()][posFrom.getY()] = null;
+		}
+		isWhiteTurn = !isWhiteTurn;
+	}
+	
+	/**
+	 * Undoes last move
+	 */
+	public void undoMove(){
+		Move lastMove = allMoves.remove(allMoves.size()-1);
+		for(int i = 0; i < lastMove.size(); i++){
+			board[lastMove.changedPos(i).getX()][lastMove.changedPos(i).getY()] = lastMove.changedPiece(i);
 		}
 		isWhiteTurn = !isWhiteTurn;
 	}
@@ -216,40 +232,25 @@ public class ChessBoard extends Board{
 		return moves;
 	}
 	private ArrayList<Position> getMovesP(Position pos){// capturing and check to see if the piece is and opposite color
-		ArrayList<Position> list = new ArrayList <Position>();
-		boolean iswhite = getPiece(pos).isWhite();
-		if(isWhiteTurn != true){
-			if(board[pos.getX()][pos.getY()+1] == null )
-				list.add(new Position(pos.getX(),pos.getY()+1));
-			if(board[pos.getX()+1][pos.getY()+1].isWhite()!= iswhite)
-				list.add(new Position(pos.getX()+1,pos.getY()+1));
-			if(board[pos.getX()-1][pos.getY()+1].isWhite()!=iswhite)
-				list.add(new Position(pos.getX()-1,pos.getY()-1));
-			if(checkenpassantr(pos) == true)
-				list.add(new Position(pos.getX()+1,pos.getY()+1));
-			if(checkenpassantl(pos) == true)
-				list.add(new Position(pos.getX()-1,pos.getY()+1));
-			if(board[pos.getX()][pos.getY()].getHasMoved()==false)
-				if(board[pos.getX()][pos.getY()+1] == null && board[pos.getX()][pos.getY()+2]==null)
-					list.add(new Position(pos.getX(),pos.getY()+2));
+		ArrayList<Position> moves = new ArrayList <Position>();
+		boolean thisIsWhite = getPiece(pos).isWhite();
+		int x = pos.getX();
+		int y = pos.getY();
+		int forward;
+		if(thisIsWhite)
+			forward = -1;
+		else
+			forward = 1;
+		if(board[x][y+forward]==null){
+			moves.add(new Position(x,y+forward));
+			if(!getPiece(pos).getHasMoved()&&board[x][y+forward+forward]==null)
+				moves.add(new Position(x,y+forward+forward));
 		}
-		else if(isWhiteTurn == true){
-			if(board[pos.getX()][pos.getY()-1] == null )
-				list.add(new Position(pos.getX(),pos.getY()+1));
-			if(board[pos.getX()-1][pos.getY()-1].isWhite()!= iswhite)
-				list.add(new Position(pos.getX()+1,pos.getY()+1));
-			if(board[pos.getX()+1][pos.getY()-1].isWhite()!=iswhite)
-				list.add(new Position(pos.getX()-1,pos.getY()-1));
-			if(checkenpassantr(pos) == true)
-				list.add(new Position(pos.getX()+1,pos.getY()-1));
-			if(checkenpassantl(pos) == true)
-				list.add(new Position(pos.getX()-1,pos.getY()-1));
-			if(board[pos.getX()][pos.getY()].getHasMoved()==false)
-				if(board[pos.getX()][pos.getY()-1] == null && board[pos.getX()][pos.getY()-2]==null)
-					list.add(new Position(pos.getX(),pos.getY()-2));
-		}
-		
-			return list;//Do code
+		if(checkEnPassantR(pos)||(board[x+1][y+forward]!=null&&board[x+1][y+forward].isWhite()!=thisIsWhite))
+			moves.add(new Position(x+1,y+forward));
+		if(checkEnPassantL(pos)||(board[x-1][y+forward]!=null&&board[x-1][y+forward].isWhite()!=thisIsWhite))
+			moves.add(new Position(x-1,y+forward));
+		return moves;
 	}
 	
 	private boolean isBeingAttacked(boolean byWhite, Position pos){
@@ -304,19 +305,23 @@ public class ChessBoard extends Board{
 		}
 	}
 	
-	private boolean checkenpassantr(Position pos){
+	public void enPassant(Position from, Position to){
+		
+	}
+	
+	private boolean checkEnPassantR(Position pos){
 		boolean iswhite = getPiece(pos).isWhite();
 		if(board[pos.getX()+1][pos.getY()].isWhite()!= iswhite && board[pos.getX()+1][pos.getY()]!= null && getPiece(pos) instanceof Pawn){
-			if(((Pawn)board[pos.getX()+1][pos.getY()]).gettwomove()== true && lastUpdate.get(1).equals(new Position(pos.getX()+1,pos.getY())))
+			if(((Pawn)board[pos.getX()+1][pos.getY()]).gettwomove()== true/* && lastUpdate.get(1).equals(new Position(pos.getX()+1,pos.getY()))*/)
 				return true;	
 			}
 		
 		return false;		
 	}
-	private boolean checkenpassantl(Position pos){
+	private boolean checkEnPassantL(Position pos){
 		boolean iswhite = getPiece(pos).isWhite();
 		if(board[pos.getX()-1][pos.getY()].isWhite()!= iswhite && board[pos.getX()-1][pos.getY()]!= null && getPiece(pos) instanceof Pawn){
-			if(((Pawn)board[pos.getX()-1][pos.getY()]).gettwomove()== true && lastUpdate.get(1).equals(new Position(pos.getX()-1,pos.getY())))
+			if(((Pawn)board[pos.getX()-1][pos.getY()]).gettwomove()== true/* && lastUpdate.get(1).equals(new Position(pos.getX()-1,pos.getY()))*/)
 				return true;	
 		}
 		return false;		
