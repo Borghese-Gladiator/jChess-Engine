@@ -5,6 +5,8 @@ public class Pawn extends Piece{
 	boolean hasmoved;
 	boolean twomove;
 	public final int val = 10;
+	private int defend = 0;
+	private int attack = 0;
 	public Pawn(boolean isWhite){
 		super(isWhite);
 		hasmoved = false;
@@ -33,6 +35,18 @@ public class Pawn extends Piece{
 	}
 	public int getval(){
 		return val;
+	}
+	public int getdefend(){
+		return defend;
+	}
+	public int getattack(){
+		return attack;
+	}
+	public void setattack(){
+		attack++;
+	}
+	public void setdefend(){
+		defend++;
 	}
 	
 
