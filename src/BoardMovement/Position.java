@@ -20,4 +20,8 @@ public class Position {
 	public String toString(){
 		return "(" + x + ", " + y + ")";
 	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
 }
