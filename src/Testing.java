@@ -5,11 +5,13 @@ public class Testing {
 	
 	public static void main(String[] args) {
 		ChessBoard board = new ChessBoard(true);
-		System.out.println(displayBoard(board));
+		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
+		board.addPiece(new Position(5,5),new Knight(false));
+		System.out.println(board.getMoves(new Position(4,6)));
 		board.move(new Position(4,6), new Position(4,4));
-		System.out.println(displayBoard(board));
+		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
 		board.undoMove();
-		System.out.println(displayBoard(board));
+		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
 	}
 	
 	public static String displayBoard(ChessBoard brd){
