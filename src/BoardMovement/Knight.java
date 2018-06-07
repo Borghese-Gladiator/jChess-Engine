@@ -4,6 +4,8 @@ public class Knight extends Piece{
 	final static char type = 'n';
 	boolean hasMoved;
 	private final int val = 30;
+	private int defend = 0;
+	private int attack = 0;
 	public Knight(boolean isWhite){
 		super(isWhite);
 		hasMoved = false;
@@ -22,6 +24,18 @@ public class Knight extends Piece{
 	}
 	public int getval(){
 		return val;
+	}
+	public int getdefend(){
+		return defend;
+	}
+	public int getattack(){
+		return attack;
+	}
+	public void setattack(){
+		attack++;
+	}
+	public void setdefend(){
+		defend++;
 	}
 
 }

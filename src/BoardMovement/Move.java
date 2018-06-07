@@ -16,6 +16,7 @@ public class Move {
 	}
 	
 	public Move(Position from, Position to, Piece piece){
+		this();
 		origPos.add(from);
 		origPos.add(to);
 		origPiece.add(piece);
@@ -29,6 +30,18 @@ public class Move {
 	
 	public ArrayList<Position> getPositions(){
 		return origPos;
+	}
+	
+	public Position changedPos(int index){
+		return origPos.get(index);
+	}
+	
+	public Piece changedPiece(int index){
+		return origPiece.get(index);
+	}
+	
+	public int size(){
+		return origPos.size();
 	}
 	
 	public boolean isPawnDoubleForward(){
