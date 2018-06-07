@@ -4,11 +4,33 @@ public class Testing {
 
 	
 	public static void main(String[] args) {
-		ChessBoard board = new ChessBoard();
-		board.addPiece(new Position(4,0), new King(true));
-		board.addPiece(new Position(0,0), new Rook(true));
-		board.addPiece(new Position(7,0), new Rook(false));
-		System.out.print(board.getMoves(new Position(4,0)));
+		ChessBoard board = new ChessBoard(true);
+		System.out.println(displayBoard(board));
+		board.move(new Position(4,6), new Position(4,4));
+		System.out.println(displayBoard(board));
+		board.undoMove();
+		System.out.println(displayBoard(board));
+	}
+	
+	public static String displayBoard(ChessBoard brd){
+		Piece[][] board = brd.getBoard();
+		String str = "yx 0  1  2  3  4  5  6  7  \n";
+		for(int y = 0; y<8; y++){
+			str += y + "  ";
+			for(int x = 0; x<8; x++){
+				if(board[x][y]==null)
+					str += "[] ";
+				else{
+					if(board[x][y].isWhite())
+						str += "w";
+					else
+						str += "b";
+					str += Character.toUpperCase(board[x][y].getType()) + " ";
+				}
+			}
+			str += "\n";
+		}
+		return str;
 	}
 
 }
