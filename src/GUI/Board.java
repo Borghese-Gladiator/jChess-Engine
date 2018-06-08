@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import BoardMovement.Position;
 import BoardMovement.Images.ImageDatabase;
@@ -10,11 +11,9 @@ public class Board
     private Image[][] board;
     /** The size of this game board. */
     private int boardWidth, boardHeight;
-    
-   
     public Board()
     {
-    	board = new Image[8][8];
+    	board = new BufferedImage[8][8];
     	for (int i = 0; i < board.length; i++)
     	{
     		for (int j = 0; j < board[i].length; j++)
@@ -23,8 +22,8 @@ public class Board
     		}
     	}
     	//Initialize pawns
-		final int whitePawnRow = 1;
-    	final int blackPawnRow = 6;
+		final int whitePawnRow = 6;
+    	final int blackPawnRow = 1;
     	for (int x = 0; x < 8; x++) 
     	{
     		Position pos = new Position(whitePawnRow, x);

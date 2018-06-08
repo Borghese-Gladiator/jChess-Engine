@@ -1,6 +1,7 @@
 package BoardMovement.Images;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -13,17 +14,17 @@ public class ImageDatabase
 	            Logger.getLogger("com.nullprogram.chess.pieces.ImageServer");
 
     /** The image cache. */
-    private static Map<String, Image> cache =
-        new HashMap<String, Image>();
-	public static Image getTile(final String name) {
-        Image cached = cache.get(name);
+    private static Map<String, BufferedImage> cache =
+        new HashMap<String, BufferedImage>();
+	public static BufferedImage getTile(final String name) {
+        BufferedImage cached = cache.get(name);
         if (cached != null) {
             return cached;
         }
 
         String file = name + ".png";
         try {
-            Image i = ImageIO.read(ImageDatabase.class.getResource(file));
+            BufferedImage i = ImageIO.read(ImageDatabase.class.getResource(file));
             cache.put(name, i);
             return i;
         } catch (java.io.IOException e) {

@@ -48,6 +48,4 @@ public class Pawn extends Piece{
 	public void setdefend(){
 		defend++;
 	}
-	
-
 }
