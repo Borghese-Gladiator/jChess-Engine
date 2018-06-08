@@ -4,14 +4,24 @@ public class Testing {
 
 	
 	public static void main(String[] args) {
+		ChessBoard board = new ChessBoard();
+		board.addPiece(new Position(0,0),new King(true));
+		board.addPiece(new Position(0,1), new Queen(true));
+		board.addPiece(new Position(0,7), new Rook(false));
+		System.out.println(displayBoard(board));
+		System.out.println(board.getMoves(new Position(0,1)));
+;		/*
 		ChessBoard board = new ChessBoard(true);
 		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
 		board.addPiece(new Position(5,5),new Knight(false));
+		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
 		System.out.println(board.getMoves(new Position(4,6)));
 		board.move(new Position(4,6), new Position(4,4));
+		System.out.println(board.lastMove());
 		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
 		board.undoMove();
 		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
+		*/
 	}
 	
 	public static String displayBoard(ChessBoard brd){
@@ -23,11 +33,7 @@ public class Testing {
 				if(board[x][y]==null)
 					str += "[] ";
 				else{
-					if(board[x][y].isWhite())
-						str += "w";
-					else
-						str += "b";
-					str += Character.toUpperCase(board[x][y].getType()) + " ";
+					str += board[x][y] + " ";
 				}
 			}
 			str += "\n";
