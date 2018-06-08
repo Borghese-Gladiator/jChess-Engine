@@ -50,6 +50,16 @@ public class ChessBoard extends Board{
 		return board;
 	}
 	
+	public Move lastMove(){
+		if(allMoves.size()==0)
+			throw new IllegalArgumentException("No moves have been made");
+		return allMoves.get(allMoves.size()-1);
+	}
+	
+	private int movesMade(){
+		return allMoves.size();
+	}
+	
 	public void addPiece(Position pos, Piece piece){
 		board[pos.getX()][pos.getY()] = piece;
 	}
@@ -68,7 +78,9 @@ public class ChessBoard extends Board{
 	 * @return an ArrayList of the positions
 	 */
 	public ArrayList<Position> updatedPosition(){
-		return allMoves.get(allMoves.size()-1).getPositions();
+		if(movesMade()==0)
+			throw new IllegalArgumentException("No moves have been made yet.");
+		return lastMove().getPositions();
 	}
 	
 	/**
@@ -100,7 +112,7 @@ public class ChessBoard extends Board{
 	 * Undoes last move
 	 */
 	public void undoMove(){
-		Move lastMove = allMoves.remove(allMoves.size()-1);
+		Move lastMove = lastMove();
 		for(int i = 0; i < lastMove.size(); i++){
 			board[lastMove.changedPos(i).getX()][lastMove.changedPos(i).getY()] = lastMove.changedPiece(i);
 		}
@@ -125,11 +137,11 @@ public class ChessBoard extends Board{
 	 * @param pos The position of the piece
 	 * @return an ArrayList with all valid positions the piece can move to
 	 */
-	public ArrayList<Position> getMoves(Position pos){
+	public ArrayList<Position> getMovesWithoutCheck(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at Position " + pos);
 		
-		ArrayList<Position> moves = new ArrayList<Position>();
+		ArrayList<Position> moves;
 		switch(board[pos.getX()][pos.getY()].getType()){
 			case 'k':moves = getMovesK(pos);
 			case 'q':moves = getMovesQ(pos);
@@ -138,7 +150,11 @@ public class ChessBoard extends Board{
 			case 'r':moves = getMovesR(pos);
 			default :moves = getMovesP(pos);
 		}
-		
+		return moves;
+	}
+	
+	public ArrayList<Position> getMoves(Position pos){
+		ArrayList<Position> moves = getMovesWithoutCheck(pos);
 		for(int i = 0; i < moves.size(); i++){
 			moveWithoutCheck(pos,moves.get(i));
 			if(isChecked(!isWhiteTurn)){
@@ -256,9 +272,9 @@ public class ChessBoard extends Board{
 			if(!getPiece(pos).getHasMoved()&&board[x][y+forward+forward]==null)
 				moves.add(new Position(x,y+forward+forward));
 		}
-		if(checkEnPassantR(pos)||(x!=7&&(board[x+1][y+forward]!=null&&board[x+1][y+forward].isWhite()!=thisIsWhite)))
+		if(checkEnPassant(pos,true)||(x!=7&&(board[x+1][y+forward]!=null&&board[x+1][y+forward].isWhite()!=thisIsWhite)))
 			moves.add(new Position(x+1,y+forward));
-		if(checkEnPassantL(pos)||(x!=0&&(board[x-1][y+forward]!=null&&board[x-1][y+forward].isWhite()!=thisIsWhite)))
+		if(checkEnPassant(pos,false)||(x!=0&&(board[x-1][y+forward]!=null&&board[x-1][y+forward].isWhite()!=thisIsWhite)))
 			moves.add(new Position(x-1,y+forward));
 		return moves;
 	}
@@ -324,13 +340,27 @@ public class ChessBoard extends Board{
 		
 		return false;		
 	}
-	private boolean checkEnPassantL(Position pos){
-		boolean iswhite = getPiece(pos).isWhite();
-		if(board[pos.getX()-1][pos.getY()].isWhite()!= iswhite && board[pos.getX()-1][pos.getY()]!= null && getPiece(pos) instanceof Pawn){
-			if(((Pawn)board[pos.getX()-1][pos.getY()]).gettwomove()== true/* && lastUpdate.get(1).equals(new Position(pos.getX()-1,pos.getY()))*/)
-				return true;	
-		}
-		return false;		
+	private boolean checkEnPassant(Position pos, boolean rightSide){
+		if(movesMade()==0)
+			return false;
+		int x = pos.getX();
+		int y = pos.getY();
+		if(x==0)
+			return false;
+		int side;
+		if(rightSide)
+			side = 1;
+		else
+			side = -1;
+		boolean thisIsWhite = getPiece(pos).isWhite();
+		int forward;
+		if(thisIsWhite)
+			forward = -2;
+		else
+			forward = 2;
+		if((lastMove().changedPos(1).equals(new Position(x+side,y)))&&((lastMove().changedPos(0).equals(new Position(x+side,y+forward)))))
+			return true;
+		return false;
 	}
 	public void enpassant(Position from, Position to){
 		move(from,to);
@@ -340,18 +370,28 @@ public class ChessBoard extends Board{
 	public ArrayList<Position> getAllMoves(){
 		return getAllMoves(isWhiteTurn);
 	}
-	public ArrayList<Position> getAllMoves(boolean whiteSide){
+	private ArrayList<Position> getAllMoves(boolean whiteSide){
 		ArrayList<Position> list = new ArrayList <Position>();
 		for(int i = 0; i < board.length; i++){
 			for(int x = 0; x < board[i].length; x++){
-				if(board[i][x].isWhite()==whiteSide){
+				if(board[i][x]!=null&&board[i][x].isWhite()==whiteSide){
 					list.addAll(getMoves(new Position(i,x)));
 				}
 			}
 		}
 		return list;
 	}
-	
+	private ArrayList<Position> getAllMovesWithoutCheck(boolean whiteSide){
+		ArrayList<Position> list = new ArrayList <Position>();
+		for(int i = 0; i < board.length; i++){
+			for(int x = 0; x < board[i].length; x++){
+				if(board[i][x]!=null&&board[i][x].isWhite()==whiteSide){
+					list.addAll(getMovesWithoutCheck(new Position(i,x)));
+				}
+			}
+		}
+		return list;
+	}
 	/**
 	 * Returns if the current moving side is in check
 	 * @return true if in check, false otherwise
@@ -372,7 +412,7 @@ public class ChessBoard extends Board{
 		if(getPiece(pos)==null)
 				throw new IllegalArgumentException("No Piece there");
 		boolean thisIsWhite = getPiece(pos).isWhite();
-		ArrayList<Position> enemyMoves = getAllMoves(!thisIsWhite);
+		ArrayList<Position> enemyMoves = getAllMovesWithoutCheck(!thisIsWhite);
 		for(Position move: enemyMoves)
 			if(move.equals(pos))
 				return true;

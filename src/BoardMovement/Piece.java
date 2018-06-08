@@ -21,6 +21,15 @@ public abstract class Piece {
 	}
 	
 	public abstract char getType();
+	
+	public String toString(){
+		String str;
+		if(isWhite)
+			str = "w";
+		else
+			str = "b";
+		return str + Character.toUpperCase(getType());
+	}
 
 	public abstract int getval();
 	public abstract int getattack();

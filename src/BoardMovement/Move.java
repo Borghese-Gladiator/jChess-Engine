@@ -53,4 +53,11 @@ public class Move {
 			return true;
 		return false;
 	}
+	
+	public String toString(){
+		String str = "";
+		for(int i = 0; i < size(); i++)
+			str += origPos.get(i) + " was " + origPiece.get(i) + " ";
+		return str;
+	}
 }
