@@ -24,4 +24,13 @@ public class Rook extends Piece {
 	public int getval(){
 		return val;
 	}
+	public int actionvale(){
+		return 2;
+	}
+	public void setattack(int i){
+		attack+=i;
+	}
+	public void setdefend(int i){
+		defend+=i;
+	}
 }

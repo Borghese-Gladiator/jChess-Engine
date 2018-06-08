@@ -27,5 +27,6 @@ public abstract class Piece {
 	public abstract int getdefend();
 	public abstract void setattack();
 	public abstract void setdefend();
+	public abstract int actionvalue();
 
 }
