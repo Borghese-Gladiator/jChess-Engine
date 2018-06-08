@@ -10,7 +10,30 @@ public class Queen extends Piece {
 	public char getType(){
 		return type;
 	}
+	
+	public boolean getHasMoved(){
+		return hasMoved;
+	}
+	
+	public void setHasMoved(boolean hasMoved){
+		this.hasMoved = hasMoved;
+	}
 	public int getval(){
 		return val;
+	}
+	public int getdefend(){
+		return defend;
+	}
+	public int getattack(){
+		return attack;
+	}
+	public void setattack(int i){
+		attack+=i;
+	}
+	public void setdefend(int i){
+		defend+=i;
+	}
+	public int actionvalue(){
+		return 1;
 	}
 }

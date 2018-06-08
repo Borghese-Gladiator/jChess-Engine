@@ -31,11 +31,14 @@ public class Knight extends Piece{
 	public int getattack(){
 		return attack;
 	}
-	public void setattack(){
-		attack++;
+	public void setattack(int i){
+		attack+=i;
 	}
-	public void setdefend(){
-		defend++;
+	public void setdefend(int i){
+		defend+=i;
+	}
+	public int actionvalue(){
+		return 3;
 	}
 
 }

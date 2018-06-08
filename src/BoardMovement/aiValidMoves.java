@@ -16,9 +16,9 @@ public class aiValidMoves {
 			WhiteAttack[current.getX()][current.getY()] =true;
 		for(int i = 0; i<list.size(); i++){
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()== white)
-				board[current.getX()][current.getY()].setdefend();
+				board[list.get(i).getX()][list.get(i).getY()].setdefend(board[current.getX()][current.getY()].actionvalue());
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()!= white)
-				board[current.getX()][current.getY()].setattack();
+				board[list.get(i).getX()][list.get(i).getY()].setattack(board[current.getX()][current.getY()].actionvalue());
 			
 			
 		}
