@@ -2,13 +2,9 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
-import com.sun.glass.events.MouseEvent;
 
 import BoardMovement.Piece;
 import BoardMovement.Position;
