@@ -5,7 +5,6 @@ public class Rook extends Piece {
 	boolean hasMoved;
 	private final int val = 50;
 	
-	
 	public Rook(boolean isWhite){
 		super(isWhite);
 		hasMoved = false;
@@ -33,23 +32,5 @@ public class Rook extends Piece {
 	}
 	public void setdefend(int i){
 		defend+=i;
-	}
-
-	@Override
-	public int getattack() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getdefend() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int actionvalue() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

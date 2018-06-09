@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import BoardMovement.Position;
+import BoardMovement.Images.ImageDatabase;
 public class Board 
 {
     /** The internal board array. */

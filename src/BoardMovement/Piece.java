@@ -2,9 +2,7 @@ package BoardMovement;
 
 public abstract class Piece {
 	private boolean isWhite;
-	protected boolean hasMoved;
-	protected int attack;
-	protected int defend;
+	private boolean hasMoved;
 	public Piece(boolean isWhite){
 		this.isWhite = isWhite;
 		hasMoved = false;

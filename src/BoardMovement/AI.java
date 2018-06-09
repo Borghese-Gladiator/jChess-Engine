@@ -1,6 +1,6 @@
 package BoardMovement;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class AI {
 	private ArrayList <Position> allmoves = new ArrayList<Position>();

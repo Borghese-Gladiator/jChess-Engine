@@ -1,9 +1,4 @@
-import main.java.BoardMovement.ChessBoard;
-import main.java.BoardMovement.King;
-import main.java.BoardMovement.Piece;
-import main.java.BoardMovement.Position;
-import main.java.BoardMovement.Queen;
-import main.java.BoardMovement.Rook;
+import BoardMovement.*;
 
 public class Testing {
 

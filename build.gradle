@@ -1,5 +1,0 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'application'
-
-mainClassName = 'GUI.Chess'
