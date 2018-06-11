@@ -137,7 +137,7 @@ public class ChessBoard extends Board{
 	 * @param pos The position of the piece
 	 * @return an ArrayList with all valid positions the piece can move to
 	 */
-	public ArrayList<Position> getMovesWithoutCheck(Position pos){
+	public ArrayList<Position> getMoves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at Position " + pos);
 		
@@ -396,11 +396,50 @@ public class ChessBoard extends Board{
 		if(getPiece(pos)==null)
 				throw new IllegalArgumentException("No Piece there");
 		boolean thisIsWhite = getPiece(pos).isWhite();
-		ArrayList<Position> enemyMoves = getAllMovesWithoutCheck(!thisIsWhite);
-		for(Position move: enemyMoves)
-			if(move.equals(pos))
-				return true;
-		return false;
+		{
+			int x = pos.getX();
+			int y = pos.getY();
+			{
+				int[] Xs = {1,2,2,1,-1,-2,-2,-1};
+				int[] Ys = {2,1,-1,-2,-2,-1,1,2};
+				for(int i = 0; i<8; i++){
+					int newx = x+Xs[i];
+					int newy = y+Ys[i];
+					if(newx>=0&&newx<8&&newy>=0&&newy<8&&((board[newx][newy]!=null)&&(board[newx][newy].isWhite()!=thisIsWhite)&&(board[newx][newy]instanceof Knight)))
+						return true;
+				}
+			}
+			
+			{
+				int[] Xs = { 1, 1, 1, 0,-1,-1,-1, 0};
+				int[] Ys = {-1, 0, 1, 1, 1, 0,-1,-1};
+				for(int i = 0; i<8; i++){
+					int newx = x+Xs[i];
+					int newy = y+Ys[i];
+					if(newx>=0&&newx<8&&newy>=0&&newy<8&&((board[newx][newy]!=null)&&(board[newx][newy].isWhite()!=thisIsWhite)&&(board[newx][newy]instanceof King)))
+						return true;
+				}
+			}
+			
+			{
+				int forward;
+				if(thisIsWhite)
+					forward = -1;
+				else
+					forward = 1;
+				if(x+1>=0&&x+1<8&&y+forward>=0&&y+forward<8&&((board[x+1][y+forward]!=null)&&(board[x+1][y+forward].isWhite()!=thisIsWhite)&&(board[x+1][y+forward]instanceof Pawn)))
+					return true;
+				if(x-1>=0&&x-1<8&&y+forward>=0&&y+forward<8&&((board[x-1][y+forward]!=null)&&(board[x-1][y+forward].isWhite()!=thisIsWhite)&&(board[x-1][y+forward]instanceof Pawn)))
+					return true;
+			}
+		}
+		for(int x = pos.getX()+1, y = pos.getY();x<8; x++){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Rook || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
 	}
 	
 	/**
