@@ -433,14 +433,62 @@ public class ChessBoard extends Board{
 					return true;
 			}
 		}
-		for(int x = pos.getX()+1, y = pos.getY();x<8; x++){
+		for(int x = pos.getX()+1, y = pos.getY(); x<8; x++){
 			if(board[x][y]!=null){
 				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Rook || board[x][y] instanceof Queen))
 					return true;
 				break;
 			}
 		}
-		
+		for(int x = pos.getX()-1, y = pos.getY();x>=0; x--){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Rook || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX(), y = pos.getY()+1; y<8; y++){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Rook || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX(), y = pos.getY()-1;y>=0; y--){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Rook || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX()+1, y = pos.getY()+1;( x<8)&&( y<8);x++,y++){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX()-1, y = pos.getY()+1;(x>=8)&&( y<8);x--,y++){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX()-1, y = pos.getY()-1;(x>=0)&&(y>=0);x--,y--){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX()+1, y = pos.getY()-1;( x<8)&&(y>=0);x++,y--){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
 		return false;
 	}
 	
