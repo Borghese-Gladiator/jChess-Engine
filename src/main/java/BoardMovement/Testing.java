@@ -9,8 +9,8 @@ public class Testing {
 		board.addPiece(new Position(0,1), new Queen(true));
 		board.addPiece(new Position(0,7), new Rook(false));
 		System.out.println(displayBoard(board));
-		System.out.println(board.getAllMoves(new Position(0,1)));
-;		/*
+	//	System.out.println(board.getAllMoves(new Position(0,1)));
+		/*
 		ChessBoard board = new ChessBoard(true);
 		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
 		board.addPiece(new Position(5,5),new Knight(false));
