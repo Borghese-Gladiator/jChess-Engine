@@ -150,11 +150,6 @@ public class ChessBoard extends Board{
 			case 'r':moves = getMovesR(pos);
 			default :moves = getMovesP(pos);
 		}
-		return moves;
-	}
-	
-	public ArrayList<Position> getMoves(Position pos){
-		ArrayList<Position> moves = getMovesWithoutCheck(pos);
 		for(int i = 0; i < moves.size(); i++){
 			moveWithoutCheck(pos,moves.get(i));
 			if(isChecked(!isWhiteTurn)){
@@ -376,17 +371,6 @@ public class ChessBoard extends Board{
 			for(int x = 0; x < board[i].length; x++){
 				if(board[i][x]!=null&&board[i][x].isWhite()==whiteSide){
 					list.addAll(getMoves(new Position(i,x)));
-				}
-			}
-		}
-		return list;
-	}
-	private ArrayList<Position> getAllMovesWithoutCheck(boolean whiteSide){
-		ArrayList<Position> list = new ArrayList <Position>();
-		for(int i = 0; i < board.length; i++){
-			for(int x = 0; x < board[i].length; x++){
-				if(board[i][x]!=null&&board[i][x].isWhite()==whiteSide){
-					list.addAll(getMovesWithoutCheck(new Position(i,x)));
 				}
 			}
 		}
