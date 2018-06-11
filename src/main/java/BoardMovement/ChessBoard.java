@@ -440,6 +440,8 @@ public class ChessBoard extends Board{
 				break;
 			}
 		}
+		
+		return false;
 	}
 	
 	/**
