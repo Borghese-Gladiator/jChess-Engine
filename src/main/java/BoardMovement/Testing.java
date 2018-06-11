@@ -1,9 +1,4 @@
-import main.java.BoardMovement.ChessBoard;
-import main.java.BoardMovement.King;
-import main.java.BoardMovement.Piece;
-import main.java.BoardMovement.Position;
-import main.java.BoardMovement.Queen;
-import main.java.BoardMovement.Rook;
+package BoardMovement;
 
 public class Testing {
 
@@ -14,14 +9,14 @@ public class Testing {
 		board.addPiece(new Position(0,1), new Queen(true));
 		board.addPiece(new Position(0,7), new Rook(false));
 		System.out.println(displayBoard(board));
-		System.out.println(board.getMoves(new Position(0,1)));
-;		/*
+	//	System.out.println(board.getAllMoves(new Position(0,1)));
+		/*
 		ChessBoard board = new ChessBoard(true);
 		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
 		board.addPiece(new Position(5,5),new Knight(false));
 		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
 		System.out.println(board.getMoves(new Position(4,6)));
-		board.move(new Position(4,6), new Position(4,4));
+		board.move(new Position(4,6), new Position(4,4));O
 		System.out.println(board.lastMove());
 		System.out.println(board.getMovingSide() + " \n" + displayBoard(board));
 		board.undoMove();

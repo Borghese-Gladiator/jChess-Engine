@@ -137,7 +137,7 @@ public class ChessBoard extends Board{
 	 * @param pos The position of the piece
 	 * @return an ArrayList with all valid positions the piece can move to
 	 */
-	public ArrayList<Position> getMovesWithoutCheck(Position pos){
+	public ArrayList<Position> getMoves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at Position " + pos);
 		
@@ -150,11 +150,6 @@ public class ChessBoard extends Board{
 			case 'r':moves = getMovesR(pos);
 			default :moves = getMovesP(pos);
 		}
-		return moves;
-	}
-	
-	public ArrayList<Position> getMoves(Position pos){
-		ArrayList<Position> moves = getMovesWithoutCheck(pos);
 		for(int i = 0; i < moves.size(); i++){
 			moveWithoutCheck(pos,moves.get(i));
 			if(isChecked(!isWhiteTurn)){
@@ -381,17 +376,6 @@ public class ChessBoard extends Board{
 		}
 		return list;
 	}
-	private ArrayList<Position> getAllMovesWithoutCheck(boolean whiteSide){
-		ArrayList<Position> list = new ArrayList <Position>();
-		for(int i = 0; i < board.length; i++){
-			for(int x = 0; x < board[i].length; x++){
-				if(board[i][x]!=null&&board[i][x].isWhite()==whiteSide){
-					list.addAll(getMovesWithoutCheck(new Position(i,x)));
-				}
-			}
-		}
-		return list;
-	}
 	/**
 	 * Returns if the current moving side is in check
 	 * @return true if in check, false otherwise
@@ -412,10 +396,99 @@ public class ChessBoard extends Board{
 		if(getPiece(pos)==null)
 				throw new IllegalArgumentException("No Piece there");
 		boolean thisIsWhite = getPiece(pos).isWhite();
-		ArrayList<Position> enemyMoves = getAllMovesWithoutCheck(!thisIsWhite);
-		for(Position move: enemyMoves)
-			if(move.equals(pos))
-				return true;
+		{
+			int x = pos.getX();
+			int y = pos.getY();
+			{
+				int[] Xs = {1,2,2,1,-1,-2,-2,-1};
+				int[] Ys = {2,1,-1,-2,-2,-1,1,2};
+				for(int i = 0; i<8; i++){
+					int newx = x+Xs[i];
+					int newy = y+Ys[i];
+					if(newx>=0&&newx<8&&newy>=0&&newy<8&&((board[newx][newy]!=null)&&(board[newx][newy].isWhite()!=thisIsWhite)&&(board[newx][newy]instanceof Knight)))
+						return true;
+				}
+			}
+			
+			{
+				int[] Xs = { 1, 1, 1, 0,-1,-1,-1, 0};
+				int[] Ys = {-1, 0, 1, 1, 1, 0,-1,-1};
+				for(int i = 0; i<8; i++){
+					int newx = x+Xs[i];
+					int newy = y+Ys[i];
+					if(newx>=0&&newx<8&&newy>=0&&newy<8&&((board[newx][newy]!=null)&&(board[newx][newy].isWhite()!=thisIsWhite)&&(board[newx][newy]instanceof King)))
+						return true;
+				}
+			}
+			
+			{
+				int forward;
+				if(thisIsWhite)
+					forward = -1;
+				else
+					forward = 1;
+				if(x+1>=0&&x+1<8&&y+forward>=0&&y+forward<8&&((board[x+1][y+forward]!=null)&&(board[x+1][y+forward].isWhite()!=thisIsWhite)&&(board[x+1][y+forward]instanceof Pawn)))
+					return true;
+				if(x-1>=0&&x-1<8&&y+forward>=0&&y+forward<8&&((board[x-1][y+forward]!=null)&&(board[x-1][y+forward].isWhite()!=thisIsWhite)&&(board[x-1][y+forward]instanceof Pawn)))
+					return true;
+			}
+		}
+		for(int x = pos.getX()+1, y = pos.getY(); x<8; x++){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Rook || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX()-1, y = pos.getY();x>=0; x--){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Rook || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX(), y = pos.getY()+1; y<8; y++){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Rook || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX(), y = pos.getY()-1;y>=0; y--){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Rook || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX()+1, y = pos.getY()+1;( x<8)&&( y<8);x++,y++){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX()-1, y = pos.getY()+1;(x>=8)&&( y<8);x--,y++){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX()-1, y = pos.getY()-1;(x>=0)&&(y>=0);x--,y--){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
+		for(int x = pos.getX()+1, y = pos.getY()-1;( x<8)&&(y>=0);x++,y--){
+			if(board[x][y]!=null){
+				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
+					return true;
+				break;
+			}
+		}
 		return false;
 	}
 	
