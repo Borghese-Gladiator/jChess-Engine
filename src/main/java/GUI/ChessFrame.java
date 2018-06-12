@@ -1,6 +1,8 @@
 package GUI; 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +34,25 @@ public class ChessFrame extends JFrame //implements ActionListener
 		images = new Board();
         display = new JPanel();
         
-        for (int i = 0; i < chessBoardSquares.length; i++) {
+        
+        MenuHandler handler = new MenuHandler(this);
+        handler.setUpMenu();
+        game = new ChessBoard(whiteStart);
+        setLayout(new BorderLayout());
+        add(display, BorderLayout.CENTER);
+        pack();
+        
+        addTiles();
+        
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Play Chess");
+		setSize(900, 900);
+		setVisible(true);
+	}
+    private void addTiles()
+    {
+    	for (int i = 0; i < chessBoardSquares.length; i++) {
             for (int j = 0; j < chessBoardSquares[i].length; j++) {
             	if (!(i > 1 && i < 6))
             	{
@@ -51,19 +71,10 @@ public class ChessFrame extends JFrame //implements ActionListener
             	}
             }
         }
-        MenuHandler handler = new MenuHandler(this);
-        handler.setUpMenu();
-        game = new ChessBoard(whiteStart);
-        setLayout(new BorderLayout());
-        add(display, BorderLayout.CENTER);
-        pack();
-        
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Play Chess");
-		setSize(900, 900);
-		setVisible(true);
-	}
+    }
+    public final void paintComponent(final Graphics graphics) {
+        Graphics2D g = (Graphics2D) graphics;
+    }
 	public final void intro()
 	{
 		Intro intro = new Intro(this);

@@ -1,7 +1,7 @@
-package Images;
+package GUI;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -21,10 +21,10 @@ public class ImageDatabase
         if (cached != null) {
             return cached;
         }
-
-        String file = name + ".png";
+        String file =  name + ".png";
         try {
-            BufferedImage i = ImageIO.read(ImageDatabase.class.getResource(file));
+        	URL url = ImageDatabase.class.getResource("/Images/" +file);
+            BufferedImage i = ImageIO.read(url);
             cache.put(name, i);
             return i;
         } catch (java.io.IOException e) {
