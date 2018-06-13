@@ -1,14 +1,14 @@
 package GUI; 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -19,7 +19,7 @@ import javax.swing.JSeparator;
 import BoardMovement.ChessBoard;
 import BoardMovement.Position;
 
-public class ChessFrame extends JFrame //implements ActionListener
+public class ChessFrame extends JFrame
 {
 	private static boolean whiteStart = true;
 	private static boolean onePlayer = true;
@@ -57,16 +57,18 @@ public class ChessFrame extends JFrame //implements ActionListener
             	if (!(i > 1 && i < 6))
             	{
             		Image img = images.getBoard(new Position(i, j));  
-                    Tile b = new Tile(new Position(i,j), img);
+                    Tile b = new Tile(this, new Position(i,j), img);
                     // our chess pieces are 64x64 px in size, so we'll
                     // 'fill this in' using a transparent icon..
                     chessBoardSquares[i][j] = b;
+                    b.addMouseListener((MouseListener) this);
                     display.add(b);
             	}
             	else
             	{
-            		Tile b = new Tile(new Position(i, j), (new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
+            		Tile b = new Tile(this, new Position(i, j), (new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
                     chessBoardSquares[i][j] = b;
+                    b.addMouseListener((MouseListener) this);
             		display.add(b);
             	}
             }
@@ -91,7 +93,7 @@ public class ChessFrame extends JFrame //implements ActionListener
 	private class MenuHandler implements ActionListener {
 
         /** The "Game" menu. */
-        private JMenu game;
+        private JMenu menu;
 
         /** The parent chess frame, for callbacks. */
         private final ChessFrame frame;
@@ -125,30 +127,32 @@ public class ChessFrame extends JFrame //implements ActionListener
         public final void setUpMenu() {
             JMenuBar menuBar = new JMenuBar();
 
-            game = new JMenu("Game");
-            game.setMnemonic('G');
+            menu = new JMenu("Game");
+            menu.setMnemonic('G');
             JMenuItem newGame = new JMenuItem("New Game");
             newGame.addActionListener(this);
             newGame.setMnemonic('N');
-            game.add(newGame);
-            game.add(new JSeparator());
+            menu.add(newGame);
+            menu.add(new JSeparator());
             JMenuItem howToPlay = new JMenuItem("How to Play");
             howToPlay.addActionListener(this);
             howToPlay.setMnemonic('h');
-            game.add(howToPlay);
-            game.add(new JSeparator());
+            menu.add(howToPlay);
+            menu.add(new JSeparator());
             JMenuItem exitGame = new JMenuItem("Exit");
             exitGame.addActionListener(this);
             exitGame.setMnemonic('x');
-            game.add(exitGame);
-            menuBar.add(game);
+            menu.add(exitGame);
+            menuBar.add(menu);
             setJMenuBar(menuBar);
         }
     }
-	/*
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		getPiece(Position pos)
-		
-	}*/
+	public ChessBoard getGame() {
+		return game;
+	}
+	public void setGame(ChessBoard game) {
+		this.game = game;
+	}
+	
+	
 }
