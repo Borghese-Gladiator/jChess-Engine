@@ -15,12 +15,12 @@ public class Move {
 		origPiece = new ArrayList<Piece>();
 	}
 	
-	public Move(Position from, Position to, Piece piece){
+	public Move(Position from, Position to, Piece pieceFrom, Piece pieceTo){
 		this();
 		origPos.add(from);
 		origPos.add(to);
-		origPiece.add(piece);
-		origPiece.add(null);
+		origPiece.add(pieceFrom);
+		origPiece.add(pieceTo);
 	}
 	
 	public void addSpot(Piece piece, Position pos){

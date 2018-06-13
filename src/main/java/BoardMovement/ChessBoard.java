@@ -11,6 +11,7 @@ public class ChessBoard extends Board{
 	public ChessBoard(){
 		board = new Piece[8][8];
 		allMoves = new ArrayList<Move>();
+		isWhiteTurn = true;
 	}
 	
 	public ChessBoard(boolean whiteStart){
@@ -95,12 +96,12 @@ public class ChessBoard extends Board{
 	}
 	
 	private void moveWithoutCheck(Position posFrom, Position posTo){
-		if(/*condition for castling*/false)
+		if((getPiece(posFrom)instanceof King)&&(Math.abs(posFrom.getX()-posTo.getX())>1))
 			castle(posFrom, posTo);
-		else if(/*condition for en passant*/false)
+		else if((getPiece(posFrom)instanceof Pawn)&&(posFrom.getX()!=posTo.getX())&&(getPiece(posTo)==null))
 			enPassant(posFrom, posTo);
 		else{
-			allMoves.add(new Move(posFrom,posTo,getPiece(posFrom)));
+			allMoves.add(new Move(posFrom,posTo,getPiece(posFrom),getPiece(posTo)));
 			board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
 			board[posTo.getX()][posTo.getY()].setHasMoved(true);
 			board[posFrom.getX()][posFrom.getY()] = null;
@@ -143,11 +144,11 @@ public class ChessBoard extends Board{
 		
 		ArrayList<Position> moves;
 		switch(board[pos.getX()][pos.getY()].getType()){
-			case 'k':moves = getMovesK(pos);
-			case 'q':moves = getMovesQ(pos);
-			case 'b':moves = getMovesB(pos);
-			case 'n':moves = getMovesN(pos);
-			case 'r':moves = getMovesR(pos);
+			case 'k':moves = getMovesK(pos); break;
+			case 'q':moves = getMovesQ(pos); break;
+			case 'b':moves = getMovesB(pos); break;
+			case 'n':moves = getMovesN(pos); break;
+			case 'r':moves = getMovesR(pos); break;
 			default :moves = getMovesP(pos);
 		}
 		for(int i = 0; i < moves.size(); i++){
@@ -461,6 +462,7 @@ public class ChessBoard extends Board{
 				break;
 			}
 		}
+		
 		for(int x = pos.getX()+1, y = pos.getY()+1;( x<8)&&( y<8);x++,y++){
 			if(board[x][y]!=null){
 				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
@@ -512,5 +514,21 @@ public class ChessBoard extends Board{
 				if(board[x][y]!=null&&(board[x][y] instanceof King)&&board[x][y].isWhite()==whiteSide)
 					return new Position(x,y);
 		throw new IllegalArgumentException("No King of that color");
+	}
+	
+	public String toString(){
+		String str = "yx 0  1  2  3  4  5  6  7  \n";
+		for(int y = 0; y<8; y++){
+			str += y + "  ";
+			for(int x = 0; x<8; x++){
+				if(board[x][y]==null)
+					str += "[] ";
+				else{
+					str += board[x][y] + " ";
+				}
+			}
+			str += "\n";
+		}
+		return str;
 	}
 }
