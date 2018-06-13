@@ -1,18 +1,12 @@
 package GUI;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
-import java.util.concurrent.CountDownLatch;
-import java.util.logging.Logger;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,19 +14,24 @@ import javax.swing.JButton;
 import BoardMovement.Piece;
 import BoardMovement.Position;
 
-public class Tile extends JButton
+public class Tile extends JButton implements MouseListener
 {
 	private final static int TILE_HEIGHT_AND_WIDTH = 64;
     static final Color DARK = new Color(0xD1, 0x8B, 0x47);
 
     static final Color LIGHT = new Color(0xFF, 0xCE, 0x9E);
-	Position coords;
+
+    ChessFrame parent;
+    Position coords;
 	Piece thePiece;
 	ImageIcon img;
 	boolean hasPiece;
-	public Tile(Position pos, Image img)
+	boolean isLegalMove;
+	public Tile(ChessFrame parent, Position pos, Image img)
 	{
 		super(setIcon(img));
+		this.parent = parent;
+		isLegalMove = false;
         if (((pos.getY()+ pos.getX()) % 2 == 0)) 
         {
             setBackground(Color.WHITE);
@@ -54,6 +53,14 @@ public class Tile extends JButton
                 }
             }
 		}*/
+	}
+	
+	public void makeMove(Position pos1, Position pos2)
+    {
+    }
+	public void showMoves(Position pos)
+	{
+		
 	}
 	public static ImageIcon setIcon(Image img)
 	{
@@ -152,6 +159,43 @@ public class Tile extends JButton
                 }
             }
         }/*/
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		if (isLegalMove)
+		showMoves(coords);
+		//ArrayList<Position> moves = .getMoves(pos1);
+    		//for (Position i: moves)
+    		{
+    			//showSquare(i);
+    		}
+    		//parent.set the tile as legal move(true); --and green dot? 
+	}
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	public boolean hasPiece() {
+		return hasPiece;
+	}
+	public void setHasPiece(boolean hasPiece) {
+		this.hasPiece = hasPiece;
+	}
     }
 
    
