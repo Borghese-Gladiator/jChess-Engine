@@ -50,12 +50,13 @@ public class Evaluation {
 		{-20,-10,-10,-10,-10,-10,-10,-20},
 	};
 			
-	public static Position move( ArrayList<Position> pos, Piece[][]board, ){
+	public static Position move( ArrayList<Position> pos, Piece[][]board ){
 		int score =0; 
-		Position high;
+		Position high = null;
 		for(int i = 0; i <pos.size();i++){
 			
 		}
+		return high;
 			
 	}
 	

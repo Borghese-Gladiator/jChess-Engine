@@ -10,10 +10,10 @@ public class AI {
 	 public AI(Piece [][] b){
 		 board = b;
 	 }
-	 public Position getmove(){
+/*	 public Position getmove(){
 		 for(int i = 0; i < board.length();i++){
 			 for(int x)
 		 }
-	 }
+	 }*/
 
 }
