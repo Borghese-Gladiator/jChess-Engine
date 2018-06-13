@@ -4,7 +4,7 @@ public class Pawn extends Piece{
 	final static char type = 'p';
 	boolean hasmoved;
 	boolean twomove;
-	public final int val = 10;
+	public int val = 10;
 	private int defend = 0;
 	private int attack = 0;
 	public Pawn(boolean isWhite){
