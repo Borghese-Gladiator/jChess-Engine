@@ -55,7 +55,7 @@ public class ChessBoard{
 		return allMoves.get(allMoves.size()-1);
 	}
 	
-	private int movesMade(){
+	public int movesMade(){
 		return allMoves.size();
 	}
 	
@@ -114,7 +114,10 @@ public class ChessBoard{
 		Move lastMove = lastMove();
 		for(int i = 0; i < lastMove.size(); i++){
 			board[lastMove.changedPos(i).getX()][lastMove.changedPos(i).getY()] = lastMove.changedPiece(i);
+			if(lastMove.changedPiece(i)!=null)
+				lastMove.changedPiece(i).setHasMoved(lastMove.changedMoved(i));
 		}
+		allMoves.remove(allMoves.size()-1);
 		isWhiteTurn = !isWhiteTurn;
 	}
 	
@@ -325,21 +328,12 @@ public class ChessBoard{
 		
 	}
 	
-	private boolean checkEnPassantR(Position pos){
-		boolean iswhite = getPiece(pos).isWhite();
-		if(board[pos.getX()+1][pos.getY()].isWhite()!= iswhite && board[pos.getX()+1][pos.getY()]!= null && getPiece(pos) instanceof Pawn){
-			if(((Pawn)board[pos.getX()+1][pos.getY()]).gettwomove()== true/* && lastUpdate.get(1).equals(new Position(pos.getX()+1,pos.getY()))*/)
-				return true;	
-			}
-		
-		return false;		
-	}
 	private boolean checkEnPassant(Position pos, boolean rightSide){
 		if(movesMade()==0)
 			return false;
 		int x = pos.getX();
 		int y = pos.getY();
-		if(x==0)
+		if((x==0&&!rightSide)||(x==7&&rightSide))
 			return false;
 		int side;
 		if(rightSide)

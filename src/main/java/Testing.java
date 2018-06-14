@@ -10,11 +10,12 @@ public class Testing {
 		board.addPiece(new Position(0,0),new King(false));
 		board.addPiece(new Position(7,7), new King(true));
 		board.addPiece(new Position(0,4), new Pawn(false));
-		board.addPiece(new Position(0,7), new Rook(true));
+		//board.addPiece(new Position(0,7), new Rook(true));
 		board.addPiece(new Position(1,6), new Pawn(true));
 		System.out.println(board);
 		board.move(new Position(1,6),new Position(1,4));
 		System.out.println(board);
+		System.out.println(board.movesMade());
 		System.out.println(board.getMoves(new Position(0,4)));
 		
 	}
