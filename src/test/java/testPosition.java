@@ -12,4 +12,9 @@ public class testPosition {
 		Position pos2 = new Position(0, 0);
 		assertEquals(true, pos1.equals(pos2));
 	}
+	@Test
+	public void test2()
+	{
+		
+	}
 }

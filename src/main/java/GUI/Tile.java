@@ -5,11 +5,12 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.border.Border;
 
 import BoardMovement.ChessBoard;
 import BoardMovement.Position;
@@ -25,15 +26,15 @@ public class Tile extends JButton implements MouseListener
     static Tile[][] boardParent;
     static ChessBoard gameParent;
     Position coords;
-	ImageIcon img;
+	Image img;
 	boolean isLegalMove;
-	public Tile(Position origin, Tile[][] boardParent, ChessBoard gameParent, Position pos, Image img)
+	public Tile(Tile[][] board, ChessBoard game, Position pos, Image anImg)
 	{
-		super(setIcon(img));
+		super(createIcon(anImg));
+		img = anImg;
 		coords = pos;
-		this.origin = origin;
-		this.boardParent = boardParent;
-		this.gameParent = gameParent;
+		this.boardParent = board;
+		this.gameParent = game;
 		isLegalMove = false;
         setBackground();
         MouseListener mouseListener = new MouseAdapter()
@@ -45,6 +46,10 @@ public class Tile extends JButton implements MouseListener
         			//move();
         			isLegalMove = false;
         			setBackground();
+        			setIcon(boardParent[origin.getX()][origin.getY()].getImg());
+        			boardParent[origin.getX()][origin.getY()].remove();
+        			gameParent.move(origin, coords);
+        			Tile.origin = null;
         		}
         		else
         		{
@@ -79,24 +84,18 @@ public class Tile extends JButton implements MouseListener
             }
 		}*/
 	}
-	public static ImageIcon setIcon(Image img)
+	public static ImageIcon createIcon(Image im)
 	{
-		Image newimg = img.getScaledInstance(TILE_HEIGHT_AND_WIDTH, TILE_HEIGHT_AND_WIDTH,  java.awt.Image.SCALE_SMOOTH ) ; 
+		Image newimg = im.getScaledInstance(TILE_HEIGHT_AND_WIDTH, TILE_HEIGHT_AND_WIDTH,  java.awt.Image.SCALE_SMOOTH ) ; 
         ImageIcon icon = new ImageIcon(newimg);
         return icon;
 	}
-	public void remove()
+	private void remove()
 	{
-		img = null;
+		setIcon(new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
 	}
-	public ImageIcon getImg() {
-		return img;
-	}
-	public void setImg(ImageIcon img) 
-	{
-		remove();
-		//sound of piece being taken
-		this.img = img;
+	private ImageIcon getImg() {
+		return createIcon(img);
 	}
 	private void setBackground()
 	{
@@ -113,7 +112,6 @@ public class Tile extends JButton implements MouseListener
     {
 		coords = newPos;
     }
-	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub

@@ -5,10 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -45,7 +44,6 @@ public class ChessFrame extends JFrame
         setLayout(new BorderLayout());
         add(display, BorderLayout.CENTER);
         pack();
-        
         addTiles(images);
         
         setResizable(false);
@@ -61,16 +59,17 @@ public class ChessFrame extends JFrame
             	if (!(i > 1 && i < 6))
             	{
             		Image img = images.getBoard(new Position(i, j));  
-                    Tile b = new Tile(origin, boardTiles, game,
+                    Tile b = new Tile(boardTiles, game,
                     		new Position(j,i), img);
                     // our chess pieces are 64x64 px in size, so we'll
                     // 'fill this in' using a transparent icon..
                     boardTiles[j][i] = b;
+                    //b.setIcon(new ImageIcon(ImageDatabase.getTile("Pawn-WHITE")));
                     display.add(b);
             	}
             	else
             	{
-            		Tile b = new Tile(origin, boardTiles, game,
+            		Tile b = new Tile(boardTiles, game,
             				new Position(j, i), (new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
                     boardTiles[j][i] = b;
             		display.add(b);
