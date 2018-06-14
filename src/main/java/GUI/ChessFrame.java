@@ -62,17 +62,17 @@ public class ChessFrame extends JFrame
             	{
             		Image img = images.getBoard(new Position(i, j));  
                     Tile b = new Tile(origin, boardTiles, game,
-                    		new Position(i,j), img);
+                    		new Position(j,i), img);
                     // our chess pieces are 64x64 px in size, so we'll
                     // 'fill this in' using a transparent icon..
-                    boardTiles[i][j] = b;
+                    boardTiles[j][i] = b;
                     display.add(b);
             	}
             	else
             	{
             		Tile b = new Tile(origin, boardTiles, game,
-            				new Position(i, j), (new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
-                    boardTiles[i][j] = b;
+            				new Position(j, i), (new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
+                    boardTiles[j][i] = b;
             		display.add(b);
             	}
             }
