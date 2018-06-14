@@ -8,7 +8,6 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -23,6 +22,7 @@ public class Tile extends JButton implements MouseListener
     static final Color LIGHT = new Color(0xFF, 0xCE, 0x9E);
 
     static Position origin;
+    static ArrayList<Tile> legalMoves = new ArrayList<Tile>();
     static Tile[][] boardParent;
     static ChessBoard gameParent;
     Position coords;
@@ -44,9 +44,13 @@ public class Tile extends JButton implements MouseListener
         		if (isLegalMove)
         		{
         			//move();
-        			isLegalMove = false;
-        			setBackground();
-        			setIcon(boardParent[origin.getX()][origin.getY()].getImg());
+        			for (Tile i: legalMoves)
+        			{
+            			i.setBackground();
+            			i.setLegalMove(false);
+        			}
+        			setIcon(boardParent[origin.getX()][origin.getY()].makeImgIcon());
+        			img = boardParent[origin.getX()][origin.getY()].getImg();
         			boardParent[origin.getX()][origin.getY()].remove();
         			gameParent.move(origin, coords);
         			Tile.origin = null;
@@ -60,6 +64,7 @@ public class Tile extends JButton implements MouseListener
         				Tile temp = boardParent[i.getX()][i.getY()];
         				temp.setLegalMove(true);
         				temp.setBackground(Color.ORANGE);
+        				legalMoves.add(temp);
         			}
         		}
             		//parent.set the tile as legal move(true); --and green dot? 
@@ -70,19 +75,6 @@ public class Tile extends JButton implements MouseListener
 	    	}
 		};
         addMouseListener(mouseListener);
-		
-		/*this.addMouseListener(new MouseAdapter()
-		{
-            public void mouseClicked(MouseEvent e)
-            {
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    Clicked();
-                } 
-                else if(e.getButton() == MouseEvent.BUTTON3) {
-                    Mark();
-                }
-            }
-		}*/
 	}
 	public static ImageIcon createIcon(Image im)
 	{
@@ -94,8 +86,12 @@ public class Tile extends JButton implements MouseListener
 	{
 		setIcon(new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
 	}
-	private ImageIcon getImg() {
+	private ImageIcon makeImgIcon() {
 		return createIcon(img);
+	}
+	private Image getImg()
+	{
+		return img;
 	}
 	private void setBackground()
 	{
