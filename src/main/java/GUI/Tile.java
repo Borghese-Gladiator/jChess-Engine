@@ -20,6 +20,8 @@ public class Tile extends JButton implements MouseListener
     static final Color DARK = new Color(0xD1, 0x8B, 0x47);
 
     static final Color LIGHT = new Color(0xFF, 0xCE, 0x9E);
+    
+    static Side turn;
 
     static Position origin;
     static ArrayList<Tile> legalMoves = new ArrayList<Tile>();
