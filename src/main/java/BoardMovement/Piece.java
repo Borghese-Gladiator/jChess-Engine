@@ -10,6 +10,11 @@ public abstract class Piece {
 		hasMoved = false;
 	}
 	
+	public Piece(boolean isWhite, boolean hasMoved){
+		this.isWhite = isWhite;
+		this.hasMoved = hasMoved;
+	}
+	
 	public boolean isWhite(){
 		return isWhite;
 	}

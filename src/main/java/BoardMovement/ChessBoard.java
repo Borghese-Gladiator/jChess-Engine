@@ -103,8 +103,40 @@ public class ChessBoard{
 			board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
 			board[posTo.getX()][posTo.getY()].setHasMoved(true);
 			board[posFrom.getX()][posFrom.getY()] = null;
+			if((getPiece(posTo)instanceof Pawn)&&((getPiece(posTo).isWhite()&&posTo.getY()==0)||(!getPiece(posTo).isWhite()&&posTo.getY()==7)))
+				board[posTo.getX()][posTo.getY()] = new Queen(posTo.getY()==0);
 		}
 		isWhiteTurn = !isWhiteTurn;
+	}
+	
+	private void castle(Position posFrom, Position posTo){
+			allMoves.add(new Move(posFrom,posTo,getPiece(posFrom),getPiece(posTo)));
+			board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
+			board[posTo.getX()][posTo.getY()].setHasMoved(true);
+			board[posFrom.getX()][posFrom.getY()] = null;
+		if(posTo.getX() == 6){
+			lastMove().addSpot(board[7][posFrom.getY()], new Position(7,posFrom.getY()));
+			lastMove().addSpot(null, new Position(5,posFrom.getY()));
+			board[5][posTo.getY()] = getPiece(new Position(7,posFrom.getY()));
+			board[5][posTo.getY()].setHasMoved(true);
+			board[7][posFrom.getY()] = null;
+		}
+		else/*if(posTo.getX() == 2)*/{
+			lastMove().addSpot(board[0][posFrom.getY()], new Position(0,posFrom.getY()));
+			lastMove().addSpot(null, new Position(3,posFrom.getY()));
+			board[3][posTo.getY()] = getPiece(new Position(0,posFrom.getY()));
+			board[3][posTo.getY()].setHasMoved(true);
+			board[0][posFrom.getY()] = null;
+		}
+	}
+	
+	private void enPassant(Position posFrom, Position posTo){
+		allMoves.add(new Move(posFrom,posTo,getPiece(posFrom),null));
+		lastMove().addSpot(board[posTo.getX()][posFrom.getY()], new Position(posTo.getX(),posFrom.getY()));
+		board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
+		board[posTo.getX()][posTo.getY()].setHasMoved(true);
+		board[posFrom.getX()][posFrom.getY()] = null;
+		board[posTo.getX()][posFrom.getY()] = null;
 	}
 	
 	/**
@@ -311,21 +343,6 @@ public class ChessBoard{
 		if(board[from.getX()-3][from.getY()]!=null)
 			return false;
 		return true;
-	}
-	
-	private void castle(Position from, Position to){
-		if(to.getX() == 6){
-			move(from, to);
-			move(new Position(7, from.getY()), new Position(5,from.getY()));
-		}
-		else if(to.getX() == 2){
-			move(from, to);
-			move(new Position(0, from.getY()), new Position(3,from.getY()));
-		}
-	}
-	
-	public void enPassant(Position from, Position to){
-		
 	}
 	
 	private boolean checkEnPassant(Position pos, boolean rightSide){
