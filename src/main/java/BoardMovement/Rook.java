@@ -2,7 +2,6 @@ package BoardMovement;
 
 public class Rook extends Piece {
 	final static char type = 'r';
-	boolean hasMoved;
 	private final int val = 50;
 	
 	
@@ -15,13 +14,6 @@ public class Rook extends Piece {
 		return type;
 	}
 	
-	public boolean getHasMoved(){
-		return hasMoved;
-	}
-	
-	public void setHasMoved(boolean hasMoved){
-		this.hasMoved = hasMoved;
-	}
 	public int getval(){
 		return val;
 	}

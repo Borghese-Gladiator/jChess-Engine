@@ -9,10 +9,12 @@ public class Move {
 	//fourth is where rook moved to (piece = null)
 	private ArrayList<Position> origPos;
 	private ArrayList<Piece> origPiece;
+	private ArrayList<Boolean> origMoved;
 	
 	public Move(){
 		origPos = new ArrayList<Position>();
 		origPiece = new ArrayList<Piece>();
+		origMoved = new ArrayList<Boolean>();
 	}
 	
 	public Move(Position from, Position to, Piece pieceFrom, Piece pieceTo){
@@ -21,11 +23,20 @@ public class Move {
 		origPos.add(to);
 		origPiece.add(pieceFrom);
 		origPiece.add(pieceTo);
+		origMoved.add(pieceFrom.getHasMoved());
+		if(pieceTo==null)
+			origMoved.add(null);
+		else
+			origMoved.add(pieceTo.getHasMoved());
 	}
 	
 	public void addSpot(Piece piece, Position pos){
 		origPos.add(pos);
 		origPiece.add(piece);
+		if(piece==null)
+			origMoved.add(null);
+		else
+			origMoved.add(piece.getHasMoved());
 	}
 	
 	public ArrayList<Position> getPositions(){
@@ -38,6 +49,10 @@ public class Move {
 	
 	public Piece changedPiece(int index){
 		return origPiece.get(index);
+	}
+	
+	public Boolean changedMoved(int index){
+		return origMoved.get(index);
 	}
 	
 	public int size(){

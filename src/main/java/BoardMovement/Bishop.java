@@ -15,13 +15,6 @@ public class Bishop extends Piece {
 		return type;
 	}
 	
-	public boolean getHasMoved(){
-		return hasMoved;
-	}
-	
-	public void setHasMoved(boolean hasMoved){
-		this.hasMoved = hasMoved;
-	}
 	public int getval(){
 		return val;
 	}
