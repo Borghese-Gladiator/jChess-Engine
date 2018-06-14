@@ -4,13 +4,13 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import BoardMovement.Position;
-public class Board 
+public class DefaultBoard 
 {
     /** The internal board array. */
     private Image[][] board;
     /** The size of this game board. */
     private int boardWidth, boardHeight;
-    public Board()
+    public DefaultBoard()
     {
     	board = new BufferedImage[8][8];
     	for (int i = 0; i < board.length; i++)

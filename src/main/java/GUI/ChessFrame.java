@@ -24,16 +24,20 @@ public class ChessFrame extends JFrame
 	private static boolean whiteStart = true;
 	private static boolean onePlayer = true;
 	private final JPanel display;
-    private Tile[][] chessBoardSquares = new Tile[8][8];
-    private Board images;
+    public  Tile[][] boardTiles = new Tile[8][8];
+    public Position origin;
 	private ChessBoard game;
+	public void setTileAsAMove(Position pos)
+	{
+		boardTiles[pos.getX()][pos.getY()].setLegalMove(true);
+	}
 	public ChessFrame()
 	{
 		super();
 		
-		images = new Board();
+		DefaultBoard images = new DefaultBoard();
         display = new JPanel();
-        
+        origin = null;
         
         MenuHandler handler = new MenuHandler(this);
         handler.setUpMenu();
@@ -42,7 +46,7 @@ public class ChessFrame extends JFrame
         add(display, BorderLayout.CENTER);
         pack();
         
-        addTiles();
+        addTiles(images);
         
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,25 +54,25 @@ public class ChessFrame extends JFrame
 		setSize(900, 900);
 		setVisible(true);
 	}
-    private void addTiles()
+    private void addTiles(DefaultBoard images)
     {
-    	for (int i = 0; i < chessBoardSquares.length; i++) {
-            for (int j = 0; j < chessBoardSquares[i].length; j++) {
+    	for (int i = 0; i < boardTiles.length; i++) {
+            for (int j = 0; j < boardTiles[i].length; j++) {
             	if (!(i > 1 && i < 6))
             	{
             		Image img = images.getBoard(new Position(i, j));  
-                    Tile b = new Tile(this, new Position(i,j), img);
+                    Tile b = new Tile(origin, boardTiles, game,
+                    		new Position(i,j), img);
                     // our chess pieces are 64x64 px in size, so we'll
                     // 'fill this in' using a transparent icon..
-                    chessBoardSquares[i][j] = b;
-                    b.addMouseListener((MouseListener) this);
+                    boardTiles[i][j] = b;
                     display.add(b);
             	}
             	else
             	{
-            		Tile b = new Tile(this, new Position(i, j), (new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
-                    chessBoardSquares[i][j] = b;
-                    b.addMouseListener((MouseListener) this);
+            		Tile b = new Tile(origin, boardTiles, game,
+            				new Position(i, j), (new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
+                    boardTiles[i][j] = b;
             		display.add(b);
             	}
             }
