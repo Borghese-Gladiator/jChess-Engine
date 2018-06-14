@@ -49,6 +49,8 @@ public class Evaluation {
 		{-10,  0,  0,  0,  0,  0,  0,-10},
 		{-20,-10,-10,-10,-10,-10,-10,-20},
 	};
+	private static int hightotal=0;
+	private static Position pos;
 			
 	public static Position move( ArrayList<Position> pos, Piece[][]board ){
 		int score =0; 
