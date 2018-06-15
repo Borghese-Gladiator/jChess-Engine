@@ -51,15 +51,18 @@ public class Evaluation {
 	};
 	private static int hightotal=0;
 	private static Position pos;
+	private static Position oldpos;
 			
-	public static Position move( ArrayList<Position> pos, Piece[][]board ){
-		int score =0; 
-		Position high = null;
-		for(int i = 0; i <pos.size();i++){
-			
+	public static void move( Position move, Position current, Piece[][]board){
+		if(hightotal < board[move.getX()][move.getY()].gettotal() ){
+			hightotal = board[move.getX()][move.getY()].gettotal();
+			pos=move;
+			oldpos = current;
 		}
-		return high;
 			
+	}
+	public static Arraylist<Position> gethighest(){
+		return new ArrayList<Position>
 	}
 	
 

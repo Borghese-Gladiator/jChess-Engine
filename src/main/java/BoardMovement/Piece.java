@@ -7,6 +7,7 @@ public abstract class Piece {
 	protected boolean hasMoved;
 	protected int attack;
 	protected int defend;
+	private int total;
 	private Image img;
 	public Piece(boolean isWhite){
 		this.isWhite = isWhite;
@@ -54,6 +55,12 @@ public abstract class Piece {
 
 	public void setImg(Image img) {
 		this.img = img;
+	}
+	public void settotal(int t){
+		total += t;
+	}
+	public abstract int gettotal(){
+		return total;
 	}
 
 }

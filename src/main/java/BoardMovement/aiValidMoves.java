@@ -20,10 +20,10 @@ public class aiValidMoves {
 		
 		for(int i = 0; i<list.size(); i++){
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()== white)
-				board[list.get(i).getX()][list.get(i).getY()].setdefend(board[current.getX()][current.getY()].actionvalue());
+				board[current.getX()][current.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval()/2);
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()!= white)
-				board[list.get(i).getX()][list.get(i).getY()].setattack(board[current.getX()][current.getY()].actionvalue());
-			
+				board[current.getX()][current.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
+
 			
 		}
 	}

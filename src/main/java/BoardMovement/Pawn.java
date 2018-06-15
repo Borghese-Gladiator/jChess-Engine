@@ -5,7 +5,7 @@ import GUI.ImageDatabase;
 public class Pawn extends Piece{
 	final static char type = 'p';
 	boolean twomove;
-	public int val = 10;
+	public int final val = 10;
 	private int defend = 0;
 	private int attack = 0;
 	public Pawn(boolean isWhite){
