@@ -198,7 +198,6 @@ public class ChessBoard{
 			}
 			undoMove();
 		}
-		moves.add(pos);
 		return moves;
 	}
 
@@ -379,20 +378,7 @@ public class ChessBoard{
 		board[to.getX()][to.getY()-1] = null;
 	}
 	
-	public ArrayList<Position> getAllMoves(){
-		return getAllMoves(isWhiteTurn);
-	}
-	private ArrayList<Position> getAllMoves(boolean whiteSide){
-		ArrayList<Position> list = new ArrayList <Position>();
-		for(int i = 0; i < board.length; i++){
-			for(int x = 0; x < board[i].length; x++){
-				if(board[i][x]!=null&&board[i][x].isWhite()==whiteSide){
-					list.addAll(getMoves(new Position(i,x)));
-				}
-			}
-		}
-		return list;
-	}
+	
 	/**
 	 * Returns if the current moving side is in check
 	 * @return true if in check, false otherwise
@@ -524,12 +510,45 @@ public class ChessBoard{
 		return piecePos;
 	}
 	
+	/**
+	 * Gets the position of the king of the given side
+	 * @param whiteSide which side's king to get
+	 * @return the position of the king
+	 */
 	private Position getKingPosition(boolean whiteSide){
 		for(int x = 0; x < 8; x++)
 			for(int y = 0; y < 8; y++)
 				if(board[x][y]!=null&&(board[x][y] instanceof King)&&board[x][y].isWhite()==whiteSide)
 					return new Position(x,y);
 		throw new IllegalArgumentException("No King of that color");
+	}
+	
+	/**
+	 * Gets positions of all pieces of one side
+	 * @param whiteSide the side
+	 * @return an ArrayList of the positions of the pieces of the given side
+	 */
+	public ArrayList<Position> getAllPieces(boolean whiteSide){
+		ArrayList<Position> positions = new ArrayList<Position>();
+		for(int x = 0; x < 8; x++)
+			for(int y = 0; y < 8; y++)
+				if(board[x][y]!=null&&board[x][y].isWhite()==whiteSide)
+					positions.add(new Position(x,y));
+		return positions;
+	}
+	
+	/**
+	 * Determines if the side that is currently going is checkmated
+	 * @return true if checkmated
+	 */
+	public boolean isCheckMated(){
+		ArrayList<Position> piecePos = getAllPieces(isWhiteTurn);
+		ArrayList<Position> movePos = new ArrayList<Position>();
+		for(Position pos: piecePos){
+			ArrayList<Position> temp = getMoves(pos);
+			movePos.addAll(temp);
+		}
+		return movePos.size()==0;
 	}
 	
 	public String toString(){
