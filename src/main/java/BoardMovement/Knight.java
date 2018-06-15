@@ -1,5 +1,7 @@
 package BoardMovement;
 
+import GUI.ImageDatabase;
+
 public class Knight extends Piece{
 	final static char type = 'n';
 	private final int val = 30;
@@ -7,6 +9,14 @@ public class Knight extends Piece{
 	private int attack = 0;
 	public Knight(boolean isWhite){
 		super(isWhite);
+		if (isWhite)
+		{
+			setImg(ImageDatabase.getTile("Knight-WHITE"));
+		}
+		else
+		{
+			setImg(ImageDatabase.getTile("Knight-BLACK"));
+		}
 	}
 	
 	public char getType(){

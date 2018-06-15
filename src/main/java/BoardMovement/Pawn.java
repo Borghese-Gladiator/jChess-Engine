@@ -1,5 +1,7 @@
 package BoardMovement;
 
+import GUI.ImageDatabase;
+
 public class Pawn extends Piece{
 	final static char type = 'p';
 	boolean twomove;
@@ -9,6 +11,14 @@ public class Pawn extends Piece{
 	public Pawn(boolean isWhite){
 		super(isWhite);
 		twomove = false;
+		if (isWhite)
+		{
+			setImg(ImageDatabase.getTile("Pawn-WHITE"));
+		}
+		else
+		{
+			setImg(ImageDatabase.getTile("Pawn-BLACK"));
+		}
 	}
 	
 	public char getType(){

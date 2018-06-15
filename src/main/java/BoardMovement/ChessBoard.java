@@ -71,7 +71,13 @@ public class ChessBoard{
 	public Piece getPiece(Position pos){
 		return board[pos.getX()][pos.getY()];
 	}
-	
+	public boolean hasPiece(Position pos) {
+		if (getPiece(pos) != null)
+		{
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Returns the positions modified by the last move
 	 * @return an ArrayList of the positions
