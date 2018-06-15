@@ -130,5 +130,9 @@ public class Tile extends JButton implements MouseListener
 	public void setImg(Image img) {
 		this.img = img;
 	}
+
+	public Position getCoords() {
+		return coords;
+	}
 	
 }

@@ -138,7 +138,7 @@ public class ChessFrame extends JFrame
 			white.add(aTile);
 			if (origin != null)
 			{
-				white.remove(boardTiles[origin.getX()][origin.getY()]);
+				white.remove(boardTiles[origin.getX()][origin.getY()]); //remove old pos
 			}
 		}
 		else
@@ -150,9 +150,21 @@ public class ChessFrame extends JFrame
 			}
 		}
 	}
+	private void addNewPosToEnableList(Tile aTile)
+	{
+		if (whiteTurn)
+		{
+			white.add(aTile);
+			white.remove(boardTiles[origin.getX()][origin.getY()]);
+		}
+		else
+		{
+			black.add(aTile);
+			black.remove(boardTiles[origin.getX()][origin.getY()]);
+		}
+	}
     public void move(Position posTo)
     {
-    	disableBtns();
 		//move();
 		//Move x = new Move(origin, posTo, game.getPiece(origin), game.getPiece(posTo));
 		for (Tile i: legalMoves)
@@ -165,13 +177,35 @@ public class ChessFrame extends JFrame
 		temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
 		temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
 		boardTiles[origin.getX()][origin.getY()].removeIcon();
+		disableBtnIfCapture(posTo);
+		addNewPosToEnableList(temp);
+		disableBtns();
+		
 		game.move(origin, posTo);
-		addTileToEnableList(temp, whiteTurn);
 		switchTurns();
 		enableBtns(whiteTurn);
 		//if (game.isCheckMate()), VictoryDialog vd = new VictoryDialog(); Disable all pieces
 		origin = null;
     }
+	private void disableBtnIfCapture(Position posTo) {
+		if (!whiteTurn){ //capture opposing, remove
+			for (Tile i: white){
+				if (posTo.equals(i.getCoords())){
+					white.remove(i);
+					break;
+				}
+			}
+		}
+		else{
+			for (Tile i: black){
+				if (posTo.equals(i.getCoords()))
+				{
+					black.remove(i);
+					break;
+				}
+			}
+		}
+	}
     public void showMoves(Position pos)
     {
     	ArrayList<Position> moves = game.getMoves(pos);
@@ -183,9 +217,6 @@ public class ChessFrame extends JFrame
 			temp.setBackground(Color.ORANGE);
 			legalMoves.add(temp);
 		}
-    }
-    public final void paintComponent(final Graphics graphics) {
-        Graphics2D g = (Graphics2D) graphics;
     }
 	public final void intro()
 	{
