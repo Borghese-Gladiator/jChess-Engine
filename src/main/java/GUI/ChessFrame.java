@@ -24,7 +24,6 @@ import BoardMovement.Position;
 public class ChessFrame extends JFrame
 {
 	private static boolean whiteStart = true;
-	private static boolean onePlayer = true;
 	static ArrayList<Tile> white = new ArrayList<Tile>();
     static ArrayList<Tile> black = new ArrayList<Tile>();
     static ArrayList<Tile> legalMoves = new ArrayList<Tile>();
