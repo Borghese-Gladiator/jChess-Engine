@@ -37,7 +37,11 @@ public class AI {
 				 if(board[i][x].isWhite()== true){
 						ArrayList<Position> list= chess.getMoves(new Position(i,x));
 						for(int y = 0;y<list.size();y++){
+<<<<<<< HEAD
+							whiteAttack
+=======
 							//whiteAttack[list.get(y).getX()];
+>>>>>>> 00e70b4b8fa8976bff91a0d65a84beccd66b5cb8
 						}
 				 }
 
