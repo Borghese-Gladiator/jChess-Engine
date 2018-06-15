@@ -24,7 +24,7 @@ public class PlayerChooser extends JPanel
     /** Horizontal padding around this panel. */
     static final int H_PADDING = 10;
     
-    public PlayerChooser(final String title, final boolean humanSet) {
+    public PlayerChooser(final String title, final boolean humanSet, final ChessFrame owner) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel label = new JLabel(title);
         add(label);
@@ -35,10 +35,22 @@ public class PlayerChooser extends JPanel
         group.add(minimax);
         human.setSelected(humanSet);
         minimax.setSelected(!humanSet);
+        
 
         /* Set up widget alignment. */
         human.setAlignmentX(Component.LEFT_ALIGNMENT);
         minimax.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        human.addActionListener(new ActionListener() {
+            public final void actionPerformed(final ActionEvent e) {
+                owner.enableAI(!human.isSelected());
+            }
+        });
+        minimax.addActionListener(new ActionListener() {
+            public final void actionPerformed(final ActionEvent e) {
+                owner.enableAI(minimax.isSelected());
+            }
+        });
         
         add(human);
         add(minimax);

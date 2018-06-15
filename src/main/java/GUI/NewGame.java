@@ -45,8 +45,8 @@ public class NewGame extends JDialog implements ActionListener
         setLocationRelativeTo(owner);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        whitePanel = new PlayerChooser("White:", true);
-        blackPanel = new PlayerChooser("Black:", false);
+        whitePanel = new PlayerChooser("White:", true, parent);
+        blackPanel = new PlayerChooser("Black:", false, parent);
         add(whitePanel, BorderLayout.LINE_START);
         add(blackPanel, BorderLayout.CENTER);
 
@@ -68,7 +68,6 @@ public class NewGame extends JDialog implements ActionListener
 
         pack();
     }
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

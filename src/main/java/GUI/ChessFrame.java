@@ -1,8 +1,6 @@
 package GUI; 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,21 +13,20 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 
+import BoardMovement.AI;
 import BoardMovement.ChessBoard;
-import BoardMovement.Move;
 import BoardMovement.Position;
 
 public class ChessFrame extends JFrame
 {
-	private static boolean whiteStart = true;
 	static ArrayList<Tile> white = new ArrayList<Tile>();
     static ArrayList<Tile> black = new ArrayList<Tile>();
     static ArrayList<Tile> legalMoves = new ArrayList<Tile>();
 	private final JPanel display;
     public Tile[][] boardTiles = new Tile[8][8];
     static Position origin;
+    AI ai = null;
     public static Position getOrigin() {
 		return origin;
 	}
@@ -52,7 +49,7 @@ public class ChessFrame extends JFrame
         
         MenuHandler handler = new MenuHandler(this);
         handler.setUpMenu();
-        game = new ChessBoard(whiteStart);
+        game = new ChessBoard(true);// whitestart
         setLayout(new BorderLayout());
         add(display, BorderLayout.CENTER);
         pack();
@@ -166,7 +163,7 @@ public class ChessFrame extends JFrame
 		}
 	}
 	private void disableBtnIfCapture(Position posTo) {
-		if (!whiteTurn){ //capture opposing, remove
+		if (!whiteTurn){ //capture opposing, remove from enable list
 			for (Tile i: white){
 				if (posTo.equals(i.getCoords())){
 					white.remove(i);
@@ -210,9 +207,20 @@ public class ChessFrame extends JFrame
 			disableBtns();
 			
 			game.move(origin, posTo);
-			switchTurns();
+			if (ai == null)
+			{
+				switchTurns();
+			}
+			else
+			{
+				//move(ai.getmove());    will be ArrayList<Position>, first is origin, second is moveTo
+			}
 			enableBtns(whiteTurn);
-			//if (game.isCheckMate()), VictoryDialog vd = new VictoryDialog(); Disable all pieces
+			if (game.isCheckMated())
+			{
+				VictoryDialog vd = new VictoryDialog(this);
+				disableBtns();
+			}
 		}
 		origin = null;
     }
@@ -220,6 +228,7 @@ public class ChessFrame extends JFrame
     {
     	clearLegalMoves();
     	ArrayList<Position> moves = game.getMoves(pos);
+    	moves.add(pos);
 		setOrigin(pos);
 		for (Position i: moves)
 		{
@@ -305,6 +314,12 @@ public class ChessFrame extends JFrame
 	public void setGame(ChessBoard game) {
 		this.game = game;
 	}
-	
+	public void enableAI(boolean enable)
+	{
+		if (enable)
+		{
+			ai = new AI(game.getBoard());
+		}
+	}
 	
 }
