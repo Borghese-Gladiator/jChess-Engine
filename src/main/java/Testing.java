@@ -1,22 +1,30 @@
 import BoardMovement.*;
+import TerminalIO.KeyboardReader;
 
 public class Testing {
 
 	
 	public static void main(String[] args) {
-		
-		
-		ChessBoard board = new ChessBoard();
-		board.addPiece(new Position(7,7), new King(true));
-		board.addPiece(new Position(7,0), new King(false));
-		
-		board.addPiece(new Position(0,1), new Pawn(true));
+		KeyboardReader b = new KeyboardReader();
+		ChessBoard board = new ChessBoard(true);
 		System.out.println(board);
-		board.getPiece(new Position(0,1)).setHasMoved(true);
-		board.move(new Position(0,1), new Position(0,0));
+		board.move(new Position(4,6), new Position(4,5));
+		board.move(new Position(0,1), new Position(0,2));
+		board.move(new Position(3,7), new Position(7,3));
+		board.move(new Position(0,2), new Position(0,3));
+		board.move(new Position(5,7), new Position(2,4));
+		board.move(new Position(0,3), new Position(0,4));
+		board.move(new Position(2,4), new Position(5,1));
 		System.out.println(board);
-		board.undoMove();
-		System.out.println(board);
+		System.out.println(board.isCheckMated());
+		/*
+		while(true){
+			//board.move(new Position(b.readInt(),b.readInt()), new Position(b.readInt(),b.readInt()));
+			System.out.println(board);
+			System.out.println(board.isCheckMated());
+		}
+		*/
+		
 		
 	}
 	
