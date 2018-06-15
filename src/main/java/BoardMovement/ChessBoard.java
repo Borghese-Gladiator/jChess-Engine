@@ -198,6 +198,7 @@ public class ChessBoard{
 			}
 			undoMove();
 		}
+		moves.add(pos);
 		return moves;
 	}
 

@@ -163,30 +163,6 @@ public class ChessFrame extends JFrame
 			black.remove(boardTiles[origin.getX()][origin.getY()]);
 		}
 	}
-    public void move(Position posTo)
-    {
-		//move();
-		//Move x = new Move(origin, posTo, game.getPiece(origin), game.getPiece(posTo));
-		for (Tile i: legalMoves)
-		{
-			i.setBackground();
-			i.setLegalMove(false);
-		}
-		legalMoves.clear();
-		Tile temp = boardTiles[posTo.getX()][posTo.getY()];
-		temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
-		temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
-		boardTiles[origin.getX()][origin.getY()].removeIcon();
-		disableBtnIfCapture(posTo);
-		addNewPosToEnableList(temp);
-		disableBtns();
-		
-		game.move(origin, posTo);
-		switchTurns();
-		enableBtns(whiteTurn);
-		//if (game.isCheckMate()), VictoryDialog vd = new VictoryDialog(); Disable all pieces
-		origin = null;
-    }
 	private void disableBtnIfCapture(Position posTo) {
 		if (!whiteTurn){ //capture opposing, remove
 			for (Tile i: white){
@@ -206,8 +182,41 @@ public class ChessFrame extends JFrame
 			}
 		}
 	}
+	private void clearLegalMoves()
+	{
+		for (Tile i: legalMoves)
+		{
+			i.setBackground();
+			i.setLegalMove(false);
+		}
+		legalMoves.clear();
+	}
+    public void move(Position posTo)
+    {
+    	
+		//move();
+		//Move x = new Move(origin, posTo, game.getPiece(origin), game.getPiece(posTo));
+		clearLegalMoves();
+		if (!(posTo.equals(origin)))
+		{
+			Tile temp = boardTiles[posTo.getX()][posTo.getY()];
+			temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
+			temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
+			boardTiles[origin.getX()][origin.getY()].removeIcon();
+			disableBtnIfCapture(posTo);
+			addNewPosToEnableList(temp);
+			disableBtns();
+			
+			game.move(origin, posTo);
+			switchTurns();
+			enableBtns(whiteTurn);
+			//if (game.isCheckMate()), VictoryDialog vd = new VictoryDialog(); Disable all pieces
+		}
+		origin = null;
+    }
     public void showMoves(Position pos)
     {
+    	clearLegalMoves();
     	ArrayList<Position> moves = game.getMoves(pos);
 		setOrigin(pos);
 		for (Position i: moves)
