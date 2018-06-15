@@ -1,13 +1,24 @@
 package BoardMovement;
 
+import java.awt.Image;
+
+import GUI.ImageDatabase;
+
 public class Rook extends Piece {
 	final static char type = 'r';
 	private final int val = 50;
 	
-	
 	public Rook(boolean isWhite){
 		super(isWhite);
 		hasMoved = false;
+		if (isWhite)
+		{
+			setImg(ImageDatabase.getTile("Rook-WHITE"));
+		}
+		else
+		{
+			setImg(ImageDatabase.getTile("Rook-BLACK"));
+		}
 	}
 	
 	public char getType(){

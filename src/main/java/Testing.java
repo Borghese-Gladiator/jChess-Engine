@@ -6,12 +6,18 @@ public class Testing {
 	public static void main(String[] args) {
 		
 		
-		ChessBoard board = new ChessBoard(true);
+		ChessBoard board = new ChessBoard();
+		board.addPiece(new Position(7,7), new King(true));
+		board.addPiece(new Position(7,0), new King(false));
+		
+		board.addPiece(new Position(0,1), new Pawn(true));
 		System.out.println(board);
-		System.out.println(board.getMoves(new Position(0,6)));
-		board.move(new Position(0,6), new Position(0,4));
+		board.getPiece(new Position(0,1)).setHasMoved(true);
+		board.move(new Position(0,1), new Position(0,0));
 		System.out.println(board);
-		System.out.println(board.getMoves(new Position(0,4)));
+		board.undoMove();
+		System.out.println(board);
+		
 	}
 	
 	public static String displayBoard(ChessBoard brd){

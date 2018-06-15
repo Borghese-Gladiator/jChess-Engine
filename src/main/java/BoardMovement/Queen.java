@@ -1,10 +1,20 @@
 package BoardMovement;
 
+import GUI.ImageDatabase;
+
 public class Queen extends Piece {
 	final static char type = 'q';
 	private final int val = 90;
 	public Queen(boolean isWhite){
 		super(isWhite);
+		if (isWhite)
+		{
+			setImg(ImageDatabase.getTile("Queen-WHITE"));
+		}
+		else
+		{
+			setImg(ImageDatabase.getTile("Queen-BLACK"));
+		}
 	}
 	
 	public char getType(){
