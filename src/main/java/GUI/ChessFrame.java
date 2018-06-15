@@ -125,10 +125,13 @@ public class ChessFrame extends JFrame
 		if (whiteTurn)
 		{
 			whiteTurn = false;
+			setTitle("BLack's turn");
+			
 		}
 		else
 		{
 			whiteTurn = true;
+			setTitle("White's turn");
 		}
 	}
 	private void addTileToEnableList(Tile aTile, boolean isWhite)
