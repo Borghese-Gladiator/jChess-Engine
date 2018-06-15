@@ -36,7 +36,7 @@ public class AI {
 				 if(board[i][x].isWhite()== true){
 						ArrayList<Position> list= chess.getMoves(new Position(i,x));
 						for(int y = 0;y<list.size();y++){
-							whiteAttack[list.get(.getX())]
+							whiteAttack
 						}
 				 }
 
