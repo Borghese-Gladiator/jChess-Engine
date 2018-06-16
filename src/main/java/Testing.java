@@ -8,10 +8,16 @@ public class Testing {
 		
 		ChessBoard board = new ChessBoard(true);
 		System.out.println(board);
-		System.out.println(board.getMoves(new Position(0,6)));
-		board.move(new Position(0,6), new Position(0,4));
+		board.move(new Position(7,6), new Position(7,4));
+		board.move(new Position(0,1), new Position(0,3));
+		board.move(new Position(7,4), new Position(7,3));
+		board.move(new Position(6,1), new Position(6,3));
 		System.out.println(board);
-		System.out.println(board.getMoves(new Position(0,4)));
+		System.out.println(board.getMoves(new Position(7,3)));
+		System.out.println(board);
+		board.move(new Position(7,3), new Position(6,2));
+		System.out.println(board);
+		System.out.println(board.lastMove().getPositions());
 	}
 	
 	public static String displayBoard(ChessBoard brd){
