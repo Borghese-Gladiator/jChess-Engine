@@ -7,13 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 
 import BoardMovement.AI;
 import BoardMovement.ChessBoard;
@@ -60,7 +60,6 @@ public class ChessFrame extends JFrame
 				blackAI = new AI();
 			}
 		}
-		
 		/*
 		if (ai == null)
 		{
@@ -81,9 +80,6 @@ public class ChessFrame extends JFrame
         add(display, BorderLayout.CENTER);
         pack();
         addTiles(images);
-        disableBtns();
-        enableBtns(isWhiteTurn);
-        
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Play Chess");
@@ -115,31 +111,23 @@ public class ChessFrame extends JFrame
             }
         }
     }
-    private void enableBtns(boolean isWhite)
-	{
-		if (isWhite)
-		{
-			for(Tile i: white)
-			{
+    private void enableBtns(boolean isWhite){
+		if (isWhite){
+			for(Tile i: white){
 				i.setEnabled(true);
 			}
 		}
-		else
-		{
-			for(Tile i: black)
-			{
+		else{
+			for(Tile i: black){
 				i.setEnabled(true);
 			}
 		}
 	}
-	private void disableBtns()
-	{
-		for (Tile i: white)
-		{
+	private void disableBtns(){
+		for (Tile i: white){
 			i.setEnabled(false);
 		}
-		for (Tile i: black)
-		{
+		for (Tile i: black){
 			i.setEnabled(false);
 		}
 	}
@@ -149,7 +137,6 @@ public class ChessFrame extends JFrame
 		{
 			isWhiteTurn = false;
 			setTitle("BLack's turn");
-			
 		}
 		else
 		{
@@ -217,86 +204,119 @@ public class ChessFrame extends JFrame
 		}
 		legalMoves.clear();
 	}
+	private boolean checkIfLegalMove(Position posTo) {
+		for (Tile i: legalMoves)
+    	{
+    		if (posTo.equals(i.getCoords()))
+    		{
+    			return true;
+    		}
+    	}
+		return false;
+	}
     public void move(Position posTo)
     {
-    	
-		//move();
-		if (posTo.getY() == 0 || posTo.getY() == 7 && game.getPiece(origin).isPawn())
-		{
-			Image queen = ImageDatabase.getTile("Queen-WHITE");
-			boardTiles[origin.getX()][origin.getY()].setImg(queen);
-		}
-    	game.move(origin, posTo);
-		Move move = game.lastMove();
+    	if (checkIfLegalMove(posTo))
+    	{
+    		if (posTo.getY() == 0 || posTo.getY() == 7 && game.getPiece(origin).isPawn())
+    		{
+    			Image queen = ImageDatabase.getTile("Queen-WHITE");
+    			boardTiles[origin.getX()][origin.getY()].setImg(queen);
+    		}
+        	game.move(origin, posTo);
+    		Move move = game.lastMove();
+    		if (!(posTo.equals(origin)))
+    		{
+    			Tile temp = boardTiles[posTo.getX()][posTo.getY()];
+    			temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
+    			temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
+    			boardTiles[origin.getX()][origin.getY()].removeIcon();
+    			if (move.size() > 2) //special move
+    			{
+    				if (move.size() == 3) //en passant
+    				{
+    					Position removePawn = move.changedPos(2);
+    					boardTiles[removePawn.getX()][removePawn.getY()].removeIcon();
+    				}
+    				else //move.size() == 4, castling
+    				{
+    					Position removeRook = move.changedPos(2);
+    					Position rookNewPos = move.changedPos(3);
+    					Tile tempRook = boardTiles[rookNewPos.getX()][rookNewPos.getY()];
+    					tempRook.setIcon(boardTiles[removeRook.getX()][removeRook.getY()].makeImgIcon());
+    					tempRook.setImg(boardTiles[removeRook.getX()][removeRook.getY()].getImg());
+    					boardTiles[removeRook.getX()][removeRook.getY()].removeIcon();
+    					addNewPosToEnableList(tempRook);
+    				}
+    			}
+    			disableBtnIfCapture(posTo);
+    			addNewPosToEnableList(temp);
+    			disableBtns();
+    			if (twoPlayer)
+    			{
+    				switchTurns();
+    			}
+    			enableBtns(isWhiteTurn);
+    			if (game.isCheckMated())
+    			{
+    				if (isWhiteTurn)
+    				{
+    					VictoryDialog vd = new VictoryDialog(this);
+    					vd.setVisible(true);
+    				}
+    				else
+    				{
+    					DefeatDialog dd = new DefeatDialog(this);
+    					dd.setVisible(true);
+    				}
+    				disableBtns();
+    			}
+    			if (game.isStalemated())
+    			{ 
+    				StalemateDialog sd = new StalemateDialog(this);
+    				sd.setVisible(true);
+    				disableBtns();
+    			}
+    		}
+    	}
 		clearLegalMoves();
-		if (!(posTo.equals(origin)))
-		{
-			Tile temp = boardTiles[posTo.getX()][posTo.getY()];
-			temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
-			temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
-			boardTiles[origin.getX()][origin.getY()].removeIcon();
-			if (move.size() > 2) //special move
-			{
-				if (move.size() == 3) //en passant
-				{
-					Position removePawn = move.changedPos(2);
-					boardTiles[removePawn.getX()][removePawn.getY()].removeIcon();
-				}
-				else //move.size() == 4, castling
-				{
-					Position removeRook = move.changedPos(2);
-					Position rookNewPos = move.changedPos(3);
-					Tile tempRook = boardTiles[rookNewPos.getX()][rookNewPos.getY()];
-					tempRook.setIcon(boardTiles[removeRook.getX()][removeRook.getY()].makeImgIcon());
-					tempRook.setImg(boardTiles[removeRook.getX()][removeRook.getY()].getImg());
-					boardTiles[removeRook.getX()][removeRook.getY()].removeIcon();
-					addNewPosToEnableList(tempRook);
-				}
-			}
-			disableBtnIfCapture(posTo);
-			addNewPosToEnableList(temp);
-			disableBtns();
-			if (twoPlayer)
-			{
-				switchTurns();
-			}
-			enableBtns(isWhiteTurn);
-			if (game.isCheckMated())
-			{
-				if (isWhiteTurn)
-				{
-					VictoryDialog vd = new VictoryDialog(this);
-					vd.setVisible(true);
-				}
-				else
-				{
-					DefeatDialog dd = new DefeatDialog(this);
-					dd.setVisible(true);
-				}
-				disableBtns();
-			}
-			if (game.isStalemated())
-			{ 
-				StalemateDialog sd = new StalemateDialog(this);
-				sd.setVisible(true);
-				disableBtns();
-			}
-		}
 		origin = null;
     }
     public void showMoves(Position pos)
     {
-    	clearLegalMoves();
-    	ArrayList<Position> moves = game.getMoves(pos);
-    	moves.add(pos);
-		setOrigin(pos);
-		for (Position i: moves)
-		{
-			Tile temp = boardTiles[i.getX()][i.getY()];
-			temp.setLegalMove(true);
-			temp.setBackground(Color.ORANGE);
-			legalMoves.add(temp);
+    	if (checkMove(pos))
+    	{
+    		clearLegalMoves();
+        	ArrayList<Position> moves = game.getMoves(pos);
+    		setOrigin(pos);
+    		for (Position i: moves)
+    		{
+    			Tile temp = boardTiles[i.getX()][i.getY()];
+    			temp.setLegalMove(true);
+    			temp.setBackground(Color.ORANGE);
+    			legalMoves.add(temp);
+    		}
+    	}
+    }
+    private boolean checkMove(Position pos)
+    {
+    	if (isWhiteTurn){ //capture opposing, remove from enable list
+			for (Tile i: white){
+				if (pos.equals(i.getCoords()))
+				{
+					return true;
+				}
+			}
 		}
+		else{
+			for (Tile i: black){
+				if (pos.equals(i.getCoords()))
+				{
+					return true;
+				}
+			}
+		}
+    	return false;
     }
 	public final void intro()
 	{

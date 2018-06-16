@@ -17,7 +17,7 @@ public class Intro extends JDialog implements ActionListener
 		setTitle("How to Play");
 		setSize(300, 300);
 		instruct = new JTextArea();
-		String instructText = "How to Play, blah blah blah";
+		String instructText = "How to Play\nTake the enemy's king to win";
 		instruct.setText(instructText);
 		instruct.setEditable(false);
 		add(instruct);
