@@ -235,7 +235,7 @@ public class ChessFrame extends JFrame
 					Position removePawn = move.changedPos(2);
 					boardTiles[removePawn.getX()][removePawn.getY()].removeIcon();
 				}
-				else //move.size() == 4
+				else //move.size() == 4, castling
 				{
 					Position removeRook = move.changedPos(2);
 					Position rookNewPos = move.changedPos(3);
