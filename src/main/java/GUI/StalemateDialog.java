@@ -8,19 +8,19 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-public class DefeatDialog extends JDialog implements ActionListener
+public class StalemateDialog extends JDialog implements ActionListener
 {
-	private JTextArea loseMsg;
+	private JTextArea stalemateMsg;
 	private JButton exit;
-	public DefeatDialog(JFrame owner) {
+	public StalemateDialog(JFrame owner) {
 		super(owner);
-		setTitle("Defeat Screen");
+		setTitle("Stalemate Screen");
 		setSize(300, 300);
-		loseMsg = new JTextArea();
-		String lose = "DEFEAAT. White loses.";
-		loseMsg.setText(lose);
-		loseMsg.setEditable(false);
-		add(loseMsg);
+		stalemateMsg = new JTextArea();
+		String stalemate = "STALEMATE";
+		stalemateMsg.setText(stalemate);
+		stalemateMsg.setEditable(false);
+		add(stalemateMsg);
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

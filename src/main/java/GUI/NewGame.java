@@ -14,15 +14,8 @@ import javax.swing.JPanel;
 import BoardMovement.ChessBoard;
 
 public class NewGame extends JDialog implements ActionListener
-{
-	
-	/*JRadioButton whiteStart = addRadioButton("White", 1, 1, 1, 1); 
-	JRadioButton blackStart = addRadioButton("Black", 2, 1, 1, 1);
-	JRadioButton singlePlayer = addRadioButton("One Player", 1, 2, 1, 1);
-	JRadioButton twoPlayer = addRadioButton("Two Player", 2, 2, 1, 1);*/
-	
+{	
 	private ChessFrame owner;
-
     /** White player selector. */
     private final PlayerChooser whitePanel;
 

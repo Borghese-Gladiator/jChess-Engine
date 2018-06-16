@@ -35,7 +35,7 @@ public class ChessFrame extends JFrame
 	public static void setOrigin(Position origin) {
 		ChessFrame.origin = origin;
 	}
-    static boolean whiteTurn = true;
+    static boolean isWhiteTurn = true;
 	private ChessBoard game;
 	private boolean twoPlayer;
 	public void setTileAsAMove(Position pos)
@@ -81,7 +81,7 @@ public class ChessFrame extends JFrame
         pack();
         addTiles(images);
         disableBtns();
-        enableBtns(whiteTurn);
+        enableBtns(isWhiteTurn);
         
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -144,15 +144,15 @@ public class ChessFrame extends JFrame
 	}
 	private void switchTurns()
 	{
-		if (whiteTurn)
+		if (isWhiteTurn)
 		{
-			whiteTurn = false;
+			isWhiteTurn = false;
 			setTitle("BLack's turn");
 			
 		}
 		else
 		{
-			whiteTurn = true;
+			isWhiteTurn = true;
 			setTitle("White's turn");
 		}
 	}
@@ -177,7 +177,7 @@ public class ChessFrame extends JFrame
 	}
 	private void addNewPosToEnableList(Tile aTile)
 	{
-		if (whiteTurn)
+		if (isWhiteTurn)
 		{
 			white.add(aTile);
 			white.remove(boardTiles[origin.getX()][origin.getY()]);
@@ -189,7 +189,7 @@ public class ChessFrame extends JFrame
 		}
 	}
 	private void disableBtnIfCapture(Position posTo) {
-		if (!whiteTurn){ //capture opposing, remove from enable list
+		if (!isWhiteTurn){ //capture opposing, remove from enable list
 			for (Tile i: white){
 				if (posTo.equals(i.getCoords())){
 					white.remove(i);
@@ -254,10 +254,25 @@ public class ChessFrame extends JFrame
 			{
 				switchTurns();
 			}
-			enableBtns(whiteTurn);
+			enableBtns(isWhiteTurn);
 			if (game.isCheckMated())
 			{
-				VictoryDialog vd = new VictoryDialog(this);
+				if (isWhiteTurn)
+				{
+					VictoryDialog vd = new VictoryDialog(this);
+					vd.setVisible(true);
+				}
+				else
+				{
+					DefeatDialog dd = new DefeatDialog(this);
+					dd.setVisible(true);
+				}
+				disableBtns();
+			}
+			if (game.isStalemated())
+			{ 
+				StalemateDialog sd = new StalemateDialog(this);
+				sd.setVisible(true);
 				disableBtns();
 			}
 		}
@@ -281,7 +296,6 @@ public class ChessFrame extends JFrame
 	{
 		Intro intro = new Intro(this);
 		intro.setVisible(true);
-		setSize(getPreferredSize());
 	}
 	public final void newGame() {
         NewGame ngFrame = new NewGame(this);

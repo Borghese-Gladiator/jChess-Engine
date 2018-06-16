@@ -11,15 +11,16 @@ public class Intro extends JDialog implements ActionListener
 {
 	private JTextArea instruct;
 	private JButton exit;
-	public Intro(JFrame parent)
+	public Intro(JFrame owner)
 	{
-		super(parent);
+		super(owner);
 		setTitle("How to Play");
 		setSize(300, 300);
 		instruct = new JTextArea();
 		String instructText = "How to Play, blah blah blah";
 		instruct.setText(instructText);
 		instruct.setEditable(false);
+		add(instruct);
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
