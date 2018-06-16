@@ -220,7 +220,8 @@ public class ChessFrame extends JFrame
     {
     	
 		//move();
-		Move move = new Move(origin, posTo, game.getPiece(origin), game.getPiece(posTo));
+		game.move(origin, posTo);
+		Move move = game.lastMove();
 		clearLegalMoves();
 		if (!(posTo.equals(origin)))
 		{
@@ -235,7 +236,7 @@ public class ChessFrame extends JFrame
 					Position removePawn = move.changedPos(2);
 					boardTiles[removePawn.getX()][removePawn.getY()].removeIcon();
 				}
-				else //move.size() == 4
+				else //move.size() == 4, castling
 				{
 					Position removeRook = move.changedPos(2);
 					Position rookNewPos = move.changedPos(3);
@@ -243,13 +244,12 @@ public class ChessFrame extends JFrame
 					tempRook.setIcon(boardTiles[removeRook.getX()][removeRook.getY()].makeImgIcon());
 					tempRook.setImg(boardTiles[removeRook.getX()][removeRook.getY()].getImg());
 					boardTiles[removeRook.getX()][removeRook.getY()].removeIcon();
+					addNewPosToEnableList(tempRook);
 				}
 			}
 			disableBtnIfCapture(posTo);
 			addNewPosToEnableList(temp);
 			disableBtns();
-			
-			game.move(origin, posTo);
 			if (twoPlayer)
 			{
 				switchTurns();

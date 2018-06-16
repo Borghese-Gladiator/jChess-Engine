@@ -82,6 +82,5 @@ public class NewGame extends JDialog implements ActionListener
 	private void getGame()
 	{
 		owner =  new ChessFrame(whitePanel.isHuman(), blackPanel.isHuman());
-		
 	}
 }
