@@ -1,14 +1,24 @@
 package BoardMovement;
 
+import GUI.ImageDatabase;
+
 public class Pawn extends Piece{
 	final static char type = 'p';
 	boolean twomove;
-	public int val = 10;
+	public final int val = 10;
 	private int defend = 0;
 	private int attack = 0;
 	public Pawn(boolean isWhite){
 		super(isWhite);
 		twomove = false;
+		if (isWhite)
+		{
+			setImg(ImageDatabase.getTile("Pawn-WHITE"));
+		}
+		else
+		{
+			setImg(ImageDatabase.getTile("Pawn-BLACK"));
+		}
 	}
 	
 	public char getType(){
@@ -41,5 +51,11 @@ public class Pawn extends Piece{
 	}
 	public int actionvalue(){
 		return 6;
+	}
+
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

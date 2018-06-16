@@ -24,26 +24,47 @@ public class PlayerChooser extends JPanel
     /** Horizontal padding around this panel. */
     static final int H_PADDING = 10;
     
-    public PlayerChooser(final String title, final boolean humanSet) {
+    public NewGame owner;
+    
+    private boolean isHuman;
+    
+    public PlayerChooser(final String title, final boolean humanSet, final NewGame aOwner) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel label = new JLabel(title);
         add(label);
 
+        owner = aOwner;
         /* Set up widgets. */
         ButtonGroup group = new ButtonGroup();
         group.add(human);
         group.add(minimax);
         human.setSelected(humanSet);
         minimax.setSelected(!humanSet);
+        
 
         /* Set up widget alignment. */
         human.setAlignmentX(Component.LEFT_ALIGNMENT);
         minimax.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        human.addActionListener(new ActionListener() {
+            public final void actionPerformed(final ActionEvent e) {
+                isHuman = !human.isSelected();
+            }
+        });
+        minimax.addActionListener(new ActionListener() {
+            public final void actionPerformed(final ActionEvent e) {
+                isHuman = minimax.isSelected();
+            }
+        });
         
         add(human);
         add(minimax);
         setBorder(BorderFactory.createEmptyBorder(H_PADDING, V_PADDING,
                   H_PADDING, V_PADDING));
     }
+
+	public boolean isHuman() {
+		return isHuman;
+	}
 
 }

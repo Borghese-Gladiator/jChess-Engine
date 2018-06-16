@@ -71,7 +71,13 @@ public class ChessBoard{
 	public Piece getPiece(Position pos){
 		return board[pos.getX()][pos.getY()];
 	}
-	
+	public boolean hasPiece(Position pos) {
+		if (getPiece(pos) != null)
+		{
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Returns the positions modified by the last move
 	 * @return an ArrayList of the positions
@@ -103,8 +109,40 @@ public class ChessBoard{
 			board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
 			board[posTo.getX()][posTo.getY()].setHasMoved(true);
 			board[posFrom.getX()][posFrom.getY()] = null;
+			if((getPiece(posTo)instanceof Pawn)&&((getPiece(posTo).isWhite()&&posTo.getY()==0)||(!getPiece(posTo).isWhite()&&posTo.getY()==7)))
+				board[posTo.getX()][posTo.getY()] = new Queen(posTo.getY()==0);
 		}
 		isWhiteTurn = !isWhiteTurn;
+	}
+	
+	private void castle(Position posFrom, Position posTo){
+			allMoves.add(new Move(posFrom,posTo,getPiece(posFrom),getPiece(posTo)));
+			board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
+			board[posTo.getX()][posTo.getY()].setHasMoved(true);
+			board[posFrom.getX()][posFrom.getY()] = null;
+		if(posTo.getX() == 6){
+			lastMove().addSpot(board[7][posFrom.getY()], new Position(7,posFrom.getY()));
+			lastMove().addSpot(null, new Position(5,posFrom.getY()));
+			board[5][posTo.getY()] = getPiece(new Position(7,posFrom.getY()));
+			board[5][posTo.getY()].setHasMoved(true);
+			board[7][posFrom.getY()] = null;
+		}
+		else/*if(posTo.getX() == 2)*/{
+			lastMove().addSpot(board[0][posFrom.getY()], new Position(0,posFrom.getY()));
+			lastMove().addSpot(null, new Position(3,posFrom.getY()));
+			board[3][posTo.getY()] = getPiece(new Position(0,posFrom.getY()));
+			board[3][posTo.getY()].setHasMoved(true);
+			board[0][posFrom.getY()] = null;
+		}
+	}
+	
+	private void enPassant(Position posFrom, Position posTo){
+		allMoves.add(new Move(posFrom,posTo,getPiece(posFrom),null));
+		lastMove().addSpot(board[posTo.getX()][posFrom.getY()], new Position(posTo.getX(),posFrom.getY()));
+		board[posTo.getX()][posTo.getY()] = getPiece(posFrom);
+		board[posTo.getX()][posTo.getY()].setHasMoved(true);
+		board[posFrom.getX()][posFrom.getY()] = null;
+		board[posTo.getX()][posFrom.getY()] = null;
 	}
 	
 	/**
@@ -313,21 +351,6 @@ public class ChessBoard{
 		return true;
 	}
 	
-	private void castle(Position from, Position to){
-		if(to.getX() == 6){
-			move(from, to);
-			move(new Position(7, from.getY()), new Position(5,from.getY()));
-		}
-		else if(to.getX() == 2){
-			move(from, to);
-			move(new Position(0, from.getY()), new Position(3,from.getY()));
-		}
-	}
-	
-	public void enPassant(Position from, Position to){
-		
-	}
-	
 	private boolean checkEnPassant(Position pos, boolean rightSide){
 		if(movesMade()==0)
 			return false;
@@ -355,20 +378,7 @@ public class ChessBoard{
 		board[to.getX()][to.getY()-1] = null;
 	}
 	
-	public ArrayList<Position> getAllMoves(){
-		return getAllMoves(isWhiteTurn);
-	}
-	private ArrayList<Position> getAllMoves(boolean whiteSide){
-		ArrayList<Position> list = new ArrayList <Position>();
-		for(int i = 0; i < board.length; i++){
-			for(int x = 0; x < board[i].length; x++){
-				if(board[i][x]!=null&&board[i][x].isWhite()==whiteSide){
-					list.addAll(getMoves(new Position(i,x)));
-				}
-			}
-		}
-		return list;
-	}
+	
 	/**
 	 * Returns if the current moving side is in check
 	 * @return true if in check, false otherwise
@@ -500,12 +510,45 @@ public class ChessBoard{
 		return piecePos;
 	}
 	
+	/**
+	 * Gets the position of the king of the given side
+	 * @param whiteSide which side's king to get
+	 * @return the position of the king
+	 */
 	private Position getKingPosition(boolean whiteSide){
 		for(int x = 0; x < 8; x++)
 			for(int y = 0; y < 8; y++)
 				if(board[x][y]!=null&&(board[x][y] instanceof King)&&board[x][y].isWhite()==whiteSide)
 					return new Position(x,y);
 		throw new IllegalArgumentException("No King of that color");
+	}
+	
+	/**
+	 * Gets positions of all pieces of one side
+	 * @param whiteSide the side
+	 * @return an ArrayList of the positions of the pieces of the given side
+	 */
+	public ArrayList<Position> getAllPieces(boolean whiteSide){
+		ArrayList<Position> positions = new ArrayList<Position>();
+		for(int x = 0; x < 8; x++)
+			for(int y = 0; y < 8; y++)
+				if(board[x][y]!=null&&board[x][y].isWhite()==whiteSide)
+					positions.add(new Position(x,y));
+		return positions;
+	}
+	
+	/**
+	 * Determines if the side that is currently going is checkmated
+	 * @return true if checkmated
+	 */
+	public boolean isCheckMated(){
+		ArrayList<Position> piecePos = getAllPieces(isWhiteTurn);
+		ArrayList<Position> movePos = new ArrayList<Position>();
+		for(Position pos: piecePos){
+			ArrayList<Position> temp = getMoves(pos);
+			movePos.addAll(temp);
+		}
+		return movePos.size()==0;
 	}
 	
 	public String toString(){

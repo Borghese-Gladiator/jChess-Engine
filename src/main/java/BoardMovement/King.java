@@ -1,13 +1,26 @@
 package BoardMovement;
 
+import java.awt.Image;
+
+import GUI.ImageDatabase;
+
 public class King extends Piece{
 	
 	final static char type = 'k';
 	private final int val = 900;
 	private int defend = 0;
 	private int attack = 0;
+	
 	public King(boolean isWhite){
 		super(isWhite);
+		if (isWhite)
+		{
+			setImg(ImageDatabase.getTile("King-WHITE"));
+		}
+		else
+		{
+			setImg(ImageDatabase.getTile("King-BLACK"));
+		}
 	}
 	
 	public char getType(){
@@ -31,5 +44,11 @@ public class King extends Piece{
 	}
 	public int actionvalue(){
 		return 1;
+	}
+
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

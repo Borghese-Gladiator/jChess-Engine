@@ -49,15 +49,54 @@ public class Evaluation {
 		{-10,  0,  0,  0,  0,  0,  0,-10},
 		{-20,-10,-10,-10,-10,-10,-10,-20},
 	};
+	private static int hightotal=0;
+	private static Position pos;
+	private static Position oldpos;
 			
-	public static Position move( ArrayList<Position> pos, Piece[][]board ){
-		int score =0; 
-		Position high = null;
-		for(int i = 0; i <pos.size();i++){
-			
+<<<<<<< HEAD
+	public static void move( Position move, Position current, Piece[][]board){
+		if(hightotal < board[move.getX()][move.getY()].getTotal() ){
+			hightotal = board[move.getX()][move.getY()].getTotal();
+			pos=move;
+			oldpos = current;
+=======
+	public static void move( Position old, Position current, Piece[][]board){
+		int total = 0;
+		if(board[current.getX()][current.getY()] instanceof Pawn){
+			total = board[current.getX()][current.getY()].gettotal();
+			total += pawn[current.getX()][current.getY()];
 		}
-		return high;
+		else if(board[current.getX()][current.getY()] instanceof King){
+			total = board[current.getX()][current.getY()].gettotal();
+			total += king[current.getX()][current.getY()];
+		} 
+		else if(board[current.getX()][current.getY()] instanceof Knight){
+			total = board[current.getX()][current.getY()].gettotal();
+			total += knight[current.getX()][current.getY()];
+		} 
+		else if(board[current.getX()][current.getY()] instanceof Bishop){
+			total = board[current.getX()][current.getY()].gettotal();
+			total += bishop[current.getX()][current.getY()];
+		} 
+		
+		if(hightotal < total){
+			hightotal = total;
+			pos=current;
+			oldpos = old;
+>>>>>>> 3f0afa85856dbbd55174b15102f9057e1e86cbbc
+		}
 			
+	}
+	public static ArrayList<Position> gethighest(){
+<<<<<<< HEAD
+		return new ArrayList<Position>();
+=======
+		ArrayList<Position> list = null;
+		list.add(oldpos);
+		list.add(pos);
+
+		return list;
+>>>>>>> 3f0afa85856dbbd55174b15102f9057e1e86cbbc
 	}
 	
 

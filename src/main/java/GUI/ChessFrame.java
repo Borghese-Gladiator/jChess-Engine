@@ -1,13 +1,12 @@
 package GUI; 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -15,36 +14,74 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import BoardMovement.AI;
 import BoardMovement.ChessBoard;
+import BoardMovement.Move;
 import BoardMovement.Position;
 
 public class ChessFrame extends JFrame
 {
-	private static boolean whiteStart = true;
-	private static boolean onePlayer = true;
+	static ArrayList<Tile> white = new ArrayList<Tile>();
+    static ArrayList<Tile> black = new ArrayList<Tile>();
+    static ArrayList<Tile> legalMoves = new ArrayList<Tile>();
 	private final JPanel display;
-    public  Tile[][] boardTiles = new Tile[8][8];
-    public Position origin;
+    public Tile[][] boardTiles = new Tile[8][8];
+    static Position origin;
+    AI whiteAI = null;
+    AI blackAI = null;
+    public static Position getOrigin() {
+		return origin;
+	}
+	public static void setOrigin(Position origin) {
+		ChessFrame.origin = origin;
+	}
+    static boolean whiteTurn = true;
 	private ChessBoard game;
+	private boolean twoPlayer;
 	public void setTileAsAMove(Position pos)
 	{
 		boardTiles[pos.getX()][pos.getY()].setLegalMove(true);
 	}
-	public ChessFrame()
+	public ChessFrame(boolean isWhiteAI, boolean isBlackAI)
 	{
 		super();
 		
+		twoPlayer = true;
+		if (isWhiteAI || isBlackAI)
+		{
+			twoPlayer = false;
+			if (isWhiteAI)
+			{
+				whiteAI = new AI();
+			}
+			if (isBlackAI)
+			{
+				blackAI = new AI();
+			}
+		}
+		
+		/*
+		if (ai == null)
+		{
+			switchTurns();
+		}
+		else
+		{
+			move(ai.getmove(game.getBoard())); //   will be ArrayList<Position>, first is origin, second is moveTo
+		}*/
 		DefaultBoard images = new DefaultBoard();
         display = new JPanel();
         origin = null;
         
         MenuHandler handler = new MenuHandler(this);
         handler.setUpMenu();
-        game = new ChessBoard(whiteStart);
+        game = new ChessBoard(true);// whitestart
         setLayout(new BorderLayout());
         add(display, BorderLayout.CENTER);
         pack();
         addTiles(images);
+        disableBtns();
+        enableBtns(whiteTurn);
         
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,8 +96,8 @@ public class ChessFrame extends JFrame
             	if (!(i > 1 && i < 6))
             	{
             		Image img = images.getBoard(new Position(i, j));  
-                    Tile b = new Tile(boardTiles, game,
-                    		new Position(j,i), img);
+                    Tile b = new Tile(this, new Position(j,i), img);
+            		addTileToEnableList(b, game.getPiece(new Position(j, i)).isWhite());
                     // our chess pieces are 64x64 px in size, so we'll
                     // 'fill this in' using a transparent icon..
                     boardTiles[j][i] = b;
@@ -69,7 +106,7 @@ public class ChessFrame extends JFrame
             	}
             	else
             	{
-            		Tile b = new Tile(boardTiles, game,
+            		Tile b = new Tile(this,
             				new Position(j, i), (new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
                     boardTiles[j][i] = b;
             		display.add(b);
@@ -77,8 +114,168 @@ public class ChessFrame extends JFrame
             }
         }
     }
-    public final void paintComponent(final Graphics graphics) {
-        Graphics2D g = (Graphics2D) graphics;
+    private void enableBtns(boolean isWhite)
+	{
+		if (isWhite)
+		{
+			for(Tile i: white)
+			{
+				i.setEnabled(true);
+			}
+		}
+		else
+		{
+			for(Tile i: black)
+			{
+				i.setEnabled(true);
+			}
+		}
+	}
+	private void disableBtns()
+	{
+		for (Tile i: white)
+		{
+			i.setEnabled(false);
+		}
+		for (Tile i: black)
+		{
+			i.setEnabled(false);
+		}
+	}
+	private void switchTurns()
+	{
+		if (whiteTurn)
+		{
+			whiteTurn = false;
+			setTitle("BLack's turn");
+			
+		}
+		else
+		{
+			whiteTurn = true;
+			setTitle("White's turn");
+		}
+	}
+	private void addTileToEnableList(Tile aTile, boolean isWhite)
+	{
+		if (isWhite)
+		{
+			white.add(aTile);
+			if (origin != null)
+			{
+				white.remove(boardTiles[origin.getX()][origin.getY()]); //remove old pos
+			}
+		}
+		else
+		{
+			black.add(aTile);
+			if (origin != null)
+			{
+				black.remove(boardTiles[origin.getX()][origin.getY()]);
+			}
+		}
+	}
+	private void addNewPosToEnableList(Tile aTile)
+	{
+		if (whiteTurn)
+		{
+			white.add(aTile);
+			white.remove(boardTiles[origin.getX()][origin.getY()]);
+		}
+		else
+		{
+			black.add(aTile);
+			black.remove(boardTiles[origin.getX()][origin.getY()]);
+		}
+	}
+	private void disableBtnIfCapture(Position posTo) {
+		if (!whiteTurn){ //capture opposing, remove from enable list
+			for (Tile i: white){
+				if (posTo.equals(i.getCoords())){
+					white.remove(i);
+					break;
+				}
+			}
+		}
+		else{
+			for (Tile i: black){
+				if (posTo.equals(i.getCoords()))
+				{
+					black.remove(i);
+					break;
+				}
+			}
+		}
+	}
+	private void clearLegalMoves()
+	{
+		for (Tile i: legalMoves)
+		{
+			i.setBackground();
+			i.setLegalMove(false);
+		}
+		legalMoves.clear();
+	}
+    public void move(Position posTo)
+    {
+    	
+		//move();
+		Move move = new Move(origin, posTo, game.getPiece(origin), game.getPiece(posTo));
+		clearLegalMoves();
+		if (!(posTo.equals(origin)))
+		{
+			Tile temp = boardTiles[posTo.getX()][posTo.getY()];
+			temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
+			temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
+			boardTiles[origin.getX()][origin.getY()].removeIcon();
+			if (move.size() > 2) //special move
+			{
+				if (move.size() == 3) //en passant
+				{
+					Position removePawn = move.changedPos(2);
+					boardTiles[removePawn.getX()][removePawn.getY()].removeIcon();
+				}
+				else //move.size() == 4
+				{
+					Position removeRook = move.changedPos(2);
+					Position rookNewPos = move.changedPos(3);
+					Tile tempRook = boardTiles[rookNewPos.getX()][rookNewPos.getY()];
+					tempRook.setIcon(boardTiles[removeRook.getX()][removeRook.getY()].makeImgIcon());
+					tempRook.setImg(boardTiles[removeRook.getX()][removeRook.getY()].getImg());
+					boardTiles[removeRook.getX()][removeRook.getY()].removeIcon();
+				}
+			}
+			disableBtnIfCapture(posTo);
+			addNewPosToEnableList(temp);
+			disableBtns();
+			
+			game.move(origin, posTo);
+			if (twoPlayer)
+			{
+				switchTurns();
+			}
+			enableBtns(whiteTurn);
+			if (game.isCheckMated())
+			{
+				VictoryDialog vd = new VictoryDialog(this);
+				disableBtns();
+			}
+		}
+		origin = null;
+    }
+    public void showMoves(Position pos)
+    {
+    	clearLegalMoves();
+    	ArrayList<Position> moves = game.getMoves(pos);
+    	moves.add(pos);
+		setOrigin(pos);
+		for (Position i: moves)
+		{
+			Tile temp = boardTiles[i.getX()][i.getY()];
+			temp.setLegalMove(true);
+			temp.setBackground(Color.ORANGE);
+			legalMoves.add(temp);
+		}
     }
 	public final void intro()
 	{
@@ -156,6 +353,5 @@ public class ChessFrame extends JFrame
 	public void setGame(ChessBoard game) {
 		this.game = game;
 	}
-	
 	
 }

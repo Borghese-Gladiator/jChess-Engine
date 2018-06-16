@@ -8,11 +8,12 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import BoardMovement.ChessBoard;
+import BoardMovement.Move;
+import BoardMovement.Piece;
 import BoardMovement.Position;
 
 public class Tile extends JButton implements MouseListener
@@ -21,20 +22,17 @@ public class Tile extends JButton implements MouseListener
     static final Color DARK = new Color(0xD1, 0x8B, 0x47);
 
     static final Color LIGHT = new Color(0xFF, 0xCE, 0x9E);
-
-    static Position origin;
-    static Tile[][] boardParent;
-    static ChessBoard gameParent;
+    
+    ChessFrame board;
     Position coords;
 	Image img;
 	boolean isLegalMove;
-	public Tile(Tile[][] board, ChessBoard game, Position pos, Image anImg)
+	public Tile(ChessFrame aBoard, Position pos, Image anImg)
 	{
 		super(createIcon(anImg));
 		img = anImg;
+		board = aBoard;
 		coords = pos;
-		this.boardParent = board;
-		this.gameParent = game;
 		isLegalMove = false;
         setBackground();
         MouseListener mouseListener = new MouseAdapter()
@@ -43,24 +41,11 @@ public class Tile extends JButton implements MouseListener
         	public void mouseClicked(MouseEvent arg0) {
         		if (isLegalMove)
         		{
-        			//move();
-        			isLegalMove = false;
-        			setBackground();
-        			setIcon(boardParent[origin.getX()][origin.getY()].getImg());
-        			boardParent[origin.getX()][origin.getY()].remove();
-        			gameParent.move(origin, coords);
-        			Tile.origin = null;
+        			board.move(coords);
         		}
         		else
         		{
-        			ArrayList<Position> moves = gameParent.getMoves(coords);
-        			Tile.setOrigin(coords);
-        			for (Position i: moves)
-        			{
-        				Tile temp = boardParent[i.getX()][i.getY()];
-        				temp.setLegalMove(true);
-        				temp.setBackground(Color.ORANGE);
-        			}
+        			board.showMoves(coords);
         		}
             		//parent.set the tile as legal move(true); --and green dot? 
         	}
@@ -70,34 +55,26 @@ public class Tile extends JButton implements MouseListener
 	    	}
 		};
         addMouseListener(mouseListener);
-		
-		/*this.addMouseListener(new MouseAdapter()
-		{
-            public void mouseClicked(MouseEvent e)
-            {
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    Clicked();
-                } 
-                else if(e.getButton() == MouseEvent.BUTTON3) {
-                    Mark();
-                }
-            }
-		}*/
 	}
+	
 	public static ImageIcon createIcon(Image im)
 	{
 		Image newimg = im.getScaledInstance(TILE_HEIGHT_AND_WIDTH, TILE_HEIGHT_AND_WIDTH,  java.awt.Image.SCALE_SMOOTH ) ; 
         ImageIcon icon = new ImageIcon(newimg);
         return icon;
 	}
-	private void remove()
+	void removeIcon()
 	{
 		setIcon(new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
 	}
-	private ImageIcon getImg() {
+	ImageIcon makeImgIcon() {
 		return createIcon(img);
 	}
-	private void setBackground()
+	Image getImg()
+	{
+		return img;
+	}
+	public void setBackground()
 	{
 		if (((coords.getY()+ coords.getX()) % 2 == 0)) 
         {
@@ -149,10 +126,13 @@ public class Tile extends JButton implements MouseListener
 		// TODO Auto-generated method stub
 		
 	}
-	public static Position getOrigin() {
-		return origin;
+
+	public void setImg(Image img) {
+		this.img = img;
 	}
-	public static void setOrigin(Position origin) {
-		Tile.origin = origin;
+
+	public Position getCoords() {
+		return coords;
 	}
+	
 }
