@@ -542,6 +542,14 @@ public class ChessBoard{
 	 * @return true if checkmated
 	 */
 	public boolean isCheckMated(){
+		return hasNoMoves()&&isChecked();
+	}
+	
+	public boolean isStalemated(){
+		return hasNoMoves()&&!isChecked();
+	}
+	
+	private boolean hasNoMoves(){
 		ArrayList<Position> piecePos = getAllPieces(isWhiteTurn);
 		ArrayList<Position> movePos = new ArrayList<Position>();
 		for(Position pos: piecePos){
