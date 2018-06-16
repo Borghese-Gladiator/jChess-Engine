@@ -324,11 +324,7 @@ public class ChessFrame extends JFrame
 		intro.setVisible(true);
 	}
 	public final void newGame() {
-        NewGame ngFrame = new NewGame(this);
-        ngFrame.setVisible(true);
-        if (ngFrame == null) {
-            return;
-        }
+       new ChessFrame(false, false);
     }
 	private class MenuHandler implements ActionListener {
 
@@ -342,6 +338,7 @@ public class ChessFrame extends JFrame
         @Override
         public final void actionPerformed(final ActionEvent e) {
             if ("New Game".equals(e.getActionCommand())) {
+            	frame.dispose();
                 frame.newGame();
             }
             else if ("How to Play".equals(e.getActionCommand()))
