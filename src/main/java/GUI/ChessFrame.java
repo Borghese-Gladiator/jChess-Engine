@@ -220,7 +220,15 @@ public class ChessFrame extends JFrame
     	{
     		if (posTo.getY() == 0 || posTo.getY() == 7 && game.getPiece(origin).isPawn())
     		{
-    			Image queen = ImageDatabase.getTile("Queen-WHITE");
+    			Image queen;
+    			if (isWhiteTurn)
+    			{
+        			queen = ImageDatabase.getTile("Queen-WHITE");
+    			}
+    			else
+    			{
+    				queen = ImageDatabase.getTile("Queen-BLACK");
+    			}
     			boardTiles[origin.getX()][origin.getY()].setImg(queen);
     		}
         	game.move(origin, posTo);
@@ -259,7 +267,7 @@ public class ChessFrame extends JFrame
     			enableBtns(isWhiteTurn);
     			if (game.isCheckMated())
     			{
-    				if (isWhiteTurn)
+    				if (!(isWhiteTurn))
     				{
     					VictoryDialog vd = new VictoryDialog(this);
     					vd.setVisible(true);
