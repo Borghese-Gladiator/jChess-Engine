@@ -163,17 +163,29 @@ public class ChessFrame extends JFrame
 			}
 		}
 	}
+	private void removeUsingPos(ArrayList<Tile> list)
+	{
+		for (Tile i: list)
+		{
+			if (i.getCoords().equals(origin))
+			{
+				list.remove(i);
+				break;
+			}
+		}
+	}
 	private void addNewPosToEnableList(Tile aTile)
 	{
 		if (isWhiteTurn)
 		{
 			white.add(aTile);
-			white.remove(boardTiles[origin.getX()][origin.getY()]);
+			removeUsingPos(white);
+			
 		}
 		else
 		{
 			black.add(aTile);
-			black.remove(boardTiles[origin.getX()][origin.getY()]);
+			removeUsingPos(black);
 		}
 	}
 	private void disableBtnIfCapture(Position posTo) {
@@ -218,19 +230,7 @@ public class ChessFrame extends JFrame
     {
     	if (checkIfLegalMove(posTo))
     	{
-    		if (posTo.getY() == 0 || posTo.getY() == 7 && game.getPiece(origin).isPawn())
-    		{
-    			Image queen;
-    			if (isWhiteTurn)
-    			{
-        			queen = ImageDatabase.getTile("Queen-WHITE");
-    			}
-    			else
-    			{
-    				queen = ImageDatabase.getTile("Queen-BLACK");
-    			}
-    			boardTiles[origin.getX()][origin.getY()].setImg(queen);
-    		}
+    		promoteIconChange(posTo);
         	game.move(origin, posTo);
     		Move move = game.lastMove();
     		if (!(posTo.equals(origin)))
@@ -290,6 +290,21 @@ public class ChessFrame extends JFrame
 		clearLegalMoves();
 		origin = null;
     }
+	private void promoteIconChange(Position posTo) {
+		if (game.getPiece(origin).isPawn() && (posTo.getY() == 0 || posTo.getY() == 7))
+		{
+			Image queen;
+			if (isWhiteTurn)
+			{
+				queen = ImageDatabase.getTile("Queen-WHITE");
+			}
+			else
+			{
+				queen = ImageDatabase.getTile("Queen-BLACK");
+			}
+			boardTiles[origin.getX()][origin.getY()].setImg(queen);
+		}
+	}
     public void showMoves(Position pos)
     {
     	if (checkMove(pos))
