@@ -66,6 +66,7 @@ public class NewGame extends JDialog implements ActionListener
 		// TODO Auto-generated method stub
 		if ("OK".equals(e.getActionCommand())) {
             cancelled = false;
+            owner.dispose();
             getGame();
            
         }

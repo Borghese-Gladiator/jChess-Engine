@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -26,16 +27,16 @@ public class ChessFrame extends JFrame
     static ArrayList<Tile> legalMoves = new ArrayList<Tile>();
 	private final JPanel display;
     public Tile[][] boardTiles = new Tile[8][8];
-    static Position origin;
+    Position origin;
     AI whiteAI = null;
     AI blackAI = null;
-    public static Position getOrigin() {
+    public Position getOrigin() {
 		return origin;
 	}
-	public static void setOrigin(Position origin) {
-		ChessFrame.origin = origin;
+	public  void setOrigin(Position origin) {
+		this.origin = origin;
 	}
-    static boolean isWhiteTurn = true;
+    boolean isWhiteTurn = true;
 	private ChessBoard game;
 	private boolean twoPlayer;
 	public void setTileAsAMove(Position pos)
@@ -220,7 +221,12 @@ public class ChessFrame extends JFrame
     {
     	
 		//move();
-		game.move(origin, posTo);
+		if (posTo.getY() == 0 || posTo.getY() == 7 && game.getPiece(origin).isPawn())
+		{
+			Image queen = ImageDatabase.getTile("Queen-WHITE");
+			boardTiles[origin.getX()][origin.getY()].setImg(queen);
+		}
+    	game.move(origin, posTo);
 		Move move = game.lastMove();
 		clearLegalMoves();
 		if (!(posTo.equals(origin)))
@@ -306,17 +312,9 @@ public class ChessFrame extends JFrame
     }
 	private class MenuHandler implements ActionListener {
 
-        /** The "Game" menu. */
         private JMenu menu;
 
-        /** The parent chess frame, for callbacks. */
         private final ChessFrame frame;
-
-        /**
-         * Create the menu handler.
-         *
-         * @param parent parent frame
-         */
         public MenuHandler(final ChessFrame parent) {
             frame = parent;
         }
@@ -334,10 +332,6 @@ public class ChessFrame extends JFrame
                 System.exit(0);
             }
         }
-
-        /**
-         * Set up the menu bar.
-         */
         public final void setUpMenu() {
             JMenuBar menuBar = new JMenuBar();
 
