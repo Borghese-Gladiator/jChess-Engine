@@ -45,4 +45,10 @@ public class King extends Piece{
 	public int actionvalue(){
 		return 1;
 	}
+
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

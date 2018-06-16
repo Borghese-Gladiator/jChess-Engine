@@ -14,6 +14,7 @@ public class AI {
 		blackdefend = new char[8][8];
 	 }
 	 public Position getmove(Piece [][] b){
+		 Move moves = new Move();
 		 for(int i = 0; i < 8;i++){
 			 for(int x = 0; x<8; x++){
 				 board[i][x]= b[i][x];
@@ -31,7 +32,7 @@ public class AI {
 							aiValidMoves.checkmove(board,list.get(i),chess.getMoves(list.get(i)));
 							
 						}
-						
+					}
 				}
 			}
 		 }

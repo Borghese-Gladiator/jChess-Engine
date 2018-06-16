@@ -54,15 +54,15 @@ public class Evaluation {
 	private static Position oldpos;
 			
 	public static void move( Position move, Position current, Piece[][]board){
-		if(hightotal < board[move.getX()][move.getY()].gettotal() ){
-			hightotal = board[move.getX()][move.getY()].gettotal();
+		if(hightotal < board[move.getX()][move.getY()].getTotal() ){
+			hightotal = board[move.getX()][move.getY()].getTotal();
 			pos=move;
 			oldpos = current;
 		}
 			
 	}
-	public static Arraylist<Position> gethighest(){
-		return new ArrayList<Position>
+	public static ArrayList<Position> gethighest(){
+		return new ArrayList<Position>();
 	}
 	
 

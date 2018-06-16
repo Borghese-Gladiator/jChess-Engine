@@ -16,6 +16,7 @@ import javax.swing.JSeparator;
 
 import BoardMovement.AI;
 import BoardMovement.ChessBoard;
+import BoardMovement.Move;
 import BoardMovement.Position;
 
 public class ChessFrame extends JFrame
@@ -26,7 +27,8 @@ public class ChessFrame extends JFrame
 	private final JPanel display;
     public Tile[][] boardTiles = new Tile[8][8];
     static Position origin;
-    AI ai = null;
+    AI whiteAI = null;
+    AI blackAI = null;
     public static Position getOrigin() {
 		return origin;
 	}
@@ -35,14 +37,38 @@ public class ChessFrame extends JFrame
 	}
     static boolean whiteTurn = true;
 	private ChessBoard game;
+	private boolean twoPlayer;
 	public void setTileAsAMove(Position pos)
 	{
 		boardTiles[pos.getX()][pos.getY()].setLegalMove(true);
 	}
-	public ChessFrame()
+	public ChessFrame(boolean isWhiteAI, boolean isBlackAI)
 	{
 		super();
 		
+		twoPlayer = true;
+		if (isWhiteAI || isBlackAI)
+		{
+			twoPlayer = false;
+			if (isWhiteAI)
+			{
+				whiteAI = new AI();
+			}
+			if (isBlackAI)
+			{
+				blackAI = new AI();
+			}
+		}
+		
+		/*
+		if (ai == null)
+		{
+			switchTurns();
+		}
+		else
+		{
+			move(ai.getmove(game.getBoard())); //   will be ArrayList<Position>, first is origin, second is moveTo
+		}*/
 		DefaultBoard images = new DefaultBoard();
         display = new JPanel();
         origin = null;
@@ -194,7 +220,7 @@ public class ChessFrame extends JFrame
     {
     	
 		//move();
-		//Move x = new Move(origin, posTo, game.getPiece(origin), game.getPiece(posTo));
+		Move move = new Move(origin, posTo, game.getPiece(origin), game.getPiece(posTo));
 		clearLegalMoves();
 		if (!(posTo.equals(origin)))
 		{
@@ -202,18 +228,31 @@ public class ChessFrame extends JFrame
 			temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
 			temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
 			boardTiles[origin.getX()][origin.getY()].removeIcon();
+			if (move.size() > 2) //special move
+			{
+				if (move.size() == 3) //en passant
+				{
+					Position removePawn = move.changedPos(2);
+					boardTiles[removePawn.getX()][removePawn.getY()].removeIcon();
+				}
+				else //move.size() == 4
+				{
+					Position removeRook = move.changedPos(2);
+					Position rookNewPos = move.changedPos(3);
+					Tile tempRook = boardTiles[rookNewPos.getX()][rookNewPos.getY()];
+					tempRook.setIcon(boardTiles[removeRook.getX()][removeRook.getY()].makeImgIcon());
+					tempRook.setImg(boardTiles[removeRook.getX()][removeRook.getY()].getImg());
+					boardTiles[removeRook.getX()][removeRook.getY()].removeIcon();
+				}
+			}
 			disableBtnIfCapture(posTo);
 			addNewPosToEnableList(temp);
 			disableBtns();
 			
 			game.move(origin, posTo);
-			if (ai == null)
+			if (twoPlayer)
 			{
 				switchTurns();
-			}
-			else
-			{
-				//move(ai.getmove());    will be ArrayList<Position>, first is origin, second is moveTo
 			}
 			enableBtns(whiteTurn);
 			if (game.isCheckMated())
@@ -313,13 +352,6 @@ public class ChessFrame extends JFrame
 	}
 	public void setGame(ChessBoard game) {
 		this.game = game;
-	}
-	public void enableAI(boolean enable)
-	{
-		if (enable)
-		{
-			ai = new AI(game.getBoard());
-		}
 	}
 	
 }

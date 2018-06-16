@@ -24,11 +24,16 @@ public class PlayerChooser extends JPanel
     /** Horizontal padding around this panel. */
     static final int H_PADDING = 10;
     
-    public PlayerChooser(final String title, final boolean humanSet, final ChessFrame owner) {
+    public NewGame owner;
+    
+    private boolean isHuman;
+    
+    public PlayerChooser(final String title, final boolean humanSet, final NewGame aOwner) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel label = new JLabel(title);
         add(label);
 
+        owner = aOwner;
         /* Set up widgets. */
         ButtonGroup group = new ButtonGroup();
         group.add(human);
@@ -43,12 +48,12 @@ public class PlayerChooser extends JPanel
         
         human.addActionListener(new ActionListener() {
             public final void actionPerformed(final ActionEvent e) {
-                owner.enableAI(!human.isSelected());
+                isHuman = !human.isSelected();
             }
         });
         minimax.addActionListener(new ActionListener() {
             public final void actionPerformed(final ActionEvent e) {
-                owner.enableAI(minimax.isSelected());
+                isHuman = minimax.isSelected();
             }
         });
         
@@ -57,5 +62,9 @@ public class PlayerChooser extends JPanel
         setBorder(BorderFactory.createEmptyBorder(H_PADDING, V_PADDING,
                   H_PADDING, V_PADDING));
     }
+
+	public boolean isHuman() {
+		return isHuman;
+	}
 
 }

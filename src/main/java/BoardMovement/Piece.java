@@ -59,8 +59,6 @@ public abstract class Piece {
 	public void settotal(int t){
 		total += t;
 	}
-	public abstract int gettotal(){
-		return total;
-	}
+	public abstract int getTotal();
 
 }

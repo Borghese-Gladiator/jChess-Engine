@@ -40,5 +40,12 @@ public class Bishop extends Piece {
 	public void setdefend(int i){
 		defend+=i;
 	}
+
+
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

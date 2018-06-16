@@ -1,11 +1,11 @@
 import BoardMovement.*;
-import TerminalIO.KeyboardReader;
+//import TerminalIO.KeyboardReader;
 
 public class Testing {
 
 	
 	public static void main(String[] args) {
-		KeyboardReader b = new KeyboardReader();
+		//KeyboardReader b = new KeyboardReader();
 		ChessBoard board = new ChessBoard(true);
 		System.out.println(board);
 		board.move(new Position(4,6), new Position(4,5));

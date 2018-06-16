@@ -42,4 +42,10 @@ public class Knight extends Piece{
 		return 3;
 	}
 
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
