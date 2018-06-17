@@ -12,6 +12,12 @@ public class ChessBoard{
 		isWhiteTurn = true;
 	}
 	
+	public ChessBoard (Piece[][] board, boolean isWhiteTurn) {
+		this.board  = board;
+		this.isWhiteTurn = isWhiteTurn;
+		allMoves = new ArrayList<Move>();
+	}
+	
 	public ChessBoard(boolean whiteStart){
 		this();
 		board[0][0] = new Rook(false);
