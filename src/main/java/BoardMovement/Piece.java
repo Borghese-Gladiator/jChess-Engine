@@ -23,7 +23,7 @@ public abstract class Piece {
 		return isWhite;
 	}
 	
-	public boolean getHasMoved(){
+	public boolean hasMoved(){
 		return hasMoved;
 	}
 	

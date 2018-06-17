@@ -23,11 +23,11 @@ public class Move {
 		origPos.add(to);
 		origPiece.add(pieceFrom);
 		origPiece.add(pieceTo);
-		origMoved.add(pieceFrom.getHasMoved());
+		origMoved.add(pieceFrom.hasMoved());
 		if(pieceTo==null)
 			origMoved.add(null);
 		else
-			origMoved.add(pieceTo.getHasMoved());
+			origMoved.add(pieceTo.hasMoved());
 	}
 	
 	public void addSpot(Piece piece, Position pos){
@@ -36,7 +36,7 @@ public class Move {
 		if(piece==null)
 			origMoved.add(null);
 		else
-			origMoved.add(piece.getHasMoved());
+			origMoved.add(piece.hasMoved());
 	}
 	
 	public ArrayList<Position> getPositions(){

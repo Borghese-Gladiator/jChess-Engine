@@ -41,6 +41,7 @@ public class ChessBoard{
 		return isWhiteTurn;
 	}
 	
+	
 	/**
 	 * Returns the board
 	 * @return the 2D array with the pieces. null where there isn't a piece.
@@ -166,7 +167,7 @@ public class ChessBoard{
 	 * @return Returns true if that is a valid move for that piece. False if invalid.
 	 */
 	private boolean isValidMove(Position posFrom, Position posTo){
-		for(Position move: getMoves(posFrom,board))
+		for(Position move: getMoves(posFrom))
 			if(move.getX()==posTo.getX()&&move.getY()==posTo.getY())
 				return true;
 		return false;
@@ -177,7 +178,7 @@ public class ChessBoard{
 	 * @param pos The position of the piece
 	 * @return an ArrayList with all valid positions the piece can move to
 	 */
-	public ArrayList<Position> getMoves(Position pos,Piece [][]board){
+	public ArrayList<Position> getMoves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at Position " + pos);
 		
@@ -214,9 +215,9 @@ public class ChessBoard{
 			if(newx>=0&&newx<8&&newy>=0&&newy<8&&(board[newx][newy]==null||board[newx][newy].isWhite()!=thisIsWhite))
 				moves.add(new Position(newx,newy));
 		}
-		if(checkCastleRight(pos) == true)
+		if(checkCastleRight(pos))
 			moves.add(new Position(x+2,y));
-		if(checkCastleLeft(pos) ==true)
+		if(checkCastleLeft(pos))
 			moves.add(new Position(x-2,y));
 		return moves;
 	}
@@ -304,7 +305,7 @@ public class ChessBoard{
 			forward = 1;
 		if(board[x][y+forward]==null){
 			moves.add(new Position(x,y+forward));
-			if(!getPiece(pos).getHasMoved()&&board[x][y+forward+forward]==null)
+			if(!getPiece(pos).hasMoved()&&board[x][y+forward+forward]==null)
 				moves.add(new Position(x,y+forward+forward));
 		}
 		if(checkEnPassant(pos,true)||(x!=7&&(board[x+1][y+forward]!=null&&board[x+1][y+forward].isWhite()!=thisIsWhite)))
@@ -316,13 +317,13 @@ public class ChessBoard{
 	
 	private boolean checkCastleRight(Position from){
 		Piece hold = getPiece(from);
-		if(((King)hold).getHasMoved()== true)
+		if(((King)hold).hasMoved())
 			return false;
 		if(!(getPiece(new Position(7,from.getY()))instanceof Rook))
 			return false;
 		if(((Rook) (getPiece(new Position(7,from.getY())))).isWhite() != hold.isWhite())
 			return false;
-		if(((Rook) (getPiece(new Position(7,from.getY())))).getHasMoved() == true)
+		if(((Rook) (getPiece(new Position(7,from.getY())))).hasMoved())
 				return false;
 		if(board[from.getX()+1][from.getY()]!=null)
 			return false;
@@ -334,13 +335,13 @@ public class ChessBoard{
 	
 	private boolean checkCastleLeft(Position from){
 		Piece hold = getPiece(from);
-		if(((King)hold).getHasMoved()== true)
+		if(((King)hold).hasMoved())
 			return false;
 		if(!(getPiece(new Position(0,from.getY()))instanceof Rook))
 			return false;
 		if(((Rook) (getPiece(new Position(0,from.getY())))).isWhite() != hold.isWhite())
 				return false;
-		if(((Rook) (getPiece(new Position(0,from.getY())))).getHasMoved() == true)
+		if(((Rook) (getPiece(new Position(0,from.getY())))).hasMoved() == true)
 				return false;
 		if(board[from.getX()-1][from.getY()]!=null)
 			return false;
@@ -553,7 +554,7 @@ public class ChessBoard{
 		ArrayList<Position> piecePos = getAllPieces(isWhiteTurn);
 		ArrayList<Position> movePos = new ArrayList<Position>();
 		for(Position pos: piecePos){
-			ArrayList<Position> temp = getMoves(pos,board);
+			ArrayList<Position> temp = getMoves(pos);
 			movePos.addAll(temp);
 		}
 		return movePos.size()==0;
@@ -573,5 +574,9 @@ public class ChessBoard{
 			str += "\n";
 		}
 		return str;
+	}
+	
+	public boolean canCastle(){
+		ArrayList<Position> kingMoves = getMoves(getKingPosition(isWhiteTurn));
 	}
 }
