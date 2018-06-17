@@ -50,8 +50,8 @@ public class Evaluation {
 		{-20,-10,-10,-10,-10,-10,-10,-20},
 	};
 	private static int hightotal=0;
-	private static Position pos = null;
-	private static Position oldpos=null;
+	private static Position pos ;
+	private static Position oldpos;
 	public static void move( Position old, Position current, Piece[][]board){
 		int total = 0;
 		if(board[old.getX()][old.getY()] instanceof Pawn){
