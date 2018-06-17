@@ -21,7 +21,7 @@ public class Queen extends Piece {
 		return type;
 	}
 	
-	public boolean getHasMoved(){
+	public boolean hasMoved(){
 		return hasMoved;
 	}
 	

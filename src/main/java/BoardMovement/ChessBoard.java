@@ -12,6 +12,12 @@ public class ChessBoard{
 		isWhiteTurn = true;
 	}
 	
+	public ChessBoard (Piece[][] board, boolean isWhiteTurn) {
+		this.board  = board;
+		this.isWhiteTurn = isWhiteTurn;
+		allMoves = new ArrayList<Move>();
+	}
+	
 	public ChessBoard(boolean whiteStart){
 		this();
 		board[0][0] = new Rook(false);
@@ -40,6 +46,7 @@ public class ChessBoard{
 	public boolean getMovingSide(){
 		return isWhiteTurn;
 	}
+	
 	
 	/**
 	 * Returns the board
@@ -214,9 +221,9 @@ public class ChessBoard{
 			if(newx>=0&&newx<8&&newy>=0&&newy<8&&(board[newx][newy]==null||board[newx][newy].isWhite()!=thisIsWhite))
 				moves.add(new Position(newx,newy));
 		}
-		if(checkCastleRight(pos) == true)
+		if(checkCastleRight(pos))
 			moves.add(new Position(x+2,y));
-		if(checkCastleLeft(pos) ==true)
+		if(checkCastleLeft(pos))
 			moves.add(new Position(x-2,y));
 		return moves;
 	}
@@ -304,7 +311,7 @@ public class ChessBoard{
 			forward = 1;
 		if(board[x][y+forward]==null){
 			moves.add(new Position(x,y+forward));
-			if(!getPiece(pos).getHasMoved()&&board[x][y+forward+forward]==null)
+			if(!getPiece(pos).hasMoved()&&board[x][y+forward+forward]==null)
 				moves.add(new Position(x,y+forward+forward));
 		}
 		if(checkEnPassant(pos,true)||(x!=7&&(board[x+1][y+forward]!=null&&board[x+1][y+forward].isWhite()!=thisIsWhite)))
@@ -316,13 +323,13 @@ public class ChessBoard{
 	
 	private boolean checkCastleRight(Position from){
 		Piece hold = getPiece(from);
-		if(((King)hold).getHasMoved()== true)
+		if(((King)hold).hasMoved())
 			return false;
 		if(!(getPiece(new Position(7,from.getY()))instanceof Rook))
 			return false;
 		if(((Rook) (getPiece(new Position(7,from.getY())))).isWhite() != hold.isWhite())
 			return false;
-		if(((Rook) (getPiece(new Position(7,from.getY())))).getHasMoved() == true)
+		if(((Rook) (getPiece(new Position(7,from.getY())))).hasMoved())
 				return false;
 		if(board[from.getX()+1][from.getY()]!=null)
 			return false;
@@ -334,13 +341,13 @@ public class ChessBoard{
 	
 	private boolean checkCastleLeft(Position from){
 		Piece hold = getPiece(from);
-		if(((King)hold).getHasMoved()== true)
+		if(((King)hold).hasMoved())
 			return false;
 		if(!(getPiece(new Position(0,from.getY()))instanceof Rook))
 			return false;
 		if(((Rook) (getPiece(new Position(0,from.getY())))).isWhite() != hold.isWhite())
 				return false;
-		if(((Rook) (getPiece(new Position(0,from.getY())))).getHasMoved() == true)
+		if(((Rook) (getPiece(new Position(0,from.getY())))).hasMoved() == true)
 				return false;
 		if(board[from.getX()-1][from.getY()]!=null)
 			return false;
@@ -573,5 +580,9 @@ public class ChessBoard{
 			str += "\n";
 		}
 		return str;
+	}
+	
+	public boolean canCastle(){
+		return checkCastleLeft(getKingPosition(isWhiteTurn))||checkCastleRight(getKingPosition(isWhiteTurn));
 	}
 }
