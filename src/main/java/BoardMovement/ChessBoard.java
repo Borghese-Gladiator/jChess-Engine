@@ -166,7 +166,7 @@ public class ChessBoard{
 	 * @return Returns true if that is a valid move for that piece. False if invalid.
 	 */
 	private boolean isValidMove(Position posFrom, Position posTo){
-		for(Position move: getMoves(posFrom))
+		for(Position move: getMoves(posFrom,board))
 			if(move.getX()==posTo.getX()&&move.getY()==posTo.getY())
 				return true;
 		return false;
@@ -553,7 +553,7 @@ public class ChessBoard{
 		ArrayList<Position> piecePos = getAllPieces(isWhiteTurn);
 		ArrayList<Position> movePos = new ArrayList<Position>();
 		for(Position pos: piecePos){
-			ArrayList<Position> temp = getMoves(pos);
+			ArrayList<Position> temp = getMoves(pos,board);
 			movePos.addAll(temp);
 		}
 		return movePos.size()==0;
