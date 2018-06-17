@@ -23,6 +23,7 @@ public class AI {
 				 else if(b[i][x] instanceof Knight)	board[i][x]= new Knight(b[i][x].isWhite());
 				 else if(b[i][x] instanceof Pawn)	board[i][x]= new Pawn(b[i][x].isWhite());
 				 else if(b[i][x] instanceof King)	board[i][x]= new King(b[i][x].isWhite());
+				 else if(b[i][x] ==null) board[i][x]= null;
 				 
 			 }
 		 }
