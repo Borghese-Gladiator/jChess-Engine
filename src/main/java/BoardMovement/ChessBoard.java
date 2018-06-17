@@ -197,9 +197,10 @@ public class ChessBoard{
 			case 'r':moves = getMovesR(pos); break;
 			default :moves = getMovesP(pos);
 		}
+		boolean isWhite = getPiece(pos).isWhite();
 		for(int i = 0; i < moves.size(); i++){
 			moveWithoutCheck(pos,moves.get(i));
-			if(isChecked(!isWhiteTurn)){
+			if(isChecked(isWhite)){
 				moves.remove(i);
 				i--;
 			}

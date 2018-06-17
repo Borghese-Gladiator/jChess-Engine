@@ -271,7 +271,7 @@ public class ChessFrame extends JFrame
     				Position aiMoveOrigin = aiMove.get(0);
     				Tile temp2 = boardTiles[aiMove.get(1).getX()][aiMove.get(1).getY()];
         			temp2.setIcon(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].makeImgIcon());
-        			temp2.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
+        			temp2.setImg(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].getImg());
         			boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].removeIcon();
         			game.move(aiMoveOrigin, aiMove.get(1));
     			}
