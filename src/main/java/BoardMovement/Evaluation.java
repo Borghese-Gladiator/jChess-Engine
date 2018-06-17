@@ -74,6 +74,8 @@ public class Evaluation {
 			total = board[old.getX()][old.getY()].getTotal();
 		}
 		if(hightotal < total){
+			System.out.println(pos);
+			System.out.println(oldpos);
 			hightotal = total;
 			pos=current;
 			oldpos = old;
