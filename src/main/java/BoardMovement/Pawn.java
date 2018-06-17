@@ -53,9 +53,4 @@ public class Pawn extends Piece{
 		return 6;
 	}
 
-	@Override
-	public int getTotal() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

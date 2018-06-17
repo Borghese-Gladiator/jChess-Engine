@@ -59,7 +59,9 @@ public abstract class Piece {
 	public void settotal(int t){
 		total += t;
 	}
-	public abstract int getTotal();
+	public int getTotal(){
+		return total;
+	}
 	public boolean isPawn()
 	{
 		if (this instanceof Pawn)
