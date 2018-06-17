@@ -50,8 +50,8 @@ public class Evaluation {
 		{-20,-10,-10,-10,-10,-10,-10,-20},
 	};
 	private static int hightotal=0;
-	private static Position pos;
-	private static Position oldpos;
+	private static Position pos = null;
+	private static Position oldpos=null;
 	public static void move( Position old, Position current, Piece[][]board){
 		int total = 0;
 		if(board[old.getX()][old.getY()] instanceof Pawn){
@@ -70,7 +70,9 @@ public class Evaluation {
 			total = board[old.getX()][old.getY()].getTotal();
 			total += bishop[old.getX()][old.getY()];
 		} 
-		
+		else{
+			total = board[old.getX()][old.getY()].getTotal();
+		}
 		if(hightotal < total){
 			hightotal = total;
 			pos=current;
@@ -80,7 +82,7 @@ public class Evaluation {
 			
 	}
 	public static ArrayList<Position> gethighest(){
-		ArrayList<Position> list = null;
+		ArrayList<Position> list = new ArrayList<Position>();
 		list.add(oldpos);
 		list.add(pos);
 

@@ -19,11 +19,12 @@ public class aiValidMoves {
 		boolean white = board[old.getX()][old.getY()].isWhite();
 		
 		for(int i = 0; i<list.size(); i++){
+			if(board[list.get(i).getX()][list.get(i).getY()]!=null){
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()== white)
 				board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval()/2);
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()!= white)
 				board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
-
+			}
 			
 		}
 	}

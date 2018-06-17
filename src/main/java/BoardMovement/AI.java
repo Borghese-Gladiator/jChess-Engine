@@ -12,27 +12,21 @@ public class AI {
 		whiteAttack = new char[8][8];
 		blackdefend = new char[8][8];
 		board = new Piece[8][8];
-		chess = new ChessBoard();
 	 }
 	 // get moves needs to pass in the board 
 	 public ArrayList<Position> getmove(Piece [][] b){
 		 for(int i = 0; i < 8;i++){
 			 for(int x = 0; x<8; x++){
-				 if(b[i][x] instanceof Rook)
-					 board[i][x]= new Rook(false);
-				 else if(b[i][x] instanceof Queen)
-					 board[i][x]= new Queen(false);
-				 else if(b[i][x] instanceof Bishop)
-					 board[i][x]= new Bishop(false);
-				 else if(b[i][x] instanceof Knight)
-					 board[i][x]= new Knight(false);
-				 else if(b[i][x] instanceof Pawn)
-					 board[i][x]= new Pawn(false);
-				 else if(b[i][x] instanceof King)
-					 board[i][x]= new King(false);
+				 if(b[i][x] instanceof Rook) 		board[i][x]= new Rook(b[i][x].isWhite());
+				 else if(b[i][x] instanceof Queen) 	board[i][x]= new Queen(b[i][x].isWhite());
+				 else if(b[i][x] instanceof Bishop) 	board[i][x]= new Bishop(b[i][x].isWhite());
+				 else if(b[i][x] instanceof Knight)	board[i][x]= new Knight(b[i][x].isWhite());
+				 else if(b[i][x] instanceof Pawn)	board[i][x]= new Pawn(b[i][x].isWhite());
+				 else if(b[i][x] instanceof King)	board[i][x]= new King(b[i][x].isWhite());
 				 
 			 }
 		 }
+		chess = new ChessBoard(board, false); 
 		 setattack();
 		 for(int i = 0; i < 8;i++){
 			for(int x=0; x<8;x++){
@@ -56,9 +50,8 @@ public class AI {
 							//temp[i][x]= null;
 							//temp[list.get(y).getX()][list.get(y).getY()] = test;
 							//ChessBoard 
-							aiValidMoves.checkmove(board,list.get(y),temp);
+							aiValidMoves.checkmove(board,new Position(i,x),temp);
 							Evaluation.move(new Position(i,x), list.get(y), board);	
-							Evaluation.reset();
 						}		
 					}		
 				}
@@ -67,6 +60,7 @@ public class AI {
 		 }
 		ArrayList<Position> bestMove = null;
 		bestMove = Evaluation.gethighest();
+		Evaluation.reset();
 		return bestMove;
 	 }
 	 private void setattack(){
