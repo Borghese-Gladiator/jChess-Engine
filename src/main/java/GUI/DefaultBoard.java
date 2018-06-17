@@ -21,33 +21,33 @@ public class DefaultBoard
     		}
     	}
     	//Initialize pawns
-		final int whitePawnRow = 6;
-    	final int blackPawnRow = 1;
+		final int WHITEPawnRow = 6;
+    	final int BLACKPawnRow = 1;
     	for (int x = 0; x < 8; x++) 
     	{
-    		Position pos = new Position(whitePawnRow, x);
+    		Position pos = new Position(WHITEPawnRow, x);
 	    	setPiece(pos, getTile("Pawn-WHITE"));
-	    	pos.setX(blackPawnRow);
+	    	pos.setX(BLACKPawnRow);
 	    	setPiece(pos, getTile("Pawn-BLACK"));
     	}
-    	//Black Backrow
-    	setPiece(new Position(0, 0), getTile("Rook-Black"));
-    	setPiece(new Position(0, 1), getTile("Knight-Black"));
-    	setPiece(new Position(0, 2), getTile("Bishop-Black"));
-    	setPiece(new Position(0, 3), getTile("Queen-Black"));
-    	setPiece(new Position(0, 4), getTile("King-Black"));
-    	setPiece(new Position(0, 5), getTile("Bishop-Black"));
-    	setPiece(new Position(0, 6), getTile("Knight-Black"));
-    	setPiece(new Position(0, 7), getTile("Rook-Black"));
-    	//White Backrow                                
-    	setPiece(new Position(7, 0), getTile("Rook-White"));
-    	setPiece(new Position(7, 1), getTile("Knight-White"));
-    	setPiece(new Position(7, 2), getTile("Bishop-White"));
-    	setPiece(new Position(7, 3), getTile("Queen-White"));
-    	setPiece(new Position(7, 4), getTile("King-White"));
-    	setPiece(new Position(7, 5), getTile("Bishop-White"));
-    	setPiece(new Position(7, 6), getTile("Knight-White"));
-    	setPiece(new Position(7, 7), getTile("Rook-White"));
+    	//BLACK Backrow
+    	setPiece(new Position(0, 0), getTile("Rook-BLACK"));
+    	setPiece(new Position(0, 1), getTile("Knight-BLACK"));
+    	setPiece(new Position(0, 2), getTile("Bishop-BLACK"));
+    	setPiece(new Position(0, 3), getTile("Queen-BLACK"));
+    	setPiece(new Position(0, 4), getTile("King-BLACK"));
+    	setPiece(new Position(0, 5), getTile("Bishop-BLACK"));
+    	setPiece(new Position(0, 6), getTile("Knight-BLACK"));
+    	setPiece(new Position(0, 7), getTile("Rook-BLACK"));
+    	//WHITE Backrow                                
+    	setPiece(new Position(7, 0), getTile("Rook-WHITE"));
+    	setPiece(new Position(7, 1), getTile("Knight-WHITE"));
+    	setPiece(new Position(7, 2), getTile("Bishop-WHITE"));
+    	setPiece(new Position(7, 3), getTile("Queen-WHITE"));
+    	setPiece(new Position(7, 4), getTile("King-WHITE"));
+    	setPiece(new Position(7, 5), getTile("Bishop-WHITE"));
+    	setPiece(new Position(7, 6), getTile("Knight-WHITE"));
+    	setPiece(new Position(7, 7), getTile("Rook-WHITE"));
     }
     private void setPiece(Position spot, Image pic)
     {

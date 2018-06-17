@@ -55,4 +55,10 @@ public class Rook extends Piece {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

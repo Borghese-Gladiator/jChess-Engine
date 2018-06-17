@@ -472,7 +472,7 @@ public class ChessBoard{
 				break;
 			}
 		}
-		for(int x = pos.getX()-1, y = pos.getY()+1;(x>=8)&&( y<8);x--,y++){
+		for(int x = pos.getX()-1, y = pos.getY()+1;(x>=0)&&( y<8);x--,y++){
 			if(board[x][y]!=null){
 				if(board[x][y].isWhite()!=thisIsWhite&&(board[x][y] instanceof Bishop || board[x][y] instanceof Queen))
 					return true;
@@ -542,6 +542,14 @@ public class ChessBoard{
 	 * @return true if checkmated
 	 */
 	public boolean isCheckMated(){
+		return hasNoMoves()&&isChecked();
+	}
+	
+	public boolean isStalemated(){
+		return hasNoMoves()&&!isChecked();
+	}
+	
+	private boolean hasNoMoves(){
 		ArrayList<Position> piecePos = getAllPieces(isWhiteTurn);
 		ArrayList<Position> movePos = new ArrayList<Position>();
 		for(Position pos: piecePos){

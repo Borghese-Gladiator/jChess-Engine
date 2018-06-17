@@ -52,23 +52,22 @@ public class Evaluation {
 	private static int hightotal=0;
 	private static Position pos;
 	private static Position oldpos;
-			
 	public static void move( Position old, Position current, Piece[][]board){
 		int total = 0;
 		if(board[current.getX()][current.getY()] instanceof Pawn){
-			total = board[current.getX()][current.getY()].gettotal();
+			total = board[current.getX()][current.getY()].getTotal();
 			total += pawn[current.getX()][current.getY()];
 		}
 		else if(board[current.getX()][current.getY()] instanceof King){
-			total = board[current.getX()][current.getY()].gettotal();
+			total = board[current.getX()][current.getY()].getTotal();
 			total += king[current.getX()][current.getY()];
 		} 
 		else if(board[current.getX()][current.getY()] instanceof Knight){
-			total = board[current.getX()][current.getY()].gettotal();
+			total = board[current.getX()][current.getY()].getTotal();
 			total += knight[current.getX()][current.getY()];
 		} 
 		else if(board[current.getX()][current.getY()] instanceof Bishop){
-			total = board[current.getX()][current.getY()].gettotal();
+			total = board[current.getX()][current.getY()].getTotal();
 			total += bishop[current.getX()][current.getY()];
 		} 
 		

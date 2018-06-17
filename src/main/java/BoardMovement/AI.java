@@ -12,6 +12,10 @@ public class AI {
 		whiteAttack = new char[8][8];
 		blackdefend = new char[8][8];
 	 }
+	 public Position getmove1(Piece [][] b){
+		 Move moves = new Move();
+		return null;
+	 }
 	 // get moves needs to pass in the board 
 	 public ArrayList<Position> getmove(Piece [][] b){
 		 for(int i = 0; i < 8;i++){
@@ -28,6 +32,7 @@ public class AI {
 						if(whiteAttack[list.get(y).getX()][list.get(y).getY()]=='a'&&blackdefend[list.get(y).getX()][list.get(y).getY()]==' ')						
 							list.remove(y);
 						else{
+<<<<<<< HEAD
 							Piece [][] temp= new Piece[8][8];
 							for(int r = 0; i < 8;i++){
 								 for(int c = 0; x<8; x++){
@@ -44,6 +49,26 @@ public class AI {
 				}
 			}
 		 }
+=======
+							aiValidMoves.checkmove(board,list.get(i),chess.getMoves(list.get(i)));
+							
+						}
+					Piece [][] temp= new Piece[8][8];
+					for(int r = 0; i < 8;i++){
+						 for(int c = 0; x<8; x++){
+							 temp[r][c]= board[r][c];
+						 }
+					 }
+					Piece test = temp[i][x];
+					temp[i][x]= null;
+					temp[list.get(y).getX()][list.get(y).getY()] = test;
+					aiValidMoves.checkmove(temp,list.get(y),chess.getMoves(list.get(y)));
+					Evaluation.move(new Position(i,x), list.get(y), temp);
+					}
+				}		
+			}		
+		}
+>>>>>>> e7bf843df4d6dce30427e5713c0f43d568293b4c
 		ArrayList<Position> bestMove = null;
 		bestMove = Evaluation.gethighest();
 		return bestMove;

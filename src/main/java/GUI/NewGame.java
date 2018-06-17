@@ -14,15 +14,8 @@ import javax.swing.JPanel;
 import BoardMovement.ChessBoard;
 
 public class NewGame extends JDialog implements ActionListener
-{
-	
-	/*JRadioButton whiteStart = addRadioButton("White", 1, 1, 1, 1); 
-	JRadioButton blackStart = addRadioButton("Black", 2, 1, 1, 1);
-	JRadioButton singlePlayer = addRadioButton("One Player", 1, 2, 1, 1);
-	JRadioButton twoPlayer = addRadioButton("Two Player", 2, 2, 1, 1);*/
-	
-	private final ChessFrame parent;
-
+{	
+	private ChessFrame owner;
     /** White player selector. */
     private final PlayerChooser whitePanel;
 
@@ -38,15 +31,15 @@ public class NewGame extends JDialog implements ActionListener
     /** True if the dialog was cancelled away. */
     private boolean cancelled = true;
 
-    public NewGame(final ChessFrame owner) {
-        super(owner, "New game", true);
-        parent = owner;
+    public NewGame(final ChessFrame aOwner) {
+        super(aOwner, "New game", true);
+        owner = aOwner;
         setLayout(new BorderLayout());
         setLocationRelativeTo(owner);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        whitePanel = new PlayerChooser("White:", true, parent);
-        blackPanel = new PlayerChooser("Black:", false, parent);
+        whitePanel = new PlayerChooser("White:", true, this);
+        blackPanel = new PlayerChooser("Black:", false, this);
         add(whitePanel, BorderLayout.LINE_START);
         add(blackPanel, BorderLayout.CENTER);
 
@@ -73,21 +66,15 @@ public class NewGame extends JDialog implements ActionListener
 		// TODO Auto-generated method stub
 		if ("OK".equals(e.getActionCommand())) {
             cancelled = false;
+            owner.dispose();
+            getGame();
+           
         }
         setVisible(false);
         dispose();
 	}
-
-    /**
-     * Get the game selected/created by the user.
-     *
-     * @return the new game
-     */
-    public final ChessBoard getGame() {
-        if (cancelled) {
-            return null;
-        }
-        ChessBoard game = new ChessBoard();
-        return game;
-    }
+	private void getGame()
+	{
+		owner =  new ChessFrame(whitePanel.isHuman(), blackPanel.isHuman());
+	}
 }
