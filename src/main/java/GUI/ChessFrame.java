@@ -13,11 +13,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTextArea;
 
 import BoardMovement.AI;
 import BoardMovement.ChessBoard;
 import BoardMovement.Move;
+import BoardMovement.Piece;
 import BoardMovement.Position;
 
 public class ChessFrame extends JFrame
@@ -48,13 +48,13 @@ public class ChessFrame extends JFrame
 		super();
 		
 		twoPlayer = true;
-		if (isWhiteAI || isBlackAI)
+		if (isBlackAI) //Black is always AI
 		{
 			twoPlayer = false;
-			if (isWhiteAI)
+			/*if (isWhiteAI)
 			{
 				whiteAI = new AI();
-			}
+			}*/
 			if (isBlackAI)
 			{
 				blackAI = new AI();
@@ -264,11 +264,20 @@ public class ChessFrame extends JFrame
     			{
     				switchTurns();
     			}
-    			enableBtns(isWhiteTurn);
-    			if (game.isCheckMated())
+    			else
     			{
-    				if (!(isWhiteTurn))
-    				{
+    				Piece[][] aBoardd = game.getBoard();
+    				ArrayList<Position> aiMove = blackAI.getmove(aBoardd);
+    				Position aiMoveOrigin = aiMove.get(0);
+    				Tile temp2 = boardTiles[aiMove.get(1).getX()][aiMove.get(1).getY()];
+        			temp2.setIcon(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].makeImgIcon());
+        			temp2.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
+        			boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].removeIcon();
+        			game.move(aiMoveOrigin, aiMove.get(1));
+    			}
+    			enableBtns(isWhiteTurn);
+    			if (game.isCheckMated()){
+    				if (!(isWhiteTurn)){
     					VictoryDialog vd = new VictoryDialog(this);
     					vd.setVisible(true);
     				}
@@ -347,7 +356,9 @@ public class ChessFrame extends JFrame
 		intro.setVisible(true);
 	}
 	public final void newGame() {
-       new ChessFrame(false, false);
+		NewGame ng = new NewGame(this);
+		ng.setVisible(true);
+		
     }
 	private class MenuHandler implements ActionListener {
 

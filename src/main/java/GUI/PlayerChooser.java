@@ -48,15 +48,14 @@ public class PlayerChooser extends JPanel
         
         human.addActionListener(new ActionListener() {
             public final void actionPerformed(final ActionEvent e) {
-                isHuman = !human.isSelected();
+                isHuman = true;
             }
         });
         minimax.addActionListener(new ActionListener() {
             public final void actionPerformed(final ActionEvent e) {
-                isHuman = minimax.isSelected();
+                isHuman = false;
             }
         });
-        
         add(human);
         add(minimax);
         setBorder(BorderFactory.createEmptyBorder(H_PADDING, V_PADDING,

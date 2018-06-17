@@ -68,13 +68,12 @@ public class NewGame extends JDialog implements ActionListener
             cancelled = false;
             owner.dispose();
             getGame();
-           
         }
         setVisible(false);
         dispose();
 	}
 	private void getGame()
 	{
-		owner =  new ChessFrame(whitePanel.isHuman(), blackPanel.isHuman());
+		owner =  new ChessFrame(false, true); //Black is always AI
 	}
 }

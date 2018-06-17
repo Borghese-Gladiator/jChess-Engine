@@ -15,8 +15,6 @@ public class Testing {
 			System.out.println(board.isCheckMated());
 		}
 		*/
-		
-		
 	}
 	
 	public static String displayBoard(ChessBoard brd){
