@@ -23,7 +23,7 @@ public class AI {
 		 for(int i = 0; i < 8;i++){
 			for(int x=0; x<8;x++){
 				if(board[i][x].isWhite()== false){
-					ArrayList<Position> list= chess.getMoves(new Position(i,x));
+					ArrayList<Position> list= chess.getMoves(new Position(i,x),board);
 					for(int y = 0; y< list.size();y++){
 						if(whiteAttack[list.get(y).getX()][list.get(y).getY()]=='a'&&blackdefend[list.get(y).getX()][list.get(y).getY()]==' ')						
 							list.remove(y);
@@ -37,7 +37,7 @@ public class AI {
 							Piece test = temp[i][x];
 							temp[i][x]= null;
 							temp[list.get(y).getX()][list.get(y).getY()] = test;
-							aiValidMoves.checkmove(temp,list.get(y),chess.getMoves(list.get(y)));
+							aiValidMoves.checkmove(temp,list.get(y),chess.getMoves(list.get(y),temp));
 							Evaluation.move(new Position(i,x), list.get(y), temp);		
 						}		
 					}		
