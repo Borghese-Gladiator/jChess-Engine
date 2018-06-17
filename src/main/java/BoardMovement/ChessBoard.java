@@ -577,6 +577,6 @@ public class ChessBoard{
 	}
 	
 	public boolean canCastle(){
-		ArrayList<Position> kingMoves = getMoves(getKingPosition(isWhiteTurn));
+		return checkCastleLeft(getKingPosition(isWhiteTurn))||checkCastleRight(getKingPosition(isWhiteTurn));
 	}
 }
