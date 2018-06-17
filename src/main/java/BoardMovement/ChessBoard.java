@@ -166,7 +166,7 @@ public class ChessBoard{
 	 * @return Returns true if that is a valid move for that piece. False if invalid.
 	 */
 	private boolean isValidMove(Position posFrom, Position posTo){
-		for(Position move: getMoves(posFrom,board))
+		for(Position move: getMoves(posFrom))
 			if(move.getX()==posTo.getX()&&move.getY()==posTo.getY())
 				return true;
 		return false;
@@ -177,7 +177,7 @@ public class ChessBoard{
 	 * @param pos The position of the piece
 	 * @return an ArrayList with all valid positions the piece can move to
 	 */
-	public ArrayList<Position> getMoves(Position pos,Piece [][]board){
+	public ArrayList<Position> getMoves(Position pos){
 		if(board[pos.getX()][pos.getY()]==null)
 			throw new IllegalArgumentException("No Piece at Position " + pos);
 		
@@ -553,7 +553,7 @@ public class ChessBoard{
 		ArrayList<Position> piecePos = getAllPieces(isWhiteTurn);
 		ArrayList<Position> movePos = new ArrayList<Position>();
 		for(Position pos: piecePos){
-			ArrayList<Position> temp = getMoves(pos,board);
+			ArrayList<Position> temp = getMoves(pos);
 			movePos.addAll(temp);
 		}
 		return movePos.size()==0;

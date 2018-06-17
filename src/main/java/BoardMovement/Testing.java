@@ -4,11 +4,10 @@ public class Testing {
 
 	
 	public static void main(String[] args) {
-		ChessBoard board = new ChessBoard();
-		board.addPiece(new Position(0,0),new King(true));
-		board.addPiece(new Position(0,1), new Queen(true));
-		board.addPiece(new Position(0,7), new Rook(false));
+		ChessBoard board = new ChessBoard(true);
+		AI ai = new AI();
 		System.out.println(displayBoard(board));
+		System.out.println(ai.getmove(board.getBoard()));
 	//	System.out.println(board.getAllMoves(new Position(0,1)));
 		/*
 		ChessBoard board = new ChessBoard(true);

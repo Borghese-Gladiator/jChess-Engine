@@ -62,6 +62,9 @@ public abstract class Piece {
 	public int getTotal(){
 		return total;
 	}
+	public void reset(){
+		total = 0;
+	}
 	public boolean isPawn()
 	{
 		if (this instanceof Pawn)

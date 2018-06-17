@@ -15,14 +15,14 @@ public class aiValidMoves {
 				board[list.get(i).getX()][list.get(i).getY()].setattack(board[current.getX()][current.getY()].actionvalue());
 		}
 	}
-	public static void checkmove(Piece[][]board, Position current, ArrayList<Position> list){
-		boolean white = board[current.getX()][current.getY()].isWhite();
+	public static void checkmove(Piece[][]board, Position old,ArrayList<Position> list){
+		boolean white = board[old.getX()][old.getY()].isWhite();
 		
 		for(int i = 0; i<list.size(); i++){
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()== white)
-				board[current.getX()][current.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval()/2);
+				board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval()/2);
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()!= white)
-				board[current.getX()][current.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
+				board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
 
 			
 		}

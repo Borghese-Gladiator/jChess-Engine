@@ -11,36 +11,57 @@ public class AI {
 	 public AI(){
 		whiteAttack = new char[8][8];
 		blackdefend = new char[8][8];
+		board = new Piece[8][8];
+		chess = new ChessBoard();
 	 }
 	 // get moves needs to pass in the board 
 	 public ArrayList<Position> getmove(Piece [][] b){
 		 for(int i = 0; i < 8;i++){
 			 for(int x = 0; x<8; x++){
-				 board[i][x]= b[i][x];
+				 if(b[i][x] instanceof Rook)
+					 board[i][x]= new Rook(false);
+				 else if(b[i][x] instanceof Queen)
+					 board[i][x]= new Queen(false);
+				 else if(b[i][x] instanceof Bishop)
+					 board[i][x]= new Bishop(false);
+				 else if(b[i][x] instanceof Knight)
+					 board[i][x]= new Knight(false);
+				 else if(b[i][x] instanceof Pawn)
+					 board[i][x]= new Pawn(false);
+				 else if(b[i][x] instanceof King)
+					 board[i][x]= new King(false);
+				 
 			 }
 		 }
 		 setattack();
 		 for(int i = 0; i < 8;i++){
 			for(int x=0; x<8;x++){
+				if(board[i][x]!=null){
 				if(board[i][x].isWhite()== false){
-					ArrayList<Position> list= chess.getMoves(new Position(i,x),board);
+					ArrayList<Position> list= chess.getMoves(new Position(i,x));
 					for(int y = 0; y< list.size();y++){
 						if(whiteAttack[list.get(y).getX()][list.get(y).getY()]=='a'&&blackdefend[list.get(y).getX()][list.get(y).getY()]==' ')						
 							list.remove(y);
 						else{
-							Piece [][] temp= new Piece[8][8];
-							for(int r = 0; i < 8;i++){
-								 for(int c = 0; x<8; x++){
-									 temp[r][c]= board[r][c];
-								 }
-							 }
-							Piece test = temp[i][x];
-							temp[i][x]= null;
-							temp[list.get(y).getX()][list.get(y).getY()] = test;
-							aiValidMoves.checkmove(temp,list.get(y),chess.getMoves(list.get(y),temp));
-							Evaluation.move(new Position(i,x), list.get(y), temp);		
+							//Piece [][] temp= new Piece[8][8];
+							//for(int r = 0; i < 8;i++){
+							//	 for(int c = 0; x<8; x++){
+							//		 temp[r][c]= board[r][c];
+							 //}
+							 //}
+							chess.move(new Position(i,x), list.get(y));
+							ArrayList <Position> temp = chess.getMoves(list.get(y));
+							chess.undoMove();
+							//Piece test = temp[i][x];
+							//temp[i][x]= null;
+							//temp[list.get(y).getX()][list.get(y).getY()] = test;
+							//ChessBoard 
+							aiValidMoves.checkmove(board,list.get(y),temp);
+							Evaluation.move(new Position(i,x), list.get(y), board);	
+							Evaluation.reset();
 						}		
 					}		
+				}
 				}
 			}
 		 }
@@ -51,23 +72,26 @@ public class AI {
 	 private void setattack(){
 		 for(int i = 0; i < 8;i++){
 			 for(int x = 0; x<8; x++){
-				 if(board[i][x].isWhite()== true){
-					 whiteAttack[i][x]='p';
-						ArrayList<Position> list= chess.getMoves(new Position(i,x),board);
-						for(int y = 0;y<list.size();y++){
+				 if(board[i][x]!= null){
+					 if(board[i][x].isWhite()== true){
+						 whiteAttack[i][x]='p';
+						 ArrayList<Position> list= chess.getMoves(new Position(i,x));
+						 for(int y = 0;y<list.size();y++){
 							whiteAttack[list.get(y).getX()][list.get(y).getY()]='a';
 						}
+					 }
+					 else if(board[i][x].isWhite()== false){
+						 blackdefend[i][x]='p';
+						 ArrayList<Position> list= chess.getMoves(new Position(i,x));
+						 for(int y = 0;y<list.size();y++){
+							 blackdefend[list.get(y).getX()][list.get(y).getY()]='d';
+						 }
+					 }
 				 }
-				 else if(board[i][x].isWhite()== false){
-					 blackdefend[i][x]='p';
-					 ArrayList<Position> list= chess.getMoves(new Position(i,x),board);
-						for(int y = 0;y<list.size();y++){
-							blackdefend[list.get(y).getX()][list.get(y).getY()]='d';
-						}
-				 }
-				 
 			 }
 		 }
 	 }
+	 
+
 
 }
