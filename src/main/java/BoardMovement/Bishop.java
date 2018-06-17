@@ -42,10 +42,6 @@ public class Bishop extends Piece {
 	}
 
 
-	@Override
-	public int getTotal() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 	
 }
