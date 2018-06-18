@@ -56,7 +56,7 @@ public class AI {
 					ArrayList<Position> capture = new ArrayList<Position>();
 					for(int c = 0; c<list.size();c++){
 						if(board[list.get(c).getX()][list.get(c).getY()]!= null){
-							if(board[list.get(c).getX()][list.get(c).getY()].isWhite() == true &&  board[list.get(c).getX()][list.get(c).getY()].actionvalue() >=board[i][x].getval()){
+							if(board[list.get(c).getX()][list.get(c).getY()].isWhite() == true ){
 								capture.add(new Position(list.get(c).getX(),list.get(c).getY()));
 							}
 						}
