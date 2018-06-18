@@ -56,6 +56,10 @@ public class AI {
 								&&  board[list.get(y).getX()][list.get(y).getY()].actionvalue()
 								== board[i][x].actionvalue()){
 							same = true;
+						if(board[list.get(y).getX()][list.get(y).getY()]!= null){
+							if(board[list.get(y).getX()][list.get(y).getY()].isWhite() == true &&  board[list.get(y).getX()][list.get(y).getY()].actionvalue() == board[i][x].actionvalue()){
+								same = true;
+							}
 						}
 
 						else{
@@ -72,6 +76,7 @@ public class AI {
 		 }
 		bestMove = Evaluation.gethighest();
 		Evaluation.reset();
+		 }
 		return bestMove;
 	 }
 	 private void setattack(){
