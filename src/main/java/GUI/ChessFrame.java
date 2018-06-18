@@ -22,6 +22,7 @@ import BoardMovement.Position;
 
 public class ChessFrame extends JFrame
 {
+	boolean isWhiteTurn = true;
 	static ArrayList<Tile> white = new ArrayList<Tile>();
     static ArrayList<Tile> black = new ArrayList<Tile>();
     static ArrayList<Tile> legalMoves = new ArrayList<Tile>();
@@ -36,7 +37,6 @@ public class ChessFrame extends JFrame
 	public  void setOrigin(Position origin) {
 		this.origin = origin;
 	}
-    boolean isWhiteTurn = true;
 	private ChessBoard game;
 	private boolean twoPlayer;
 	public void setTileAsAMove(Position pos)
@@ -135,18 +135,18 @@ public class ChessFrame extends JFrame
 	{
 		if (isWhiteTurn)
 		{
-			isWhiteTurn = false;
 			setTitle("BLack's turn");
+			isWhiteTurn = false;
 		}
 		else
 		{
-			isWhiteTurn = true;
 			setTitle("White's turn");
+			isWhiteTurn = true;
 		}
 	}
 	private void addTileToEnableList(Tile aTile, boolean isWhite)
 	{
-		if (isWhite)
+		if (isWhiteTurn)
 		{
 			white.add(aTile);
 			if (origin != null)
@@ -189,7 +189,7 @@ public class ChessFrame extends JFrame
 		}
 	}
 	private void disableBtnIfCapture(Position posTo) {
-		if (!isWhiteTurn){ //capture opposing, remove from enable list
+		if (isWhiteTurn){ //capture opposing, remove from enable list
 			for (Tile i: white){
 				if (posTo.equals(i.getCoords())){
 					white.remove(i);
@@ -231,6 +231,7 @@ public class ChessFrame extends JFrame
     	if (checkIfLegalMove(posTo))
     	{
     		promoteIconChange(posTo);
+    		
         	game.move(origin, posTo);
     		Move move = game.lastMove();
     		if (!(posTo.equals(origin)))
@@ -239,6 +240,8 @@ public class ChessFrame extends JFrame
     			temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
     			temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
     			boardTiles[origin.getX()][origin.getY()].removeIcon();
+    			disableBtnIfCapture(posTo);
+    			addNewPosToEnableList(temp);
     			if (move.size() > 2) //special move
     			{
     				if (move.size() == 3) //en passant
@@ -257,57 +260,81 @@ public class ChessFrame extends JFrame
     					addNewPosToEnableList(tempRook);
     				}
     			}
-    			disableBtnIfCapture(posTo);
-    			addNewPosToEnableList(temp);
-    			disableBtns();
     			if (twoPlayer)
     			{
     				switchTurns();
+    				disableBtns();
     			}
     			else
     			{
-    				Piece[][] aBoardd = game.getBoard();
-    				ArrayList<Position> aiMove = blackAI.getmove(aBoardd);
-    					Position aiMoveOrigin = aiMove.get(0);
-    				Tile temp2 = boardTiles[aiMove.get(1).getX()][aiMove.get(1).getY()];
-        			temp2.setIcon(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].makeImgIcon());
-        			temp2.setImg(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].getImg());
-        			boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].removeIcon();
-        			checkGameOver();
-        			game.move(aiMoveOrigin, aiMove.get(1));
+    				isWhiteTurn = false;
+    				if (!checkGameOver())
+    				{
+    					Piece[][] aBoard = game.getBoard();
+        				ArrayList<Position> aiMove = blackAI.getmove(aBoard);
+        				Position aiMoveOrigin = aiMove.get(0);
+        				Tile temp2 = boardTiles[aiMove.get(1).getX()][aiMove.get(1).getY()];
+            			temp2.setIcon(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].makeImgIcon());
+            			temp2.setImg(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].getImg());
+            			boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].removeIcon();
+            			game.move(aiMoveOrigin, aiMove.get(1));
+            			
+            			addNewPosToEnableList(temp2);
+            			disableBtnIfCapture(aiMove.get(1));
+    				}
+    				isWhiteTurn = true;
     			}
-    			enableBtns(isWhiteTurn);
+    			enableBtns(game.getMovingSide());
     			checkGameOver();
     		}
     	}
 		clearLegalMoves();
 		origin = null;
     }
-	private void checkGameOver() {
+	private boolean checkGameOver() {
 		if (game.isCheckMated()){
-			if (!(isWhiteTurn)){
-				VictoryDialog vd = new VictoryDialog(this);
-				vd.setVisible(true);
+			if (twoPlayer)
+			{
+				if (!(game.getMovingSide())){
+					VictoryDialog vd = new VictoryDialog(this);
+					vd.setVisible(true);
+				}
+				else
+				{
+					DefeatDialog dd = new DefeatDialog(this);
+					dd.setVisible(true);
+				}
 			}
 			else
 			{
-				DefeatDialog dd = new DefeatDialog(this);
-				dd.setVisible(true);
+				if (game.getMovingSide())
+				{
+					VictoryDialog vd = new VictoryDialog(this);
+					vd.setVisible(true);
+				}
+				else
+				{
+					DefeatDialog dd = new DefeatDialog(this);
+					dd.setVisible(true);
+				}
 			}
 			disableBtns();
+			return true;
 		}
 		if (game.isStalemated())
 		{ 
 			StalemateDialog sd = new StalemateDialog(this);
 			sd.setVisible(true);
 			disableBtns();
+			return true;
 		}
+		return false;
 	}
 	private void promoteIconChange(Position posTo) {
 		if (game.getPiece(origin).isPawn() && (posTo.getY() == 0 || posTo.getY() == 7))
 		{
 			Image queen;
-			if (isWhiteTurn)
+			if (game.getMovingSide())
 			{
 				queen = ImageDatabase.getTile("Queen-WHITE");
 			}
@@ -336,7 +363,7 @@ public class ChessFrame extends JFrame
     }
     private boolean checkMove(Position pos)
     {
-    	if (isWhiteTurn){ //capture opposing, remove from enable list
+    	if (game.getMovingSide()){ //capture opposing, remove from enable list
 			for (Tile i: white){
 				if (pos.equals(i.getCoords()))
 				{
