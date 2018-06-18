@@ -52,15 +52,18 @@ public class Evaluation {
 	private static int hightotal=-100;
 	private static Position pos ;
 	private static Position oldpos;
-	public static void move( Position old, Position current, Piece[][]board){
+	public static void move( Position old, Position current, Piece[][]board, boolean s){
 		System.out.println("enter"+old+current);
 		int total = 0;
+		if(s== true){
+			total = 100;
+		}
 		if(board[old.getX()][old.getY()] instanceof Pawn){
 			total = board[old.getX()][old.getY()].getTotal();
 			total += pawn[old.getX()][old.getY()];
 		}
 		else if(board[old.getX()][old.getY()] instanceof King){
-			total = board[old.getX()][old.getY()].getTotal() - 10;
+			total = board[old.getX()][old.getY()].getTotal() - 50;
 			total += king[old.getX()][old.getY()];
 		} 
 		else if(board[old.getX()][old.getY()] instanceof Knight){

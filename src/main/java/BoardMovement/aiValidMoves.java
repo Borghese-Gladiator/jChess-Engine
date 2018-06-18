@@ -17,13 +17,12 @@ public class aiValidMoves {
 	}
 	public static void checkmove(Piece[][]board, Position old,ArrayList<Position> list){
 		boolean white = board[old.getX()][old.getY()].isWhite();
-		
 		for(int i = 0; i<list.size(); i++){
 			if(board[list.get(i).getX()][list.get(i).getY()]!=null){
-			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()== white)
-				board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
-			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()!= white)
-				board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
+				if(board[list.get(i).getX()][list.get(i).getY()].isWhite()== white)
+					board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
+				if(board[list.get(i).getX()][list.get(i).getY()].isWhite()!= white)
+					board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
 			}
 			
 		}
