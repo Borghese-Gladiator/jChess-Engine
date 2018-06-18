@@ -52,10 +52,6 @@ public class AI {
 							list.remove(y);
 							y--;
 						}
-<<<<<<< HEAD
-						
-=======
->>>>>>> 34f58e42232de470a0e065286362f4ddaf09f1a8
 						if(board[list.get(y).getX()][list.get(y).getY()]!= null){
 							if(board[list.get(y).getX()][list.get(y).getY()].isWhite() == true &&  board[list.get(y).getX()][list.get(y).getY()].actionvalue() >=board[i][x].getval()){
 								same = true;
