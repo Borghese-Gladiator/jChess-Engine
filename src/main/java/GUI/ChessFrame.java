@@ -295,7 +295,7 @@ public class ChessFrame extends JFrame
 		if (game.isCheckMated()){
 			if (twoPlayer)
 			{
-				if (!(game.getMovingSide())){
+				if (isWhiteTurn){
 					VictoryDialog vd = new VictoryDialog(this);
 					vd.setVisible(true);
 				}
@@ -307,7 +307,7 @@ public class ChessFrame extends JFrame
 			}
 			else
 			{
-				if (game.getMovingSide())
+				if (isWhiteTurn)
 				{
 					VictoryDialog vd = new VictoryDialog(this);
 					vd.setVisible(true);
