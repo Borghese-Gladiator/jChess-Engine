@@ -51,21 +51,34 @@ public class AI {
 						if(whiteAttack[list.get(y).getX()][list.get(y).getY()]=='a'&&blackdefend[list.get(y).getX()][list.get(y).getY()]==' ') {						
 							list.remove(y);
 							y--;
-						}
-						if(board[list.get(y).getX()][list.get(y).getY()]!= null){
-							if(board[list.get(y).getX()][list.get(y).getY()].isWhite() == true &&  board[list.get(y).getX()][list.get(y).getY()].actionvalue() >=board[i][x].getval()){
-								same = true;
+						}	
+					}
+					ArrayList<Position> capture = new ArrayList<Position>();
+					for(int c = 0; c<list.size();c++){
+						if(board[list.get(c).getX()][list.get(c).getY()]!= null){
+							if(board[list.get(c).getX()][list.get(c).getY()].isWhite() == true &&  board[list.get(c).getX()][list.get(c).getY()].actionvalue() >=board[i][x].getval()){
+								capture.add(new Position(list.get(c).getX(),list.get(c).getY()));
 							}
 						}
-
-						else{
-							chess.move(new Position(i,x), list.get(y));
-							ArrayList <Position> temp = chess.getMoves(list.get(y));
+					}
+					if(capture.size()!= 0){
+						for(int m = 0;m<capture.size();m++){
+							chess.move(new Position(i,x), list.get(m));
+							ArrayList <Position> temp = chess.getMoves(list.get(m));
 							chess.undoMove();
 							aiValidMoves.checkmove(board,new Position(i,x),temp);
-							Evaluation.move(new Position(i,x), list.get(y), board, same);	
+							Evaluation.move(new Position(i,x), list.get(m), board);	
 						}		
-					}		
+					}
+					else{
+						for(int m = 0;m<list.size();m++){
+							chess.move(new Position(i,x), list.get(m));
+							ArrayList <Position> temp = chess.getMoves(list.get(m));
+							chess.undoMove();
+							aiValidMoves.checkmove(board,new Position(i,x),temp);
+							Evaluation.move(new Position(i,x), list.get(m), board);	
+						}	
+					}
 				}
 				}
 			}
