@@ -60,7 +60,7 @@ public class Evaluation {
 			total += pawn[old.getX()][old.getY()];
 		}
 		else if(board[old.getX()][old.getY()] instanceof King){
-			total = board[old.getX()][old.getY()].getTotal();
+			total = board[old.getX()][old.getY()].getTotal() - 10;
 			total += king[old.getX()][old.getY()];
 		} 
 		else if(board[old.getX()][old.getY()] instanceof Knight){
