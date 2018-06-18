@@ -56,7 +56,7 @@ public class Evaluation {
 		System.out.println("enter"+old+current);
 		int total = 0;
 		if(s== true){
-			total = 100;
+			total = 300;
 		}
 		if(board[old.getX()][old.getY()] instanceof Pawn){
 			total = board[old.getX()][old.getY()].getTotal();
