@@ -21,7 +21,7 @@ public class aiValidMoves {
 		for(int i = 0; i<list.size(); i++){
 			if(board[list.get(i).getX()][list.get(i).getY()]!=null){
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()== white)
-				board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval()/2);
+				board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
 			if(board[list.get(i).getX()][list.get(i).getY()].isWhite()!= white)
 				board[old.getX()][old.getY()].settotal(board[list.get(i).getX()][list.get(i).getY()].getval());
 			}

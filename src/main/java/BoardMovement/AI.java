@@ -15,6 +15,7 @@ public class AI {
 	 }
 	 // get moves needs to pass in the board 
 	 public ArrayList<Position> getmove(Piece [][] b){
+		ArrayList<Position> bestMove = null;
 		 for(int i = 0; i < 8;i++){
 			 for(int x = 0; x<8; x++){
 				 if(b[i][x] instanceof Rook) 		board[i][x]= new Rook(b[i][x].isWhite());
@@ -27,6 +28,7 @@ public class AI {
 				 
 			 }
 		 }
+		
 		chess = new ChessBoard(board, false); 
 		 setattack();
 		 for(int i = 0; i < 8;i++){
@@ -34,6 +36,17 @@ public class AI {
 				if(board[i][x]!=null){
 				if(board[i][x].isWhite()== false){
 					ArrayList<Position> list= chess.getMoves(new Position(i,x));
+					if(board[i][x] instanceof King){
+						if(chess.canCastle()==true){
+							for(int z = 0; z<list.size();z++){
+								if(Math.abs(i-list.get(z).getX()) == 2){
+									bestMove.add(new Position(i,x));
+									bestMove.add(list.get(z));
+								}
+							}
+						}
+							
+					}
 					for(int y = 0; y< list.size();y++){
 						if(whiteAttack[list.get(y).getX()][list.get(y).getY()]=='a'&&blackdefend[list.get(y).getX()][list.get(y).getY()]==' ') {						
 							list.remove(y);
@@ -61,7 +74,6 @@ public class AI {
 				}
 			}
 		 }
-		ArrayList<Position> bestMove = null;
 		bestMove = Evaluation.gethighest();
 		Evaluation.reset();
 		return bestMove;
