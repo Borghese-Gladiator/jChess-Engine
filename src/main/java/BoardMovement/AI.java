@@ -18,19 +18,19 @@ public class AI {
 		ArrayList<Position> bestMove = null;
 		 for(int i = 0; i < 8;i++){
 			 for(int x = 0; x<8; x++){
-				 if(b[i][x] instanceof Rook) 		board[i][x]= new Rook(b[i][x].isWhite());
-				 else if(b[i][x] instanceof Queen) 	board[i][x]= new Queen(b[i][x].isWhite());
-				 else if(b[i][x] instanceof Bishop) 	board[i][x]= new Bishop(b[i][x].isWhite());
-				 else if(b[i][x] instanceof Knight)	board[i][x]= new Knight(b[i][x].isWhite());
-				 else if(b[i][x] instanceof Pawn)	board[i][x]= new Pawn(b[i][x].isWhite());
-				 else if(b[i][x] instanceof King)	board[i][x]= new King(b[i][x].isWhite());
-				 else if(b[i][x] ==null) board[i][x]= null;
-				 
+					 if(b[i][x] instanceof Rook) 		board[i][x]= new Rook(b[i][x].isWhite());
+					 else if(b[i][x] instanceof Queen) 	board[i][x]= new Queen(b[i][x].isWhite());
+					 else if(b[i][x] instanceof Bishop) 	board[i][x]= new Bishop(b[i][x].isWhite());
+					 else if(b[i][x] instanceof Knight)	board[i][x]= new Knight(b[i][x].isWhite());
+					 else if(b[i][x] instanceof Pawn)	board[i][x]= new Pawn(b[i][x].isWhite());
+					 else if(b[i][x] instanceof King)	board[i][x]= new King(b[i][x].isWhite());
+					 else board[i][x] = null;
+					 if(board[i][x]!=null)
+						 board[i][x].setHasMoved(b[i][x].hasMoved);
+				 }
 			 }
-		 }
-		
 		chess = new ChessBoard(board, false); 
-		 setattack();
+		setattack();
 		 for(int i = 0; i < 8;i++){
 			for(int x=0; x<8;x++){
 				boolean same =false;
