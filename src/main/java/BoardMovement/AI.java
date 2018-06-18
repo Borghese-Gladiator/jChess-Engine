@@ -35,8 +35,10 @@ public class AI {
 				if(board[i][x].isWhite()== false){
 					ArrayList<Position> list= chess.getMoves(new Position(i,x));
 					for(int y = 0; y< list.size();y++){
-						if(whiteAttack[list.get(y).getX()][list.get(y).getY()]=='a'&&blackdefend[list.get(y).getX()][list.get(y).getY()]==' ')						
+						if(whiteAttack[list.get(y).getX()][list.get(y).getY()]=='a'&&blackdefend[list.get(y).getX()][list.get(y).getY()]==' ') {						
 							list.remove(y);
+							y--;
+						}
 						else{
 							//Piece [][] temp= new Piece[8][8];
 							//for(int r = 0; i < 8;i++){

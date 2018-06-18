@@ -268,37 +268,41 @@ public class ChessFrame extends JFrame
     			{
     				Piece[][] aBoardd = game.getBoard();
     				ArrayList<Position> aiMove = blackAI.getmove(aBoardd);
-    				Position aiMoveOrigin = aiMove.get(0);
+    					Position aiMoveOrigin = aiMove.get(0);
     				Tile temp2 = boardTiles[aiMove.get(1).getX()][aiMove.get(1).getY()];
         			temp2.setIcon(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].makeImgIcon());
         			temp2.setImg(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].getImg());
         			boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].removeIcon();
+        			checkGameOver();
         			game.move(aiMoveOrigin, aiMove.get(1));
     			}
     			enableBtns(isWhiteTurn);
-    			if (game.isCheckMated()){
-    				if (!(isWhiteTurn)){
-    					VictoryDialog vd = new VictoryDialog(this);
-    					vd.setVisible(true);
-    				}
-    				else
-    				{
-    					DefeatDialog dd = new DefeatDialog(this);
-    					dd.setVisible(true);
-    				}
-    				disableBtns();
-    			}
-    			if (game.isStalemated())
-    			{ 
-    				StalemateDialog sd = new StalemateDialog(this);
-    				sd.setVisible(true);
-    				disableBtns();
-    			}
+    			checkGameOver();
     		}
     	}
 		clearLegalMoves();
 		origin = null;
     }
+	private void checkGameOver() {
+		if (game.isCheckMated()){
+			if (!(isWhiteTurn)){
+				VictoryDialog vd = new VictoryDialog(this);
+				vd.setVisible(true);
+			}
+			else
+			{
+				DefeatDialog dd = new DefeatDialog(this);
+				dd.setVisible(true);
+			}
+			disableBtns();
+		}
+		if (game.isStalemated())
+		{ 
+			StalemateDialog sd = new StalemateDialog(this);
+			sd.setVisible(true);
+			disableBtns();
+		}
+	}
 	private void promoteIconChange(Position posTo) {
 		if (game.getPiece(origin).isPawn() && (posTo.getY() == 0 || posTo.getY() == 7))
 		{
