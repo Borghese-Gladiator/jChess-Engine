@@ -52,7 +52,9 @@ public class AI {
 							list.remove(y);
 							y--;
 						}
-						if(board[list.get(y).getX()][list.get(y).getY()].isWhite() == true &&  board[list.get(y).getX()][list.get(y).getY()].actionvalue() == board[i][x].actionvalue()){
+						if(board[list.get(y).getX()][list.get(y).getY()].isWhite() == true
+								&&  board[list.get(y).getX()][list.get(y).getY()].actionvalue()
+								== board[i][x].actionvalue()){
 							same = true;
 						}
 
