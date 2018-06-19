@@ -242,6 +242,7 @@ public class ChessFrame extends JFrame implements Runnable
     		}
     	}
 		clearLegalMoves();
+		System.out.println("WHITE: " + posTo.toString() + " to " + origin.toString());
 		origin = null;
     }
 	private void changeIconAtPos(Position posTo, Position origin) {
@@ -475,10 +476,10 @@ public class ChessFrame extends JFrame implements Runnable
 					}
 					else
 					{
-						System.out.println("BLAACk");
 						ArrayList<Position> aiMove = blackAI.getmove(game.getBoard());
 						changeIconAtPos(aiMove.get(1), aiMove.get(0));
 		    			game.move(aiMove.get(0), aiMove.get(1));
+		    			System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
 					}
 				}
 				isWhiteTurn = true;	

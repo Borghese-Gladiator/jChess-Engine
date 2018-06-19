@@ -53,7 +53,7 @@ public class Evaluation {
 	private static Position pos ;
 	private static Position oldpos;
 	public static void move( Position old, Position current, Piece[][]board){
-		System.out.println("enter"+old+current);
+		//System.out.println("enter"+old+current);
 		int total = 0;
 		if(board[old.getX()][old.getY()] instanceof Pawn){
 			total = board[old.getX()][old.getY()].getTotal();
@@ -74,12 +74,12 @@ public class Evaluation {
 		else{
 			total = board[old.getX()][old.getY()].getTotal();
 		}
-		System.out.println("hightotal" + hightotal);
-		System.out.println("total" + total);
+		/*System.out.println("hightotal" + hightotal);
+		System.out.println("total" + total);*/
 
 		if(hightotal < total){
-			System.out.println(pos);
-			System.out.println(oldpos);
+			/*System.out.println(pos);
+			System.out.println(oldpos);*/
 			hightotal = total;
 			pos=current;
 			oldpos = old;
@@ -88,7 +88,7 @@ public class Evaluation {
 			
 	}
 	public static ArrayList<Position> gethighest(){
-		System.out.println("output" + oldpos + pos);
+		//System.out.println("output" + oldpos + pos);
 		ArrayList<Position> list = new ArrayList<Position>();
 		list.add(oldpos);
 		list.add(pos);
