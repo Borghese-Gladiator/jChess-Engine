@@ -6,7 +6,7 @@ public class AI2 {
 	/**
 	 * Finds the optimal next move.
 	 * @param board The ChessBoard to find the move for
-	 * @param depth How many moves ahead should be analyzed (0 for most stupid)
+	 * @param depth How many moves ahead should be analyzed (0 for most stupid) (anything greater than 3 is extremely slow)
 	 * @return The optimal move in the form [Position posFrom, Position posTo] (an ArrayList)
 	 */
 	public static ArrayList<Position> getMove(ChessBoard board, int depth){
