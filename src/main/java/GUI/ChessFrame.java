@@ -39,6 +39,7 @@ public class ChessFrame extends JFrame implements Runnable
 	}
 	private ChessBoard game;
 	private boolean twoPlayer;
+	private static int AIType;
 	private static boolean isHardAI;
 	public void setTileAsAMove(Position pos)
 	{
@@ -47,7 +48,6 @@ public class ChessFrame extends JFrame implements Runnable
 	public ChessFrame(boolean isWhiteAI, boolean isBlackAI)
 	{
 		super();
-		new Thread(this).start();
 		twoPlayer = true;
 		if (isBlackAI) //Black is always AI
 		{
@@ -76,6 +76,7 @@ public class ChessFrame extends JFrame implements Runnable
 		setTitle("Play Chess");
 		setSize(900, 900);
 		setVisible(true);
+		new Thread(this).start();
 	}
     private void addTiles(DefaultBoard images)
     {
@@ -220,7 +221,13 @@ public class ChessFrame extends JFrame implements Runnable
     				}
     				else {//move.size() == 4, castling
     				
-    					changeIconAtPos(move.changedPos(2), move.changedPos(3));
+    					Position removeRook = move.changedPos(2);
+    					Position rookNewPos = move.changedPos(3);
+    					Tile tempRook = boardTiles[rookNewPos.getX()][rookNewPos.getY()];
+    					tempRook.setIcon(boardTiles[removeRook.getX()][removeRook.getY()].makeImgIcon());
+    					tempRook.setImg(boardTiles[removeRook.getX()][removeRook.getY()].getImg());
+    					boardTiles[removeRook.getX()][removeRook.getY()].removeIcon();
+    					addNewPosToEnableList(tempRook, move.changedPos(3));
     				}
     			}
     			switchTurns();
@@ -332,8 +339,7 @@ public class ChessFrame extends JFrame implements Runnable
     {
     	if (game.getMovingSide()){ //capture opposing, remove from enable list
 			for (Tile i: white){
-				if (pos.equals(i.getCoords()))
-				{
+				if (pos.equals(i.getCoords())){
 					return true;
 				}
 			}
@@ -360,10 +366,18 @@ public class ChessFrame extends JFrame implements Runnable
 	/*public final void newGame(boolean  isAHardAI) {
 		NewGame ng = new NewGame(this);
 		ng.setVisible(true);*/
-	
-	public void makeAIGame(boolean isHardAI)
+	public void make2AIGame()
 	{
-		this.isHardAI = isHardAI;
+		new ChessFrame(true, true);
+	}
+	public void makeAIGame(int AIType)
+	{
+		isHardAI = false;
+		this.AIType = AIType;
+		if (AIType != 0)
+		{
+			isHardAI = true;
+		}
 		new ChessFrame(false, true);
     }
 	private class MenuHandler implements ActionListener {
@@ -378,9 +392,9 @@ public class ChessFrame extends JFrame implements Runnable
 
         @Override
         public final void actionPerformed(final ActionEvent e) {
-            if ("New Game".equals(e.getActionCommand())) {
+            if ("AI vs AI".equals(e.getActionCommand())) {
             	frame.dispose();
-                frame.make2PGame();
+                frame.make2AIGame();
             }
             else if ("Undo".equals(e.getActionCommand()))
             {
@@ -394,12 +408,17 @@ public class ChessFrame extends JFrame implements Runnable
             else if ("AI - (Easy)".equals(e.getActionCommand()))
             {
             	frame.dispose();
-            	frame.makeAIGame(false);
+            	frame.makeAIGame(1);
             }
             else if ("AI - (Hard)".equals(e.getActionCommand()))
             {
             	frame.dispose();
-            	frame.makeAIGame(true);
+            	frame.makeAIGame(2);
+            }
+            else if ("AI - (Very Hard)".equals(e.getActionCommand()))
+            {
+            	frame.dispose();
+            	frame.makeAIGame(3);
             }
             else if ("How to Play".equals(e.getActionCommand()))
             {
@@ -425,6 +444,11 @@ public class ChessFrame extends JFrame implements Runnable
             newGame.setMnemonic('N');
             menu.add(newGame);
             menu.add(new JSeparator());*/
+            JMenuItem twoAI = new JMenuItem("AI vs AI");
+            twoAI.addActionListener(this);
+            twoAI.setMnemonic('A');
+            menu.add(twoAI);
+            menu.add(new JSeparator());
             JMenuItem twoP = new JMenuItem("vs Person");
             twoP.addActionListener(this);
             twoP.setMnemonic('P');
@@ -439,6 +463,11 @@ public class ChessFrame extends JFrame implements Runnable
             hardAI.addActionListener(this);
             hardAI.setMnemonic('H');
             menu.add(hardAI);
+            menu.add(new JSeparator());
+            JMenuItem veryHardAI = new JMenuItem("AI - (Very Hard)");
+            veryHardAI.addActionListener(this);
+            veryHardAI.setMnemonic('H');
+            menu.add(veryHardAI);
             menu.add(new JSeparator());
             JMenuItem howToPlay = new JMenuItem("How to Play");
             howToPlay.addActionListener(this);
@@ -464,32 +493,35 @@ public class ChessFrame extends JFrame implements Runnable
 		// TODO Auto-generated method stub
 		while (true)
 		{
-			if (!(isWhiteTurn))
+			if (!(twoPlayer))
 			{
-				if (!checkGameOver())
+				if (true)
 				{
-					if (isHardAI)
+					if (!checkGameOver())
 					{
-						ArrayList<Position> aiMove = AI2.getMove(game, 2);
-						changeIconAtPos(aiMove.get(1), aiMove.get(0));
-						game.move(aiMove.get(0), aiMove.get(1));
-						System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
+						if (isHardAI)
+						{
+							ArrayList<Position> aiMove = AI2.getMove(game, AIType);
+							changeIconAtPos(aiMove.get(1), aiMove.get(0));
+							game.move(aiMove.get(0), aiMove.get(1));
+							System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
+						}
+						else
+						{
+							ArrayList<Position> aiMove = blackAI.getmove(game.getBoard());
+							changeIconAtPos(aiMove.get(1), aiMove.get(0));
+			    			game.move(aiMove.get(0), aiMove.get(1));
+			    			System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
+						}
 					}
-					else
-					{
-						ArrayList<Position> aiMove = blackAI.getmove(game.getBoard());
-						changeIconAtPos(aiMove.get(1), aiMove.get(0));
-		    			game.move(aiMove.get(0), aiMove.get(1));
-		    			System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
-					}
+					switchTurns();
 				}
-				switchTurns();
-			}
-			try {
-				Thread.sleep(250);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
