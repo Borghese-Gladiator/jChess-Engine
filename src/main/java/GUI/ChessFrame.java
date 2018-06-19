@@ -39,6 +39,7 @@ public class ChessFrame extends JFrame
 	}
 	private ChessBoard game;
 	private boolean twoPlayer;
+	private boolean isHardAI;
 	public void setTileAsAMove(Position pos)
 	{
 		boardTiles[pos.getX()][pos.getY()].setLegalMove(true);
@@ -55,8 +56,7 @@ public class ChessFrame extends JFrame
 			{
 				whiteAI = new AI();
 			}*/
-			if (isBlackAI)
-			{
+			if (isBlackAI){
 				blackAI = new AI();
 			}
 		}
@@ -146,7 +146,7 @@ public class ChessFrame extends JFrame
 	}
 	private void addTileToEnableList(Tile aTile, boolean isWhite)
 	{
-		if (isWhiteTurn)
+		if (isWhite)
 		{
 			white.add(aTile);
 			if (origin != null)
@@ -189,7 +189,7 @@ public class ChessFrame extends JFrame
 		}
 	}
 	private void disableBtnIfCapture(Position posTo) {
-		if (isWhiteTurn){ //capture opposing, remove from enable list
+		if (!(isWhiteTurn)){ //capture opposing, remove from enable list
 			for (Tile i: white){
 				if (posTo.equals(i.getCoords())){
 					white.remove(i);
@@ -284,7 +284,7 @@ public class ChessFrame extends JFrame
     				}
     				isWhiteTurn = true;
     			}
-    			enableBtns(game.getMovingSide());
+    			enableBtns(isWhiteTurn);
     			checkGameOver();
     		}
     	}
@@ -386,10 +386,25 @@ public class ChessFrame extends JFrame
 		Intro intro = new Intro(this);
 		intro.setVisible(true);
 	}
-	public final void newGame() {
+	public void make2PGame()
+	{
+		new ChessFrame(false, false);
+	}
+	/*public final void newGame(boolean  isAHardAI) {
 		NewGame ng = new NewGame(this);
-		ng.setVisible(true);
-		
+		ng.setVisible(true);*/
+	
+	public void makeAIGame(boolean isAHardAI)
+	{
+		if (isAHardAI)
+		{
+			isHardAI = true;
+		}
+		else
+		{
+			isHardAI = false;
+		}
+		new ChessFrame(false, true);
     }
 	private class MenuHandler implements ActionListener {
 
@@ -404,7 +419,22 @@ public class ChessFrame extends JFrame
         public final void actionPerformed(final ActionEvent e) {
             if ("New Game".equals(e.getActionCommand())) {
             	frame.dispose();
-                frame.newGame();
+                frame.make2PGame();
+            }
+            else if ("vs Person".equals(e.getActionCommand()))
+            {
+            	frame.dispose();
+            	frame.make2PGame();
+            }
+            else if ("AI - (Easy)".equals(e.getActionCommand()))
+            {
+            	frame.dispose();
+            	frame.makeAIGame(false);
+            }
+            else if ("AI - (Hard)".equals(e.getActionCommand()))
+            {
+            	frame.dispose();
+            	frame.makeAIGame(true);
             }
             else if ("How to Play".equals(e.getActionCommand()))
             {
@@ -419,10 +449,25 @@ public class ChessFrame extends JFrame
 
             menu = new JMenu("Game");
             menu.setMnemonic('G');
-            JMenuItem newGame = new JMenuItem("New Game");
+            /*JMenuItem newGame = new JMenuItem("New Game");
             newGame.addActionListener(this);
             newGame.setMnemonic('N');
             menu.add(newGame);
+            menu.add(new JSeparator());*/
+            JMenuItem twoP = new JMenuItem("vs Person");
+            twoP.addActionListener(this);
+            twoP.setMnemonic('P');
+            menu.add(twoP);
+            menu.add(new JSeparator());
+            JMenuItem easyAI = new JMenuItem("AI - (Easy)");
+            easyAI.addActionListener(this);
+            easyAI.setMnemonic('E');
+            menu.add(easyAI);
+            menu.add(new JSeparator());
+            JMenuItem hardAI = new JMenuItem("AI - (Hard)");
+            hardAI.addActionListener(this);
+            hardAI.setMnemonic('H');
+            menu.add(hardAI);
             menu.add(new JSeparator());
             JMenuItem howToPlay = new JMenuItem("How to Play");
             howToPlay.addActionListener(this);

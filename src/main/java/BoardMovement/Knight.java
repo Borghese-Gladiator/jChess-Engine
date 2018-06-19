@@ -41,7 +41,4 @@ public class Knight extends Piece{
 	public int actionvalue(){
 		return 3;
 	}
-
-	
-
 }

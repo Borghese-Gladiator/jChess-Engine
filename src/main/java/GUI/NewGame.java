@@ -28,9 +28,6 @@ public class NewGame extends JDialog implements ActionListener
     /** Horizontal padding around this panel. */
     static final int H_PADDING = 10;
 
-    /** True if the dialog was cancelled away. */
-    private boolean cancelled = true;
-
     public NewGame(final ChessFrame aOwner) {
         super(aOwner, "New game", true);
         owner = aOwner;
@@ -65,7 +62,6 @@ public class NewGame extends JDialog implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if ("OK".equals(e.getActionCommand())) {
-            cancelled = false;
             owner.dispose();
             getGame();
         }

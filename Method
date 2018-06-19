@@ -1,0 +1,13 @@
+
+Takes in Chessboard, returns optimal move
+
+Go through two moves, each one ---> find highest positive board value, Position[] bestMove
+int bestBoardState ---> adding up all values of pieces
+
+Mutiple optimal moves -> get random one, Random x = new Random; x.next(
+
+
+public static Position[] getMove(ChessBoard board){
+	boolean isWhiteTurn = board.getMovingSide();
+	Position[] piecePos = board.
+}
