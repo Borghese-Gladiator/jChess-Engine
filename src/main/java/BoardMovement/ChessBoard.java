@@ -587,4 +587,23 @@ public class ChessBoard{
 	public boolean canCastle(){
 		return checkCastleLeft(getKingPosition(isWhiteTurn))||checkCastleRight(getKingPosition(isWhiteTurn));
 	}
+	
+
+
+
+	/**
+	 * Gets the value of the board
+	 * @param whiteSide The side to base the value on
+	 * @return The value
+	 */
+	public int getVal(boolean whiteSide){
+		ArrayList<Position> thisSidePos = getAllPieces(whiteSide);
+		ArrayList<Position> otherSidePos = getAllPieces(!whiteSide);
+		int val = 0;
+		for(Position pos: thisSidePos)
+			val += getPiece(pos).getval();
+		for(Position pos: otherSidePos)
+			val -= getPiece(pos).getval();
+		return val;
+	}
 }
