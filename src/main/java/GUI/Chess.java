@@ -21,6 +21,6 @@ public class Chess {
         } catch (UnsupportedLookAndFeelException e) {
             LOG.warning("Failed to set 'Look and Feel'");
         }
-        new ChessFrame(false, true);
+        new ChessFrame(false, false);
     }
 }

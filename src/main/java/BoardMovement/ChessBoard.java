@@ -541,7 +541,7 @@ public class ChessBoard{
 		ArrayList<Position> positions = new ArrayList<Position>();
 		for(int x = 0; x < 8; x++)
 			for(int y = 0; y < 8; y++)
-				if(board[x][y]!=null&&board[x][y].isWhite()==whiteSide)
+				if(board[x][y]!=null&&(board[x][y].isWhite()==whiteSide))
 					positions.add(new Position(x,y));
 		return positions;
 	}

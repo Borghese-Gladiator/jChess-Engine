@@ -15,12 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import BoardMovement.AI;
+import BoardMovement.AI2;
 import BoardMovement.ChessBoard;
 import BoardMovement.Move;
-import BoardMovement.Piece;
 import BoardMovement.Position;
 
-public class ChessFrame extends JFrame
+public class ChessFrame extends JFrame implements Runnable
 {
 	boolean isWhiteTurn = true;
 	static ArrayList<Tile> white = new ArrayList<Tile>();
@@ -39,7 +39,7 @@ public class ChessFrame extends JFrame
 	}
 	private ChessBoard game;
 	private boolean twoPlayer;
-	private boolean isHardAI;
+	private static boolean isHardAI;
 	public void setTileAsAMove(Position pos)
 	{
 		boardTiles[pos.getX()][pos.getY()].setLegalMove(true);
@@ -47,7 +47,7 @@ public class ChessFrame extends JFrame
 	public ChessFrame(boolean isWhiteAI, boolean isBlackAI)
 	{
 		super();
-		
+		new Thread(this).start();
 		twoPlayer = true;
 		if (isBlackAI) //Black is always AI
 		{
@@ -60,15 +60,6 @@ public class ChessFrame extends JFrame
 				blackAI = new AI();
 			}
 		}
-		/*
-		if (ai == null)
-		{
-			switchTurns();
-		}
-		else
-		{
-			move(ai.getmove(game.getBoard())); //   will be ArrayList<Position>, first is origin, second is moveTo
-		}*/
 		DefaultBoard images = new DefaultBoard();
         display = new JPanel();
         origin = null;
@@ -135,7 +126,7 @@ public class ChessFrame extends JFrame
 	{
 		if (isWhiteTurn)
 		{
-			setTitle("BLack's turn");
+			setTitle("Black's turn");
 			isWhiteTurn = false;
 		}
 		else
@@ -149,21 +140,13 @@ public class ChessFrame extends JFrame
 		if (isWhite)
 		{
 			white.add(aTile);
-			if (origin != null)
-			{
-				white.remove(boardTiles[origin.getX()][origin.getY()]); //remove old pos
-			}
 		}
 		else
 		{
 			black.add(aTile);
-			if (origin != null)
-			{
-				black.remove(boardTiles[origin.getX()][origin.getY()]);
-			}
 		}
 	}
-	private void removeUsingPos(ArrayList<Tile> list)
+	private void removeUsingPos(ArrayList<Tile> list, Position origin)
 	{
 		for (Tile i: list)
 		{
@@ -174,18 +157,15 @@ public class ChessFrame extends JFrame
 			}
 		}
 	}
-	private void addNewPosToEnableList(Tile aTile)
-	{
-		if (isWhiteTurn)
-		{
+	private void addNewPosToEnableList(Tile aTile, Position origin){
+		if (isWhiteTurn){
 			white.add(aTile);
-			removeUsingPos(white);
+			removeUsingPos(white, origin);
 			
 		}
-		else
-		{
+		else{
 			black.add(aTile);
-			removeUsingPos(black);
+			removeUsingPos(black, origin);
 		}
 	}
 	private void disableBtnIfCapture(Position posTo) {
@@ -226,76 +206,57 @@ public class ChessFrame extends JFrame
     	}
 		return false;
 	}
-    public void move(Position posTo)
-    {
-    	if (checkIfLegalMove(posTo))
-    	{
-    		promoteIconChange(posTo);
-    		
-        	game.move(origin, posTo);
-    		Move move = game.lastMove();
-    		if (!(posTo.equals(origin)))
-    		{
-    			Tile temp = boardTiles[posTo.getX()][posTo.getY()];
-    			temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
-    			temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
-    			boardTiles[origin.getX()][origin.getY()].removeIcon();
-    			disableBtnIfCapture(posTo);
-    			addNewPosToEnableList(temp);
-    			if (move.size() > 2) //special move
-    			{
-    				if (move.size() == 3) //en passant
-    				{
+    public void move(Position posTo){
+    	if (checkIfLegalMove(posTo)){
+    		if (!(posTo.equals(origin))){
+    			promoteIconChange(posTo);
+            	game.move(origin, posTo);
+        		Move move = game.lastMove();
+    			changeIconAtPos(posTo, origin);
+    			if (move.size() > 2) { //special move
+    				if (move.size() == 3) {//en passant
     					Position removePawn = move.changedPos(2);
     					boardTiles[removePawn.getX()][removePawn.getY()].removeIcon();
     				}
-    				else //move.size() == 4, castling
-    				{
-    					Position removeRook = move.changedPos(2);
-    					Position rookNewPos = move.changedPos(3);
-    					Tile tempRook = boardTiles[rookNewPos.getX()][rookNewPos.getY()];
-    					tempRook.setIcon(boardTiles[removeRook.getX()][removeRook.getY()].makeImgIcon());
-    					tempRook.setImg(boardTiles[removeRook.getX()][removeRook.getY()].getImg());
-    					boardTiles[removeRook.getX()][removeRook.getY()].removeIcon();
-    					addNewPosToEnableList(tempRook);
+    				else {//move.size() == 4, castling
+    				
+    					changeIconAtPos(move.changedPos(2), move.changedPos(3));
     				}
     			}
-    			if (twoPlayer)
-    			{
-    				switchTurns();
+    			switchTurns();
+    			if (twoPlayer) {
     				disableBtns();
-    			}
-    			else
-    			{
+    			}/*
+    			else {
     				isWhiteTurn = false;
     				if (!checkGameOver())
     				{
-    					Piece[][] aBoard = game.getBoard();
-        				ArrayList<Position> aiMove = blackAI.getmove(aBoard);
-        				Position aiMoveOrigin = aiMove.get(0);
-        				Tile temp2 = boardTiles[aiMove.get(1).getX()][aiMove.get(1).getY()];
-            			temp2.setIcon(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].makeImgIcon());
-            			temp2.setImg(boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].getImg());
-            			boardTiles[aiMoveOrigin.getX()][aiMoveOrigin.getY()].removeIcon();
-            			game.move(aiMoveOrigin, aiMove.get(1));
-            			
-            			addNewPosToEnableList(temp2);
-            			disableBtnIfCapture(aiMove.get(1));
+        				ArrayList<Position> aiMove = blackAI.getmove(game.getBoard());
+        				changeIconAtPos(aiMove.get(1), aiMove.get(0));
+            			game.move(aiMove.get(0), aiMove.get(1));
     				}
     				isWhiteTurn = true;
-    			}
-    			enableBtns(isWhiteTurn);
+    			}*/
     			checkGameOver();
+    			enableBtns(isWhiteTurn);
     		}
     	}
 		clearLegalMoves();
 		origin = null;
     }
+	private void changeIconAtPos(Position posTo, Position origin) {
+		Tile temp = boardTiles[posTo.getX()][posTo.getY()];
+		temp.setIcon(boardTiles[origin.getX()][origin.getY()].makeImgIcon());
+		temp.setImg(boardTiles[origin.getX()][origin.getY()].getImg());
+		boardTiles[origin.getX()][origin.getY()].removeIcon();
+		disableBtnIfCapture(posTo);
+		addNewPosToEnableList(temp, origin);
+	}
 	private boolean checkGameOver() {
 		if (game.isCheckMated()){
 			if (twoPlayer)
 			{
-				if (isWhiteTurn){
+				if (!(isWhiteTurn)){
 					VictoryDialog vd = new VictoryDialog(this);
 					vd.setVisible(true);
 				}
@@ -307,7 +268,7 @@ public class ChessFrame extends JFrame
 			}
 			else
 			{
-				if (isWhiteTurn)
+				if (!(isWhiteTurn))
 				{
 					VictoryDialog vd = new VictoryDialog(this);
 					vd.setVisible(true);
@@ -361,6 +322,11 @@ public class ChessFrame extends JFrame
     		}
     	}
     }
+    public void undoMove()
+    {
+    	game.undoMove();
+    	//to be implemented
+    }
     private boolean checkMove(Position pos)
     {
     	if (game.getMovingSide()){ //capture opposing, remove from enable list
@@ -394,21 +360,15 @@ public class ChessFrame extends JFrame
 		NewGame ng = new NewGame(this);
 		ng.setVisible(true);*/
 	
-	public void makeAIGame(boolean isAHardAI)
+	public void makeAIGame(boolean isHardAI)
 	{
-		if (isAHardAI)
-		{
-			isHardAI = true;
-		}
-		else
-		{
-			isHardAI = false;
-		}
+		this.isHardAI = isHardAI;
 		new ChessFrame(false, true);
     }
 	private class MenuHandler implements ActionListener {
 
         private JMenu menu;
+        private JMenu undoMenu;
 
         private final ChessFrame frame;
         public MenuHandler(final ChessFrame parent) {
@@ -420,6 +380,10 @@ public class ChessFrame extends JFrame
             if ("New Game".equals(e.getActionCommand())) {
             	frame.dispose();
                 frame.make2PGame();
+            }
+            else if ("Undo".equals(e.getActionCommand()))
+            {
+            	frame.undoMove();
             }
             else if ("vs Person".equals(e.getActionCommand()))
             {
@@ -447,6 +411,12 @@ public class ChessFrame extends JFrame
         public final void setUpMenu() {
             JMenuBar menuBar = new JMenuBar();
 
+            undoMenu = new JMenu("Undo Move?");
+            undoMenu.setMnemonic('U');
+            JMenuItem undo = new JMenuItem("Undo");
+            undo.addActionListener(this);
+            undo.setMnemonic('u');
+            undoMenu.add(undo);
             menu = new JMenu("Game");
             menu.setMnemonic('G');
             /*JMenuItem newGame = new JMenuItem("New Game");
@@ -488,5 +458,36 @@ public class ChessFrame extends JFrame
 	public void setGame(ChessBoard game) {
 		this.game = game;
 	}
-	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while (true)
+		{
+			if (!(isWhiteTurn))
+			{
+				if (!checkGameOver())
+				{
+					if (isHardAI)
+					{
+						ArrayList<Position> aiMove = AI2.getMove(game, 2);
+						changeIconAtPos(aiMove.get(1), aiMove.get(0));
+						game.move(aiMove.get(0), aiMove.get(1));
+					}
+					else
+					{
+						ArrayList<Position> aiMove = blackAI.getmove(game.getBoard());
+						changeIconAtPos(aiMove.get(1), aiMove.get(0));
+		    			game.move(aiMove.get(0), aiMove.get(1));
+					}
+				}
+				isWhiteTurn = true;
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
