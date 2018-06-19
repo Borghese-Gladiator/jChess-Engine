@@ -475,18 +475,19 @@ public class ChessFrame extends JFrame implements Runnable
 					}
 					else
 					{
+						System.out.println("BLAACk");
 						ArrayList<Position> aiMove = blackAI.getmove(game.getBoard());
 						changeIconAtPos(aiMove.get(1), aiMove.get(0));
 		    			game.move(aiMove.get(0), aiMove.get(1));
 					}
 				}
-				isWhiteTurn = true;
-				try {
-					Thread.sleep(250);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				isWhiteTurn = true;	
+			}
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
