@@ -378,7 +378,7 @@ public class ChessBoard{
 			forward = -2;
 		else
 			forward = 2;
-		if((lastMove().changedPos(1).equals(new Position(x+side,y)))&&((lastMove().changedPos(0).equals(new Position(x+side,y+forward)))))
+		if((lastMove().changedPos(1).equals(new Position(x+side,y)))&&((lastMove().changedPos(0).equals(new Position(x+side,y+forward))))&&(lastMove().changedPiece(0) instanceof Pawn))
 			return true;
 		return false;
 	}
