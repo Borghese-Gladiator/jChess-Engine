@@ -284,11 +284,11 @@ public class ChessFrame extends JFrame implements Runnable
 		}
 		if (game.isStalemated())
 		{ 
-			gameNotOver = false;
 			StalemateDialog sd = new StalemateDialog(this);
 			sd.setVisible(true);
 			disableBtns();
 			Thread.interrupted();
+			gameNotOver = false;
 			return true;
 		}
 		return false;
@@ -498,19 +498,15 @@ public class ChessFrame extends JFrame implements Runnable
 						changeIconAtPos(aiMove.get(1), aiMove.get(0));
 		    			game.move(aiMove.get(0), aiMove.get(1));
 					}
-					else
-					{
-						if (!(isWhiteTurn))
-						{
-							if (isHardAI)
-							{
+					else{
+						if (!(isWhiteTurn)){
+							if (isHardAI){
 								ArrayList<Position> aiMove = AI2.getMove(game, AIType);
 								changeIconAtPos(aiMove.get(1), aiMove.get(0));
 								game.move(aiMove.get(0), aiMove.get(1));
 								System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
 							}
-							else
-							{
+							else{
 								ArrayList<Position> aiMove = blackAI.getmove(game.getBoard());
 								changeIconAtPos(aiMove.get(1), aiMove.get(0));
 				    			game.move(aiMove.get(0), aiMove.get(1));
@@ -522,7 +518,7 @@ public class ChessFrame extends JFrame implements Runnable
 				}
 			}
 			try {
-				Thread.sleep(2500);
+				Thread.sleep(250);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
