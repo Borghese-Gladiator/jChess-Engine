@@ -34,7 +34,7 @@ public class Tile extends JButton implements MouseListener
 		board = aBoard;
 		coords = pos;
 		isLegalMove = false;
-        setBackground();
+        resetBackground();
         MouseListener mouseListener = new MouseAdapter()
 		{
 			@Override
@@ -74,7 +74,7 @@ public class Tile extends JButton implements MouseListener
 	{
 		return img;
 	}
-	public void setBackground()
+	public void resetBackground()
 	{
 		if (((coords.getY()+ coords.getX()) % 2 == 0)) 
         {
