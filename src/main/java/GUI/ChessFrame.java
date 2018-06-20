@@ -29,6 +29,8 @@ public class ChessFrame extends JFrame implements Runnable
 	private final JPanel display;
     public Tile[][] boardTiles = new Tile[8][8];
     Position origin;
+    /*Position whiteOrigin;
+    Position blackOrigin;*/
     AI whiteAI = null;
     AI blackAI = null;
     public Position getOrigin() {
@@ -181,7 +183,7 @@ public class ChessFrame extends JFrame implements Runnable
 	{
 		for (Tile i: legalMoves)
 		{
-			i.setBackground();
+			i.resetBackground();
 			i.setLegalMove(false);
 		}
 		legalMoves.clear();
@@ -223,7 +225,7 @@ public class ChessFrame extends JFrame implements Runnable
     			if (twoPlayer) {
     				if (isWhiteTurn) {
     					System.out.println("BLACK: " + posTo.toString() + " to " + origin.toString());
-    				}
+    					}
     				disableBtns();
     			}/*
     			else {
@@ -322,6 +324,18 @@ public class ChessFrame extends JFrame implements Runnable
     			temp.setBackground(Color.ORANGE);
     			legalMoves.add(temp);
     		}
+
+			/*if (!(isWhiteTurn))
+			{	if (blackOrigin != null) boardTiles[blackOrigin.getX()][blackOrigin.getY()].resetBackground();
+			blackOrigin = origin;
+			boardTiles[blackOrigin.getX()][blackOrigin.getY()].setBackground(Color.RED);
+			}
+			else
+			{
+				if (whiteOrigin != null) boardTiles[whiteOrigin.getX()][whiteOrigin.getY()].resetBackground();
+				whiteOrigin = origin;
+				boardTiles[whiteOrigin.getX()][whiteOrigin.getY()].setBackground(Color.RED);
+			}*/
     	}
     }
     public void undoMove()
