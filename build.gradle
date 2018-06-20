@@ -1,5 +1,22 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'application'
+apply plugin: 'jacoco'
+
 
 mainClassName = 'GUI.Chess'
+
+repositories {
+mavenCentral()
+/*   flatDir {
+//       dirs 'C:/Users/Timmy/Downloads/jacoco-0.8.1/lib'
+   }*/
+}
+
+
+dependencies {
+	testCompile files('C:/Users/Timmy/Downloads/eclipse-java-oxygen-R-win32-x86_64/eclipse/plugins/org.junit_4.12.0.v201504281640/junit.jar',
+	'C:/Users/Timmy/Downloads/eclipse-java-oxygen-R-win32-x86_64/eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar')
+    //testCompile "junit:junit:4.12"
+}
+
