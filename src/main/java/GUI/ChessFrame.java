@@ -38,9 +38,12 @@ public class ChessFrame extends JFrame implements Runnable
 		this.origin = origin;
 	}
 	private ChessBoard game;
-	private boolean twoPlayer;
-	private static int AIType;
-	private static boolean isHardAI;
+	private boolean gameNotOver = true;
+	private static boolean twoPlayer = true;
+	private static boolean twoAI = false;
+	private int AIType = 0;
+	private static boolean isHardAI = false;
+			
 	public void setTileAsAMove(Position pos)
 	{
 		boardTiles[pos.getX()][pos.getY()].setLegalMove(true);
@@ -48,17 +51,8 @@ public class ChessFrame extends JFrame implements Runnable
 	public ChessFrame(boolean isWhiteAI, boolean isBlackAI)
 	{
 		super();
-		twoPlayer = true;
-		if (isBlackAI) //Black is always AI
-		{
-			twoPlayer = false;
-			/*if (isWhiteAI)
-			{
-				whiteAI = new AI();
-			}*/
-			if (isBlackAI){
-				blackAI = new AI();
-			}
+		if (isBlackAI){
+			blackAI = new AI();
 		}
 		DefaultBoard images = new DefaultBoard();
         display = new JPanel();
@@ -123,15 +117,12 @@ public class ChessFrame extends JFrame implements Runnable
 			i.setEnabled(false);
 		}
 	}
-	private void switchTurns()
-	{
-		if (isWhiteTurn)
-		{
+	private void switchTurns(){
+		if (isWhiteTurn){
 			setTitle("Black's turn");
 			isWhiteTurn = false;
 		}
-		else
-		{
+		else{
 			setTitle("White's turn");
 			isWhiteTurn = true;
 		}
@@ -162,7 +153,6 @@ public class ChessFrame extends JFrame implements Runnable
 		if (isWhiteTurn){
 			white.add(aTile);
 			removeUsingPos(white, origin);
-			
 		}
 		else{
 			black.add(aTile);
@@ -180,8 +170,7 @@ public class ChessFrame extends JFrame implements Runnable
 		}
 		else{
 			for (Tile i: black){
-				if (posTo.equals(i.getCoords()))
-				{
+				if (posTo.equals(i.getCoords())){
 					black.remove(i);
 					break;
 				}
@@ -232,6 +221,9 @@ public class ChessFrame extends JFrame implements Runnable
     			}
     			switchTurns();
     			if (twoPlayer) {
+    				if (isWhiteTurn) {
+    					System.out.println("BLACK: " + posTo.toString() + " to " + origin.toString());
+    				}
     				disableBtns();
     			}/*
     			else {
@@ -248,8 +240,10 @@ public class ChessFrame extends JFrame implements Runnable
     			enableBtns(isWhiteTurn);
     		}
     	}
+    	if (!(isWhiteTurn)){
+			System.out.println("WHITE: " + origin.toString() + " to " + posTo.toString());
+		}
 		clearLegalMoves();
-		System.out.println("WHITE: " + posTo.toString() + " to " + origin.toString());
 		origin = null;
     }
 	private void changeIconAtPos(Position posTo, Position origin) {
@@ -262,8 +256,17 @@ public class ChessFrame extends JFrame implements Runnable
 	}
 	private boolean checkGameOver() {
 		if (game.isCheckMated()){
-			if (twoPlayer)
-			{
+			if (twoPlayer){
+				if (!(isWhiteTurn)){
+					VictoryDialog vd = new VictoryDialog(this);
+					vd.setVisible(true);
+				}
+				else{
+					DefeatDialog dd = new DefeatDialog(this);
+					dd.setVisible(true);
+				}
+			}
+			else{
 				if (!(isWhiteTurn)){
 					VictoryDialog vd = new VictoryDialog(this);
 					vd.setVisible(true);
@@ -274,27 +277,18 @@ public class ChessFrame extends JFrame implements Runnable
 					dd.setVisible(true);
 				}
 			}
-			else
-			{
-				if (!(isWhiteTurn))
-				{
-					VictoryDialog vd = new VictoryDialog(this);
-					vd.setVisible(true);
-				}
-				else
-				{
-					DefeatDialog dd = new DefeatDialog(this);
-					dd.setVisible(true);
-				}
-			}
+			gameNotOver = false;
 			disableBtns();
+			Thread.interrupted();
 			return true;
 		}
 		if (game.isStalemated())
 		{ 
+			gameNotOver = false;
 			StalemateDialog sd = new StalemateDialog(this);
 			sd.setVisible(true);
 			disableBtns();
+			Thread.interrupted();
 			return true;
 		}
 		return false;
@@ -361,6 +355,7 @@ public class ChessFrame extends JFrame implements Runnable
 	}
 	public void make2PGame()
 	{
+		twoPlayer = true;
 		new ChessFrame(false, false);
 	}
 	/*public final void newGame(boolean  isAHardAI) {
@@ -368,16 +363,20 @@ public class ChessFrame extends JFrame implements Runnable
 		ng.setVisible(true);*/
 	public void make2AIGame()
 	{
+		twoAI = true;
+		twoPlayer = false;
 		new ChessFrame(true, true);
 	}
 	public void makeAIGame(int AIType)
 	{
 		isHardAI = false;
 		this.AIType = AIType;
-		if (AIType != 0)
+		if (AIType != 1)
 		{
 			isHardAI = true;
 		}
+		twoAI = false;
+		twoPlayer = false;
 		new ChessFrame(false, true);
     }
 	private class MenuHandler implements ActionListener {
@@ -444,11 +443,6 @@ public class ChessFrame extends JFrame implements Runnable
             newGame.setMnemonic('N');
             menu.add(newGame);
             menu.add(new JSeparator());*/
-            JMenuItem twoAI = new JMenuItem("AI vs AI");
-            twoAI.addActionListener(this);
-            twoAI.setMnemonic('A');
-            menu.add(twoAI);
-            menu.add(new JSeparator());
             JMenuItem twoP = new JMenuItem("vs Person");
             twoP.addActionListener(this);
             twoP.setMnemonic('P');
@@ -468,6 +462,11 @@ public class ChessFrame extends JFrame implements Runnable
             veryHardAI.addActionListener(this);
             veryHardAI.setMnemonic('H');
             menu.add(veryHardAI);
+            menu.add(new JSeparator());
+            JMenuItem twoAI = new JMenuItem("AI vs AI");
+            twoAI.addActionListener(this);
+            twoAI.setMnemonic('A');
+            menu.add(twoAI);
             menu.add(new JSeparator());
             JMenuItem howToPlay = new JMenuItem("How to Play");
             howToPlay.addActionListener(this);
@@ -491,37 +490,42 @@ public class ChessFrame extends JFrame implements Runnable
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		while (true)
-		{
-			if (!(twoPlayer))
-			{
-				if (true)
-				{
-					if (!checkGameOver())
+		while (true){
+			if (!(twoPlayer)){
+				if (gameNotOver && !checkGameOver()){
+					if (twoAI){
+						ArrayList<Position> aiMove = AI2.getMove(game, 2);
+						changeIconAtPos(aiMove.get(1), aiMove.get(0));
+		    			game.move(aiMove.get(0), aiMove.get(1));
+					}
+					else
 					{
-						if (isHardAI)
+						if (!(isWhiteTurn))
 						{
-							ArrayList<Position> aiMove = AI2.getMove(game, AIType);
-							changeIconAtPos(aiMove.get(1), aiMove.get(0));
-							game.move(aiMove.get(0), aiMove.get(1));
-							System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
-						}
-						else
-						{
-							ArrayList<Position> aiMove = blackAI.getmove(game.getBoard());
-							changeIconAtPos(aiMove.get(1), aiMove.get(0));
-			    			game.move(aiMove.get(0), aiMove.get(1));
-			    			System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
+							if (isHardAI)
+							{
+								ArrayList<Position> aiMove = AI2.getMove(game, AIType);
+								changeIconAtPos(aiMove.get(1), aiMove.get(0));
+								game.move(aiMove.get(0), aiMove.get(1));
+								System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
+							}
+							else
+							{
+								ArrayList<Position> aiMove = blackAI.getmove(game.getBoard());
+								changeIconAtPos(aiMove.get(1), aiMove.get(0));
+				    			game.move(aiMove.get(0), aiMove.get(1));
+				    			System.out.println("BLACK: " + aiMove.get(0) + " to " + aiMove.get(1));
+							}
+							switchTurns();
 						}
 					}
-					switchTurns();
 				}
-				try {
-					Thread.sleep(250);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			}
+			try {
+				Thread.sleep(2500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
